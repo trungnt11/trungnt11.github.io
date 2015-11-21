@@ -9,7 +9,7 @@ description: "James Briggs' Blog"
 url: 'http://jimypbr.github.io'
 
 # For a project page here should be a project name. Otherwise (for user's/organizaion's page leave it empty)
-baseurl: '/go-seq'
+baseurl: ''
 
 social:
   github: jimypbr
