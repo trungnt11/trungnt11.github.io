@@ -1,0 +1,45 @@
+<html lang="en">
+
+<head>
+  <link href='https://fonts.googleapis.com/css?family=Gentium+Book+Basic' rel='stylesheet' type='text/css'>
+  <link href='https://fonts.googleapis.com/css?family=Open+Sans:700,800' rel='stylesheet' type='text/css'>
+  <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+  <title>{{ site.name }}</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script src="{{site.baseurl}}/js/jquery.min.js"></script>
+  <script src="{{site.baseurl}}/js/bootstrap.min.js"></script>
+  <script src="{{site.baseurl}}/js/header.js"></script>
+  <script src="{{site.baseurl}}/js/toc.js"></script>
+  <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+  <link href="{{site.baseurl}}/css/bootstrap.min.css" rel="stylesheet">
+  <link href="{{site.baseurl}}/css/theme.css" rel="stylesheet">
+  <link href="{{site.baseurl}}/css/syntax.css" rel="stylesheet">
+  <link href="{{site.baseurl}}/css/font-awesome/css/font-awesome.min.css" rel="stylesheet"> 
+</head>
+
+<body>
+
+  {% include google-analytics.html %}
+  {% include yandex-metrika.html %}
+
+  <nav class="navbar navbar-inverse navbar-fixed-top">
+    <div class="container">
+      <div class="navbar-header">
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand" href="{{site.baseurl}}/">({{ site.name }})</a>
+      </div>
+      <div class="collapse navbar-collapse">
+        <ul class="nav navbar-nav">
+          <li><a href="{{site.baseurl}}/">/home</a></li>
+          <li><a href="{{site.baseurl}}/archive.html">/archive</a></li>
+          <li><a href="{{site.baseurl}}/tags.html">/tags</a></li>
+          <li><a href="{{site.baseurl}}/about.html">/about</a></li>
+          <li><a href="{{site.baseurl}}/feed.xml">/RSS</a></li>
+        </ul>
+      </div>
+    </div>
+  </nav>

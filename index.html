@@ -1,1 +1,35 @@
-Hello World
+---
+layout: page
+---
+
+{% assign latest_post  = site.posts.first %}
+
+<h1 class="post-title">
+	<a href="{{latest_post.url | prepend:site.baseurl | prepend:site.url}}">
+		{{ latest_post.title }}
+	</a>
+</h1>
+
+<div class="post-meta">
+	<div class="post-time">
+		<i class="fa fa-calendar"></i>
+		<time>{{ latest_post.date | date_to_string }}</time>
+	</div>
+	<ul>
+		{% for tag in latest_post.tags %}
+		<li><a href="{{site.baseurl | prepend:site.url}}/tag/{{ tag }}">{{ tag }}</a></li>
+		{% endfor %}
+	</ul>
+</div>
+
+<div class="post-content">
+	<p>
+	{{ latest_post.content }}
+	</p>
+</div>
+
+<div class="post-footer">
+  <div class="column-full">
+    <h3><a href="{{ '/archive.html' | prepend: site.baseurl | prepend: site.url }}">Blog archive</a></h3>
+  </div>
+</div>
