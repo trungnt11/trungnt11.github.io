@@ -13,10 +13,8 @@ baseurl: ''
 
 social:
   github: jimypbr
-  stackoverflow: ''
-  linkedin: ''
-  instagram: ''
-  lastfm: ''
+  stackoverflow: 'http://stackoverflow.com/users/1754780/jimy-loon'
+  linkedin: 'https://uk.linkedin.com/in/james-briggs-74229a65'
   rss: feed.xml
 
 # Google Analytics key, leave blank to ignore
