@@ -4,8 +4,6 @@ name: go-seq
 description: "James Briggs' Blog"
 
 # Url is currently only used only for the RSS feed in feed.xml
-#url: http://streetturtle.github.io
-#url: http://localhost:4000
 url: 'http://jimypbr.github.io'
 
 # For a project page here should be a project name. Otherwise (for user's/organizaion's page leave it empty)
@@ -13,8 +11,8 @@ baseurl: ''
 
 social:
   github: jimypbr
-  stackoverflow: 'http://stackoverflow.com/users/1754780/jimy-loon'
-  linkedin: 'https://uk.linkedin.com/in/james-briggs-74229a65'
+  stackoverflow: 'jimy-loon'
+  linkedin: 'james-briggs-74229a65'
   rss: feed.xml
 
 # Google Analytics key, leave blank to ignore
