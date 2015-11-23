@@ -11,7 +11,7 @@ url: 'http://jimypbr.github.io'
 baseurl: ''
 
 # copy .nojekyll over to _site
-include: .nojekyll
+include: ['.nojekyll']
 
 social:
   github: jimypbr
