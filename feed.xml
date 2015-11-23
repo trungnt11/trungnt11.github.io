@@ -198,9 +198,8 @@ Julia version: &lt;em&gt;0.3.11&lt;/em&gt;&lt;/p&gt;
 
 &lt;p&gt;Experiment with a non-trivial example of a PDE solver using the reaction-diffusion system described by:
 $$
-\frac{\partial u}{\partial t} = a \nabla^2 u + u - u^3 - v - k \&lt;/p&gt;
-
-&lt;p&gt;\tau\frac{\partial v}{\partial t} = b\nabla^2 v + u - v
+\frac{\partial u}{\partial t} = a \nabla^2 u + u - u^3 - v - k \
+\tau\frac{\partial v}{\partial t} = b\nabla^2 v + u - v
 $$&lt;/p&gt;
 
 &lt;p&gt;With Neumann boundary conditions, boundary of [1,1]^2, N=100^2, and T=[0.,10.].
