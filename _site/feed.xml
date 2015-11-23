@@ -3,8 +3,8 @@
 	<channel>
 		<title>go-seq</title>
 		<description>James Briggs' Blog</description>
-		<link></link>
-		<atom:link href="/feed.xml" rel="self" type="application/rss+xml" />
+		<link>http://jimypbr.github.io</link>
+		<atom:link href="http://jimypbr.github.io/feed.xml" rel="self" type="application/rss+xml" />
 		
 			<item>
 				<title>Experiments with Julia</title>
@@ -408,8 +408,8 @@ This example is based on this &lt;a href=&quot;http://ipython-books.github.io/fe
 &lt;p&gt;The thing holding back performance in the Julia code was the use of &lt;code&gt;u[i,j]^3&lt;/code&gt; instead of &lt;code&gt;u[i,j]*u[i,j]*u[i,j]&lt;/code&gt;. The former version compiles to a call of &lt;code&gt;pow(double, double)&lt;/code&gt; from libm! The latter does what you expect. This is a &lt;a href=&quot;https://github.com/JuliaLang/julia/issues/2741&quot;&gt;known bug&lt;/a&gt;. Fixed when Julia is built against LLVM 3.6. Version I&amp;#39;m using is built with LLVM v3.4.&lt;/p&gt;
 </description>
 				<pubDate>Sat, 21 Nov 2015 00:00:00 +0000</pubDate>
-				<link>/2015/11/julia</link>
-				<guid isPermaLink="true">/2015/11/julia</guid>
+				<link>http://jimypbr.github.io/2015/11/julia</link>
+				<guid isPermaLink="true">http://jimypbr.github.io/2015/11/julia</guid>
 			</item>
 		
 			<item>
@@ -417,8 +417,8 @@ This example is based on this &lt;a href=&quot;http://ipython-books.github.io/fe
 				<description>&lt;p&gt;Typical hello world first blog post...&lt;/p&gt;
 </description>
 				<pubDate>Fri, 20 Nov 2015 00:00:00 +0000</pubDate>
-				<link>/2015/11/hello</link>
-				<guid isPermaLink="true">/2015/11/hello</guid>
+				<link>http://jimypbr.github.io/2015/11/hello</link>
+				<guid isPermaLink="true">http://jimypbr.github.io/2015/11/hello</guid>
 			</item>
 		
 	</channel>
