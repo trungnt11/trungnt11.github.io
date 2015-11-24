@@ -77,13 +77,7 @@
 <p>Since version 0.3 Julia has some vectorisation capabilities that can exploit SIMD instructions when executing loops. It seems to require some nudging though. There are macros that are a bit like the pragmas in OpenMP.</p>
 
 <h3 id="example-1-saxpy">Example 1. SAXPY</h3>
-<div class="highlight"><pre><code class="language-julia" data-lang="julia"><span class="k">function</span><span class="nf"> saxpy</span><span class="p">(</span><span class="n">a</span><span class="p">::</span><span class="kt">Float32</span><span class="p">,</span> <span class="n">x</span><span class="p">::</span><span class="n">Array</span><span class="p">{</span><span class="kt">Float32</span><span class="p">,</span><span class="mi">1</span><span class="p">},</span> <span class="n">y</span><span class="p">::</span><span class="n">Array</span><span class="p">{</span><span class="kt">Float32</span><span class="p">,</span><span class="mi">1</span><span class="p">})</span>
-  <span class="n">n</span> <span class="o">=</span> <span class="n">length</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
-  <span class="k">for</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">1</span><span class="p">:</span><span class="n">n</span>
-    <span class="n">y</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">+=</span> <span class="n">a</span><span class="o">*</span><span class="n">x</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
-  <span class="k">end</span>
-<span class="k">end</span>
-</code></pre></div>
+
 <p>Sadly, in version 0.3.10 this obvious candidate does not auto-vectorise. 
 You can inspect how this code has compiled nicely in Julia by using the macros <code>@code_llvm</code> to see the LLVM IR or <code>@code_native</code> to see the ASM. The ASM produced is:</p>
 <div class="highlight"><pre><code class="language-nasm" data-lang="nasm"><span class="nf">Source</span> <span class="nv">line</span><span class="p">:</span> <span class="mi">48</span>
