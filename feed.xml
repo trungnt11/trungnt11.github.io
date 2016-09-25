@@ -7,33 +7,6 @@
 		<atom:link href="/feed.xml" rel="self" type="application/rss+xml" />
 		
 			<item>
-				<title>Image Ret</title>
-				<description>&lt;h1 id=&quot;image-search-engine-with-a-bag-of-visual-words-and-python&quot;&gt;Image Search Engine with a Bag-of-Visual-Words and Python&lt;/h1&gt;
-
-&lt;h2 id=&quot;image-retrival&quot;&gt;Image Retrival&lt;/h2&gt;
-
-&lt;p&gt;&lt;a href=&quot;http://www.pyimagesearch.com/2014/12/01/complete-guide-building-image-search-engine-python-opencv/&quot;&gt;http://www.pyimagesearch.com/2014/12/01/complete-guide-building-image-search-engine-python-opencv/&lt;/a&gt;&lt;/p&gt;
-
-&lt;h2 id=&quot;sift-features&quot;&gt;SIFT Features&lt;/h2&gt;
-
-&lt;h2 id=&quot;bag-of-visual-words&quot;&gt;Bag-of-Visual-Words&lt;/h2&gt;
-
-&lt;h2 id=&quot;building-a-visual-word-dictionary&quot;&gt;Building a Visual Word Dictionary&lt;/h2&gt;
-
-&lt;h2 id=&quot;image-feature-vector&quot;&gt;Image Feature Vector&lt;/h2&gt;
-
-&lt;h2 id=&quot;holiday-snaps-dataset&quot;&gt;Holiday Snaps Dataset&lt;/h2&gt;
-
-&lt;p&gt;&lt;a href=&quot;http://lear.inrialpes.fr/people/jegou/data.php&quot;&gt;http://lear.inrialpes.fr/people/jegou/data.php&lt;/a&gt;&lt;/p&gt;
-
-&lt;h2 id=&quot;future-work&quot;&gt;Future Work&lt;/h2&gt;
-</description>
-				<pubDate>Sat, 13 Aug 2016 00:00:00 +0100</pubDate>
-				<link>/2016/08/image-ret</link>
-				<guid isPermaLink="true">/2016/08/image-ret</guid>
-			</item>
-		
-			<item>
 				<title>Experiments with Julia</title>
 				<description>&lt;h2 id=&quot;simd-support&quot;&gt;SIMD Support&lt;/h2&gt;
 
