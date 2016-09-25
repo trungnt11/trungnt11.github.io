@@ -1,19 +1,18 @@
 <html lang="en">
 
 <head>
-  <link href='https://fonts.googleapis.com/css?family=Gentium+Book+Basic' rel='stylesheet' type='text/css'>
-  <link href='https://fonts.googleapis.com/css?family=Open+Sans:700,800' rel='stylesheet' type='text/css'>
+  <link href="https://fonts.googleapis.com/css?family=Lato:300,400,700" rel="stylesheet">
   <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
   <title>go-seq</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <script src="http://jimypbr.github.io/js/jquery.min.js"></script>
-  <script src="http://jimypbr.github.io/js/bootstrap.min.js"></script>
-  <script src="http://jimypbr.github.io/js/header.js"></script>
-  <script src="http://jimypbr.github.io/js/toc.js"></script>
-  <link href="http://jimypbr.github.io/css/bootstrap.min.css" rel="stylesheet">
-  <link href="http://jimypbr.github.io/css/theme.css" rel="stylesheet">
-  <link href="http://jimypbr.github.io/css/syntax.css" rel="stylesheet">
-  <link href="http://jimypbr.github.io/css/font-awesome/css/font-awesome.min.css" rel="stylesheet">
+  <script src="/js/jquery.min.js"></script>
+  <script src="/js/bootstrap.min.js"></script>
+  <script src="/js/header.js"></script>
+  <script src="/js/toc.js"></script>
+  <link href="/css/bootstrap.min.css" rel="stylesheet">
+  <link href="/css/theme.css" rel="stylesheet">
+  <link href="/css/syntax.css" rel="stylesheet">
+  <link href="/css/font-awesome/css/font-awesome.min.css" rel="stylesheet">
   <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
 </head>
 
@@ -32,15 +31,15 @@
           <span class="icon-bar"></span>
           <span class="icon-bar"></span>
         </button>
-        <a class="navbar-brand" href="http://jimypbr.github.io/">go-seq</a>
+        <a class="navbar-brand" href="/">go-seq</a>
       </div>
       <div class="collapse navbar-collapse">
         <ul class="nav navbar-nav">
-          <li><a href="http://jimypbr.github.io/">/home</a></li>
-          <li><a href="http://jimypbr.github.io/archive.html">/archive</a></li>
-          <li><a href="http://jimypbr.github.io/tags.html">/tags</a></li>
-          <li><a href="http://jimypbr.github.io/about.html">/about</a></li>
-          <li><a href="http://jimypbr.github.io/feed.xml">/RSS</a></li>
+          <li><a href="/">/home</a></li>
+          <li><a href="/archive.html">/archive</a></li>
+          <li><a href="/tags.html">/tags</a></li>
+          <li><a href="/about.html">/about</a></li>
+          <li><a href="/feed.xml">/RSS</a></li>
         </ul>
       </div>
     </div>
@@ -77,7 +76,13 @@
 <p>Since version 0.3 Julia has some vectorisation capabilities that can exploit SIMD instructions when executing loops. It seems to require some nudging though. There are macros that are a bit like the pragmas in OpenMP.</p>
 
 <h3 id="example-1-saxpy">Example 1. SAXPY</h3>
-
+<div class="highlight"><pre><code class="language-julia" data-lang="julia"><span class="k">function</span><span class="nf"> saxpy</span><span class="p">(</span><span class="n">a</span><span class="p">::</span><span class="kt">Float32</span><span class="p">,</span> <span class="n">x</span><span class="p">::</span><span class="n">Array</span><span class="p">{</span><span class="kt">Float32</span><span class="p">,</span><span class="mi">1</span><span class="p">},</span> <span class="n">y</span><span class="p">::</span><span class="n">Array</span><span class="p">{</span><span class="kt">Float32</span><span class="p">,</span><span class="mi">1</span><span class="p">})</span>
+  <span class="n">n</span> <span class="o">=</span> <span class="n">length</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+  <span class="k">for</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">1</span><span class="p">:</span><span class="n">n</span>
+    <span class="n">y</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">+=</span> <span class="n">a</span><span class="o">*</span><span class="n">x</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+</code></pre></div>
 <p>Sadly, in version 0.3.10 this obvious candidate does not auto-vectorise. 
 You can inspect how this code has compiled nicely in Julia by using the macros <code>@code_llvm</code> to see the LLVM IR or <code>@code_native</code> to see the ASM. The ASM produced is:</p>
 <div class="highlight"><pre><code class="language-nasm" data-lang="nasm"><span class="nf">Source</span> <span class="nv">line</span><span class="p">:</span> <span class="mi">48</span>
@@ -474,6 +479,8 @@ This example is based on this <a href="http://ipython-books.github.io/featured-0
   <h1>Recent Posts</h1>
   <ul>
     
+    <li><a href="/2016/08/image-ret">Image Ret</a></li>
+    
     <li><a href="/2015/11/julia">Experiments with Julia</a></li>
     
     <li><a href="/2015/11/hello">Hello</a></li>
@@ -504,7 +511,7 @@ This example is based on this <a href="http://ipython-books.github.io/featured-0
 <div class="container">
 
 	<div class="footer">
-		<p><a href="http://jimypbr.github.io/about">James Briggs</a> &copy; 2015</p>
+		<p><a href="/about">James Briggs</a> &copy; 2015</p>
 		<h6>Follow me</h6>
 
 <ul class="social-media">
@@ -542,7 +549,7 @@ This example is based on this <a href="http://ipython-books.github.io/featured-0
     
     <li>
         <a title="feed.xml RSS"
-            href="http://jimypbr.github.io/feed.xml"
+            href="/feed.xml"
             target="_blank"><i class="fa fa-rss fa-2x"></i></a>
     </li>
     

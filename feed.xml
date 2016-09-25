@@ -3,8 +3,35 @@
 	<channel>
 		<title>go-seq</title>
 		<description>James Briggs' Blog</description>
-		<link>http://jimypbr.github.io</link>
-		<atom:link href="http://jimypbr.github.io/feed.xml" rel="self" type="application/rss+xml" />
+		<link></link>
+		<atom:link href="/feed.xml" rel="self" type="application/rss+xml" />
+		
+			<item>
+				<title>Image Ret</title>
+				<description>&lt;h1 id=&quot;image-search-engine-with-a-bag-of-visual-words-and-python&quot;&gt;Image Search Engine with a Bag-of-Visual-Words and Python&lt;/h1&gt;
+
+&lt;h2 id=&quot;image-retrival&quot;&gt;Image Retrival&lt;/h2&gt;
+
+&lt;p&gt;&lt;a href=&quot;http://www.pyimagesearch.com/2014/12/01/complete-guide-building-image-search-engine-python-opencv/&quot;&gt;http://www.pyimagesearch.com/2014/12/01/complete-guide-building-image-search-engine-python-opencv/&lt;/a&gt;&lt;/p&gt;
+
+&lt;h2 id=&quot;sift-features&quot;&gt;SIFT Features&lt;/h2&gt;
+
+&lt;h2 id=&quot;bag-of-visual-words&quot;&gt;Bag-of-Visual-Words&lt;/h2&gt;
+
+&lt;h2 id=&quot;building-a-visual-word-dictionary&quot;&gt;Building a Visual Word Dictionary&lt;/h2&gt;
+
+&lt;h2 id=&quot;image-feature-vector&quot;&gt;Image Feature Vector&lt;/h2&gt;
+
+&lt;h2 id=&quot;holiday-snaps-dataset&quot;&gt;Holiday Snaps Dataset&lt;/h2&gt;
+
+&lt;p&gt;&lt;a href=&quot;http://lear.inrialpes.fr/people/jegou/data.php&quot;&gt;http://lear.inrialpes.fr/people/jegou/data.php&lt;/a&gt;&lt;/p&gt;
+
+&lt;h2 id=&quot;future-work&quot;&gt;Future Work&lt;/h2&gt;
+</description>
+				<pubDate>Sat, 13 Aug 2016 00:00:00 +0100</pubDate>
+				<link>/2016/08/image-ret</link>
+				<guid isPermaLink="true">/2016/08/image-ret</guid>
+			</item>
 		
 			<item>
 				<title>Experiments with Julia</title>
@@ -13,7 +40,13 @@
 &lt;p&gt;Since version 0.3 Julia has some vectorisation capabilities that can exploit SIMD instructions when executing loops. It seems to require some nudging though. There are macros that are a bit like the pragmas in OpenMP.&lt;/p&gt;
 
 &lt;h3 id=&quot;example-1-saxpy&quot;&gt;Example 1. SAXPY&lt;/h3&gt;
-
+&lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-julia&quot; data-lang=&quot;julia&quot;&gt;&lt;span class=&quot;k&quot;&gt;function&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt; saxpy&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;a&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;kt&quot;&gt;Float32&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;x&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Array&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;&lt;span class=&quot;kt&quot;&gt;Float32&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;},&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;y&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Array&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;&lt;span class=&quot;kt&quot;&gt;Float32&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;})&lt;/span&gt;
+  &lt;span class=&quot;n&quot;&gt;n&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;length&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;x&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+  &lt;span class=&quot;k&quot;&gt;for&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;i&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;n&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;y&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;i&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;a&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;*&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;x&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;i&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt;
+  &lt;span class=&quot;k&quot;&gt;end&lt;/span&gt;
+&lt;span class=&quot;k&quot;&gt;end&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;
 &lt;p&gt;Sadly, in version 0.3.10 this obvious candidate does not auto-vectorise. 
 You can inspect how this code has compiled nicely in Julia by using the macros &lt;code&gt;@code_llvm&lt;/code&gt; to see the LLVM IR or &lt;code&gt;@code_native&lt;/code&gt; to see the ASM. The ASM produced is:&lt;/p&gt;
 &lt;div class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-nasm&quot; data-lang=&quot;nasm&quot;&gt;&lt;span class=&quot;nf&quot;&gt;Source&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;line&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;48&lt;/span&gt;
@@ -401,8 +434,8 @@ This example is based on this &lt;a href=&quot;http://ipython-books.github.io/fe
 &lt;p&gt;The thing holding back performance in the Julia code was the use of &lt;code&gt;u[i,j]^3&lt;/code&gt; instead of &lt;code&gt;u[i,j]*u[i,j]*u[i,j]&lt;/code&gt;. The former version compiles to a call of &lt;code&gt;pow(double, double)&lt;/code&gt; from libm! The latter does what you expect. This is a &lt;a href=&quot;https://github.com/JuliaLang/julia/issues/2741&quot;&gt;known bug&lt;/a&gt;. Fixed when Julia is built against LLVM 3.6. Version I&amp;#39;m using is built with LLVM v3.4.&lt;/p&gt;
 </description>
 				<pubDate>Sat, 21 Nov 2015 00:00:00 +0000</pubDate>
-				<link>http://jimypbr.github.io/2015/11/julia</link>
-				<guid isPermaLink="true">http://jimypbr.github.io/2015/11/julia</guid>
+				<link>/2015/11/julia</link>
+				<guid isPermaLink="true">/2015/11/julia</guid>
 			</item>
 		
 			<item>
@@ -410,8 +443,8 @@ This example is based on this &lt;a href=&quot;http://ipython-books.github.io/fe
 				<description>&lt;p&gt;Typical hello world first blog post...&lt;/p&gt;
 </description>
 				<pubDate>Fri, 20 Nov 2015 00:00:00 +0000</pubDate>
-				<link>http://jimypbr.github.io/2015/11/hello</link>
-				<guid isPermaLink="true">http://jimypbr.github.io/2015/11/hello</guid>
+				<link>/2015/11/hello</link>
+				<guid isPermaLink="true">/2015/11/hello</guid>
 			</item>
 		
 	</channel>
