@@ -1,7 +1,6 @@
 body {
-  padding-top: 80px;
   color: #444;
-  background-color: #FeFeFe;
+  background-color: #F1F1F1;
   font-family: "Lato", sans-serif;
   font-weight: 300;
   background-image: url(./textures/brilliant.png);
@@ -14,6 +13,10 @@ h1, h2, h3, h4, h5 {
 
 h1 a, h2 a, h3 a, h4 a, h5 a {
   color: #333; }
+
+h1 a:hover {
+  color: #333;
+  text-decoration: None; }
 
 .copyright {
   color: #ffffff; }
@@ -33,7 +36,9 @@ h1 a, h2 a, h3 a, h4 a, h5 a {
   background-color: #fefefe;
   box-shadow: 0px 0px 0px 0px, 0px 8px 16px rgba(0, 0, 0, 0.2);
   border: 0px;
-  border-radius: 6px; }
+  border-radius: 6px;
+  padding: 27px;
+  padding-top: 19px; }
 
 .well > main-page {
   width: 75%; }
@@ -68,6 +73,9 @@ td, th {
   padding-right: 10px;
   border-right: 1px solid black; }
 
+.container {
+  max-width: 1000px; }
+
 code {
   background-color: transparent;
   font-size: 85%;
@@ -93,8 +101,7 @@ a {
   color: #a94442; }
 
 a:hover {
-  color: #a94442;
-  border-bottom: 1px solid transparent; }
+  color: #a94442; }
 
 ul.social-media {
   text-align: center;
@@ -110,7 +117,7 @@ ul.social-media {
     -o-transition: color 0.2s;
     transition: color 0.2s;
     display: inline-block;
-    color: #FCF8E3; }
+    color: #F5F5F5; }
     ul.social-media li > a:hover {
       color: #a94442; }
 
@@ -154,7 +161,7 @@ nav .navbar-toggle {
   margin: 13px 15px 13px 0; }
 
 .navbar-brand {
-  font-size: 30px;
+  font-size: 40px;
   color: #a94442 !important; }
 
 nav.navbar.shrink {
@@ -174,7 +181,8 @@ nav.shrink .navbar-toggle {
 
 .navbar .navbar-nav {
   display: inline-block;
-  float: right; }
+  float: right;
+  padding-top: 5px; }
 
 @media (min-width: 1000px) {
   .twoRow .navbar-collapse {
@@ -189,14 +197,18 @@ nav.shrink .navbar-toggle {
 
   .footer-distributed .footer {
     line-height: 1.8; } }
-nav.navbar.navbar-inverse.navbar-fixed-top {
-  background-color: #333; }
+nav.navbar {
+  background-color: #333;
+  min-height: 75px;
+  border-radius: 0px;
+  box-shadow: 0 0 0 0, 0 6px 12px rgba(34, 34, 34, 0.3); }
 
 .navbar-inverse .navbar-nav > li > a {
-  color: #a94442; }
+  color: #a94442;
+  font-size: 21px; }
 
 .navbar-inverse .navbar-nav > li > a:hover, .navbar-inverse .navbar-nav > li > a:focus {
-  color: #FCF8E3; }
+  color: #FeFefe; }
 
 .footer-distributed {
   background-color: #333333;
@@ -247,4 +259,5 @@ nav.navbar.navbar-inverse.navbar-fixed-top {
   position: relative; }
 
 .content {
+  padding-top: 30px;
   padding-bottom: 250px; }
