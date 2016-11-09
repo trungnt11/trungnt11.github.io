@@ -11,9 +11,21 @@
   <script src="{{site.baseurl | prepend:site.url}}/js/toc.js"></script>
   <link href="{{site.baseurl | prepend:site.url}}/css/bootstrap.min.css" rel="stylesheet">
   <link href="{{site.baseurl | prepend:site.url}}/css/theme.css" rel="stylesheet">
-  <link href="{{site.baseurl | prepend:site.url}}/css/syntax.css" rel="stylesheet">
   <link href="{{site.baseurl | prepend:site.url}}/css/font-awesome/css/font-awesome.min.css" rel="stylesheet">
   <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+  <script type="text/x-mathjax-config">
+	MathJax.Hub.Config({
+		tex2jax: {
+			inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+			displayMath: [ ['$$','$$'], ["\\[","\\]"] ],
+			processEscapes: false
+		},
+		"HTML-CSS": {
+			preferredFont: "TeX",
+		}
+	})
+  </script>
+  <link href="{{site.baseurl | prepend:site.url}}/css/syntax.css" rel="stylesheet">
 </head>
 
 <body>
