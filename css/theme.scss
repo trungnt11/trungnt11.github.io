@@ -25,7 +25,7 @@ body {
 h1, h2, h3, h4, h5 {
   font-family: "Lato", sans-serif;
   font-weight: 400;
-  color: #333;
+  color: #444444;
   margin-top: 40px;
   margin-bottom: 20px;
 }
@@ -36,11 +36,11 @@ h1 {
 }
 
 h1 a, h2 a, h3 a, h4 a, h5 a {
-  color: #333;
+  color: #444444;
 }
 
 h1 a:hover {
-    color: #333;
+    color: #444444;
     text-decoration: None;
 }
 
@@ -53,7 +53,7 @@ h1 a:hover {
 }
 
 .sidebar h1 {
-  color: #333;
+  color: #444444;
   font: {
     size: 1.3em;
   };
@@ -146,6 +146,7 @@ code {
   background-color: transparent;
   font-size: 85%;
   border-radius: 5px;
+  color: #da4643;
 }
 
 pre {
@@ -174,11 +175,11 @@ p > code {
 //                    Links
 //*******************************************************
 a {
-  color: #a94442;
+  color: #da4643;
 }
 
 a:hover {
-  color: #a94442;
+  color: #da4643;
 }
 
 //*******************************************************
@@ -202,7 +203,7 @@ ul.social-media {
     color: #F5F5F5;
 
     &:hover {
-      color: #a94442;
+      color: #da4643;
     }
   }
 }
@@ -271,7 +272,7 @@ nav .navbar-toggle {
 
 .navbar-brand {
   font-size: 40px;
-  color: #a94442 !important;
+  color: #da4643 !important;
 }
 
 nav.navbar.shrink {
@@ -326,7 +327,7 @@ nav.navbar {
 }
 
 .navbar-inverse .navbar-nav > li > a {
-  color: #a94442;
+  color: #da4643; 
   font-size: 21px;
 }
 
@@ -338,7 +339,7 @@ nav.navbar {
 //                    Footer
 //********************************************************//
 .footer-distributed {
-  background-color: #333333;
+  background-color: #333;
   font: normal 16px sans-serif;
   padding: 20px 25px;
   margin-top: 80px;
@@ -350,7 +351,7 @@ nav.navbar {
 }
 
 .footer {
-  color: #a94442;
+  color: #da4643;
 }
 
 .theme-origin {
