@@ -1,0 +1,430 @@
+<html lang="en">
+
+<head>
+  <link href="https://fonts.googleapis.com/css?family=Lato:300,400,700" rel="stylesheet">
+  <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+  <title>go-seq</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script src="/js/jquery.min.js"></script>
+  <script src="/js/bootstrap.min.js"></script>
+  <script src="/js/header.js"></script>
+  <script src="/js/toc.js"></script>
+  <link href="/css/bootstrap.min.css" rel="stylesheet">
+  <link href="/css/theme.css" rel="stylesheet">
+  <link href="/css/font-awesome/css/font-awesome.min.css" rel="stylesheet">
+  <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+  <script type="text/x-mathjax-config">
+	MathJax.Hub.Config({
+		tex2jax: {
+			inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+			displayMath: [ ['$$','$$'], ["\\[","\\]"] ],
+			processEscapes: false
+		},
+		"HTML-CSS": {
+			preferredFont: "TeX",
+		}
+	})
+  </script>
+  <link href="/css/syntax.css" rel="stylesheet">
+</head>
+
+<body>
+
+  
+
+  
+
+
+  <nav class="navbar navbar-inverse">
+    <div class="container">
+      <div class="navbar-header">
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand" href="/">go-seq</a>
+      </div>
+      <div class="collapse navbar-collapse">
+        <ul class="nav navbar-nav">
+          <li><a href="/">/home</a></li>
+          <li><a href="/archive.html">/archive</a></li>
+          <li><a href="/tags.html">/tags</a></li>
+          <li><a href="/about.html">/about</a></li>
+          <li><a href="/feed.xml">/RSS</a></li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+
+<div class="wrapper">
+  <div class="content">
+    <div class="container container-center">
+      <div class="row">
+        <div class="col-md-12">
+          <div class="article">
+            <div class="well">
+              <h1><a href="/2016/11/polyclojure2">Polymorphism in Clojure: A Tutorial Using Numbers, Part 2</a></h1>
+              <div class="post-meta">
+                <div class="post-time">
+                  <i class="fa fa-calendar"></i>
+                  <time>22 Nov 2016</time>
+                </div>
+                <ul>
+                  
+                    <li><a href="/tag/clojure">clojure</a></li>
+                  
+                    <li><a href="/tag/polymorphism">polymorphism</a></li>
+                  
+                    <li><a href="/tag/functional-programming">functional-programming</a></li>
+                  
+                </ul>
+              </div>
+              <div class="post-content">
+                <div id="toc" class="toc"></div>
+                <p><em>This post is composed of 3 parts: <a href="/2016/11/polyclojure1">Part 1</a>, Part 2, <a href="/2016/11/polyclojure3">Part 3</a></em></p>
+
+<h2 id="more-number-types">More Number Types</h2>
+
+<p>Let&#39;s extend our number package with more number types: An Integer type, a Float type for real numbers, and a Rational type for fractions. Like before we create the records and constructors:</p>
+<div class="highlight"><pre><code class="language-clojure" data-lang="clojure"><span class="p">(</span><span class="kd">defrecord </span><span class="nv">Int</span> <span class="p">[</span><span class="nv">n</span><span class="p">])</span>
+<span class="p">(</span><span class="kd">defrecord </span><span class="nv">Rational</span> <span class="p">[</span><span class="nv">n</span> <span class="nv">d</span><span class="p">])</span>
+<span class="p">(</span><span class="kd">defrecord </span><span class="nv">Float</span> <span class="p">[</span><span class="nv">n</span><span class="p">])</span>
+
+<span class="c1">;; constructors</span>
+<span class="p">(</span><span class="kd">defn </span><span class="nv">integer</span>
+  <span class="s">&quot;Make a new integer&quot;</span>
+  <span class="p">[</span><span class="nv">n</span><span class="p">]</span>
+  <span class="p">{</span><span class="ss">:pre</span> <span class="p">[(</span><span class="nf">number?</span> <span class="nv">n</span><span class="p">)]}</span>
+  <span class="p">(</span><span class="nf">-&gt;Int</span> <span class="p">(</span><span class="nb">int </span><span class="nv">n</span><span class="p">)))</span>
+
+<span class="p">(</span><span class="kd">defn </span><span class="nv">float</span>
+  <span class="s">&quot;Make a new float&quot;</span>
+  <span class="p">[</span><span class="nv">n</span><span class="p">]</span>
+  <span class="p">{</span><span class="ss">:pre</span> <span class="p">[(</span><span class="nf">number?</span> <span class="nv">n</span><span class="p">)]}</span>
+  <span class="p">(</span><span class="nf">-&gt;Float</span> <span class="p">(</span><span class="nb">double </span><span class="nv">n</span><span class="p">)))</span>
+
+<span class="p">(</span><span class="kd">defn </span><span class="nv">rational</span>
+  <span class="s">&quot;Make a new rational&quot;</span>
+  <span class="p">[</span><span class="nv">n</span> <span class="nv">d</span><span class="p">]</span>
+  <span class="p">{</span><span class="ss">:pre</span> <span class="p">[(</span><span class="nf">number?</span> <span class="nv">n</span><span class="p">)</span>
+         <span class="p">(</span><span class="nf">number?</span> <span class="nv">d</span><span class="p">)]}</span>
+  <span class="p">(</span><span class="k">let </span><span class="p">[</span><span class="nv">g</span> <span class="p">(</span><span class="nf">gcd</span> <span class="nv">n</span> <span class="nv">d</span><span class="p">)]</span>
+    <span class="p">(</span><span class="nf">-&gt;Rational</span> <span class="p">(</span><span class="nb">/ </span><span class="nv">n</span> <span class="nv">g</span><span class="p">)</span> <span class="p">(</span><span class="nb">/ </span><span class="nv">d</span> <span class="nv">g</span><span class="p">))))</span> 
+</code></pre></div>
+<p>Trying these out in the REPL:</p>
+<div class="highlight"><pre><code class="language-clojure" data-lang="clojure"><span class="nv">=&gt;</span> <span class="p">(</span><span class="nb">float </span><span class="mi">3</span><span class="p">)</span>
+<span class="o">#</span><span class="nv">numbers.core.Float</span><span class="p">{</span><span class="ss">:n</span> <span class="mf">3.0</span><span class="p">}</span>
+
+<span class="nv">=&gt;</span> <span class="p">(</span><span class="nf">integer</span> <span class="mi">6</span><span class="p">)</span>
+<span class="o">#</span><span class="nv">numbers.core.Int</span><span class="p">{</span><span class="ss">:n</span> <span class="mi">4</span><span class="p">}</span>
+
+<span class="nv">=&gt;</span> <span class="p">(</span><span class="nf">rational</span> <span class="mi">6</span> <span class="mi">3</span><span class="p">)</span>
+<span class="o">#</span><span class="nv">numbers.core.Rational</span><span class="p">{</span><span class="ss">:n</span> <span class="mi">2</span>, <span class="ss">:d</span> <span class="mi">1</span><span class="p">}</span>
+</code></pre></div>
+<h2 id="generic-arithmetic">Generic Arithmetic</h2>
+
+<p>We want to create an <code>add</code> function that can be called with either two integers, two rationals, two reals, or two complex types and do the right thing in every case. Protocols in Clojure allow for <em>single dispatch</em> only. Here we need to dispatch on the types of <em>multiple</em> arguments.</p>
+
+<p>We could hack this with a mega-function that is just a big conditional statement:</p>
+<div class="highlight"><pre><code class="language-clojure" data-lang="clojure"><span class="p">(</span><span class="k">def </span><span class="nv">mega-add</span>
+   <span class="s">&quot;one add to rule them all (don&#39;t do this)&quot;</span>
+   <span class="p">[</span><span class="nv">n1</span> <span class="nv">n2</span><span class="p">]</span>
+   <span class="p">(</span><span class="nf">cond</span>
+     <span class="p">(</span><span class="nb">and </span><span class="p">(</span><span class="nb">= </span><span class="p">(</span><span class="nf">type</span> <span class="nv">n1</span><span class="p">)</span> <span class="nv">Int</span><span class="p">)</span>
+          <span class="p">(</span><span class="nb">= </span><span class="p">(</span><span class="nf">type</span> <span class="nv">n2</span><span class="p">)</span> <span class="nv">Int</span><span class="p">))</span>
+       <span class="p">(</span><span class="nf">add-int</span> <span class="nv">n1</span> <span class="nv">n2</span><span class="p">)</span>
+     <span class="p">(</span><span class="nb">and </span><span class="p">(</span><span class="nb">= </span><span class="p">(</span><span class="nf">type</span> <span class="nv">n1</span><span class="p">)</span> <span class="nv">Float</span><span class="p">)</span>
+          <span class="p">(</span><span class="nb">= </span><span class="p">(</span><span class="nf">type</span> <span class="nv">n2</span><span class="p">)</span> <span class="nv">Float</span><span class="p">)</span>
+       <span class="p">(</span><span class="nf">add-real</span> <span class="nv">n1</span> <span class="nv">n2</span><span class="p">)</span>
+     <span class="c1">;; etc</span>
+     <span class="ss">:else</span> <span class="p">(</span><span class="nf">throw</span> <span class="s">&quot;unknown types&quot;</span><span class="p">)))</span>
+</code></pre></div>
+<p>The problem with this solution is that it is <em>closed for business</em>. If a user of the our number library desired to extend the number system with a new type of number (e.g. a BigInt), they&#39;d have to break in and edit this function directly.</p>
+
+<h3 id="multi-methods">Multi-Methods</h3>
+
+<p>Clojure&#39;s core library provides multiple dispatch via <strong>multi-methods</strong>. While protocols in Clojure perform single-dispatch on just the type of the first argument, multi-methods are much more general and allow the programmer to define their own rules for dispatch using any number of arguments. You are not limited to dispatch with just the types of the arguments, but also their values.</p>
+
+<p>Let&#39;s throw out <code>mega-add</code> and do it properly with  multi-methods. The multi-method is defined using the  <code>defmulti</code> macro. It takes a docstring and a dispatch function as its arguments. For adding, the dispatch function will be mapped to the two numbers as arguments and so return a vector of the types of the  arguments:</p>
+<div class="highlight"><pre><code class="language-clojure" data-lang="clojure"><span class="p">(</span><span class="kd">defmulti </span><span class="nv">add</span>
+  <span class="s">&quot;Generic add&quot;</span>
+  <span class="nv">class</span><span class="p">)</span>
+</code></pre></div>
+<p>So if we provided two <code>Int</code>s then the dispatch would return <code>[Int Int]</code>. With the dispatch machinery is in place, we now need to add the implementations for each of the types. This is done with <code>defmethod</code>, which defines a method for each valid output of the dispatch function:</p>
+<div class="highlight"><pre><code class="language-clojure" data-lang="clojure"><span class="p">(</span><span class="kd">defmethod </span><span class="nv">add</span> <span class="p">[</span><span class="nv">Int</span> <span class="nv">Int</span><span class="p">]</span>
+  <span class="s">&quot;Add two integers together&quot;</span>
+  <span class="p">[</span><span class="nv">n1</span> <span class="nv">n2</span><span class="p">]</span>
+  <span class="p">(</span><span class="nf">integer</span> <span class="p">(</span><span class="nb">+ </span><span class="p">(</span><span class="ss">:n</span> <span class="nv">n1</span><span class="p">)</span> <span class="p">(</span><span class="ss">:n</span> <span class="nv">n2</span><span class="p">))))</span>
+
+<span class="p">(</span><span class="kd">defmethod </span><span class="nv">add</span> <span class="p">[</span><span class="nv">Float</span> <span class="nv">Float</span><span class="p">]</span>
+  <span class="s">&quot;Add two floats together&quot;</span>
+  <span class="p">[</span><span class="nv">n1</span> <span class="nv">n2</span><span class="p">]</span>
+  <span class="p">(</span><span class="nb">float </span><span class="p">(</span><span class="nb">+ </span><span class="p">(</span><span class="ss">:n</span> <span class="nv">n1</span><span class="p">)</span> <span class="p">(</span><span class="ss">:n</span> <span class="nv">n2</span><span class="p">))))</span>
+
+<span class="c1">;; etc</span>
+</code></pre></div>
+<p>Trying this out in the repl:</p>
+<div class="highlight"><pre><code class="language-clojure" data-lang="clojure"><span class="nv">=&gt;</span> <span class="p">(</span><span class="nf">add</span> <span class="p">(</span><span class="nf">integer</span> <span class="mi">4</span><span class="p">)</span> <span class="p">(</span><span class="nf">integer</span> <span class="mi">6</span><span class="p">))</span>
+<span class="o">#</span><span class="nv">numbers.core.Int</span><span class="p">{</span><span class="ss">:n</span> <span class="mi">10</span><span class="p">}</span>
+
+<span class="nv">=&gt;</span> <span class="p">(</span><span class="nf">add</span> <span class="p">(</span><span class="nb">float </span><span class="mi">5</span><span class="p">)</span> <span class="p">(</span><span class="nb">float </span><span class="mi">10</span><span class="p">))</span>
+<span class="o">#</span><span class="nv">numbers.core.Float</span><span class="p">{</span><span class="ss">:n</span> <span class="mf">15.0</span><span class="p">}</span>
+</code></pre></div>
+<p>Neat! Multi-methods are easy to extend too. If I wanted to create a new number type (e.g. a BigInt), then all I need to do is add a new method with <code>defmethod</code> for the case of <code>[BigInt BigInt]</code>.</p>
+
+<p>Similarly we can reimplement the <code>add</code> function defined previously for the two complex number types, using the new multi-method machinery:</p>
+<div class="highlight"><pre><code class="language-clojure" data-lang="clojure"><span class="p">(</span><span class="kd">defmethod </span><span class="nv">add</span> <span class="p">[</span><span class="nv">Complex-r</span> <span class="nv">Complex-r</span><span class="p">]</span>
+  <span class="s">&quot;Add two complex-r numbers together&quot;</span>
+  <span class="p">[</span><span class="nv">z1</span> <span class="nv">z2</span><span class="p">]</span>
+  <span class="p">(</span><span class="nf">complex-r</span> <span class="p">(</span><span class="nb">+ </span><span class="p">(</span><span class="nf">real</span> <span class="nv">z1</span><span class="p">)</span> <span class="p">(</span><span class="nf">real</span> <span class="nv">z2</span><span class="p">))</span>
+             <span class="p">(</span><span class="nb">+ </span><span class="p">(</span><span class="nf">imag</span> <span class="nv">z1</span><span class="p">)</span> <span class="p">(</span><span class="nf">imag</span> <span class="nv">z2</span><span class="p">)))</span>
+
+<span class="p">(</span><span class="kd">defmethod </span><span class="nv">add</span> <span class="p">[</span><span class="nv">Complex-p</span> <span class="nv">Complex-p</span><span class="p">]</span>
+  <span class="s">&quot;Add two complex-p numbers together&quot;</span>
+  <span class="p">[</span><span class="nv">z1</span> <span class="nv">z2</span><span class="p">]</span>
+  <span class="p">(</span><span class="nf">complex-r</span> <span class="p">(</span><span class="nb">+ </span><span class="p">(</span><span class="nf">real</span> <span class="nv">z1</span><span class="p">)</span> <span class="p">(</span><span class="nf">real</span> <span class="nv">z2</span><span class="p">))</span>
+             <span class="p">(</span><span class="nb">+ </span><span class="p">(</span><span class="nf">imag</span> <span class="nv">z1</span><span class="p">)</span> <span class="p">(</span><span class="nf">imag</span> <span class="nv">z2</span><span class="p">)))</span>
+</code></pre></div>
+<p>This works fine, but previously <code>add</code> for the two different complex number types was a single function, whereas now we have repetition. Moreover we can&#39;t add a <code>Complex-r</code> to a <code>Complex-p</code> like we could before.</p>
+
+<p>Multimethods have provided a lot of extensibility to new number types, but at the same time we have lost the polymorphic nature we had in the arithmetic functions of the two complex types. I will address this problem in the next section.</p>
+
+<h2 id="keywords-and-dispatch-hierarchies">Keywords and Dispatch Hierarchies</h2>
+
+<p>We have an impression that <code>Complex-r</code> and <code>Complex-p</code> are subtypes of some imaginary abstract type <code>Complex</code>. However Clojure does not offer any notion of an &#39;abstract type&#39; as we are used to in OOP. Instead Clojure provides an ad-hoc dynamic hierarchy system. The hierarchy system supports derivation relationships between names (either symbols or keywords), and relationships between classes and names. </p>
+
+<p>The <code>derive</code> function creates these relationships, and the <code>isa?</code> function tests for their existence. We will use namespaced keywords (double colon) to represent the number types:</p>
+<div class="highlight"><pre><code class="language-clojure" data-lang="clojure"><span class="nv">=&gt;</span> <span class="p">(</span><span class="nf">derive</span> <span class="ss">::complex-r</span> <span class="ss">::complex</span><span class="p">)</span>
+<span class="nv">=&gt;</span> <span class="p">(</span><span class="nf">derive</span> <span class="ss">::complex-p</span> <span class="ss">::complex</span><span class="p">)</span>
+
+<span class="nv">=&gt;</span> <span class="p">(</span><span class="nf">isa?</span> <span class="ss">::complex-r</span> <span class="ss">::complex</span><span class="p">)</span>
+<span class="nv">true</span>
+<span class="nv">=&gt;</span> <span class="p">(</span><span class="nf">isa?</span> <span class="ss">::complex-p</span> <span class="ss">::complex</span><span class="p">)</span>
+<span class="nv">true</span>
+<span class="nv">=&gt;</span> <span class="p">(</span><span class="nf">isa?</span> <span class="ss">::complex-r</span> <span class="ss">::complex-p</span><span class="p">)</span>
+<span class="nv">false</span>
+
+<span class="nv">=&gt;</span> <span class="p">(</span><span class="nf">ancestors</span> <span class="ss">::complex-r</span><span class="p">)</span>
+<span class="o">#</span><span class="p">{</span><span class="ss">::complex</span><span class="p">}</span>
+<span class="nv">=&gt;</span> <span class="p">(</span><span class="nf">ancestors</span> <span class="ss">::complex-p</span><span class="p">)</span>
+<span class="o">#</span><span class="p">{</span><span class="ss">::complex</span><span class="p">}</span>
+</code></pre></div>
+<p>What we want to do is rewrite the arithmetic multi-methods to dispatch using these namespaced keywords in place of the number types. The complex <code>add</code> method could then be reduced to matching arguments that satisfy: <code>[::complex ::complex]</code>.
+To do this, we will require a one-to-one mapping of each type to its associated keyword: </p>
+
+<ul>
+<li><code>Complex-r</code> =&gt; <code>::complex-r</code></li>
+<li><code>Complex-p</code> =&gt; <code>::complex-p</code></li>
+<li><code>Float</code> =&gt; <code>::float</code></li>
+<li><code>Rational</code> =&gt; <code>::rational</code></li>
+<li><code>Int</code> =&gt; <code>::integer</code></li>
+</ul>
+
+<p>We could do this with a global lookup table or add the keywords to the record definitions, but these are cludgy solutions. The first requires maintaining some global data, and the second repeats information and forces us to rewrite the record definition, which would break existing code. A cleaner solution is just to create another <strong>protocol</strong> and extend our number types with it:</p>
+<div class="highlight"><pre><code class="language-clojure" data-lang="clojure"><span class="p">(</span><span class="kd">defprotocol </span><span class="nv">PNumberKind</span>
+  <span class="p">(</span><span class="nf">kind</span> <span class="p">[</span><span class="nv">n</span><span class="p">]</span> <span class="s">&quot;The keyword name for the kind of the number n&quot;</span><span class="p">))</span>
+
+<span class="p">(</span><span class="nf">extend-protocol</span> <span class="nv">PNumberKind</span>
+  <span class="nv">Complex-r</span>
+  <span class="p">(</span><span class="nf">kind</span> <span class="p">[</span><span class="nv">z</span><span class="p">]</span> <span class="ss">::complex-r</span><span class="p">)</span>
+
+  <span class="nv">Complex-p</span>
+  <span class="p">(</span><span class="nf">kind</span> <span class="p">[</span><span class="nv">z</span><span class="p">]</span> <span class="ss">::complex-p</span><span class="p">)</span>
+
+  <span class="nv">Float</span>
+  <span class="p">(</span><span class="nf">kind</span> <span class="p">[</span><span class="nv">z</span><span class="p">]</span> <span class="ss">::float</span><span class="p">)</span>
+
+  <span class="nv">Rational</span>
+  <span class="p">(</span><span class="nf">kind</span> <span class="p">[</span><span class="nv">z</span><span class="p">]</span> <span class="ss">::rational</span><span class="p">)</span>
+
+  <span class="nv">Int</span>
+  <span class="p">(</span><span class="nf">kind</span> <span class="p">[</span><span class="nv">z</span><span class="p">]</span> <span class="ss">::integer</span><span class="p">))</span>
+</code></pre></div>
+<p>In the REPL:</p>
+<div class="highlight"><pre><code class="language-clojure" data-lang="clojure"><span class="nv">=&gt;</span> <span class="p">(</span><span class="nf">kind</span> <span class="p">(</span><span class="nf">integer</span> <span class="mi">3</span><span class="p">))</span>
+<span class="ss">:numbers.core/integer</span>
+
+<span class="nv">=&gt;</span> <span class="p">(</span><span class="nf">kind</span> <span class="p">(</span><span class="nf">complex-r</span> <span class="mi">4</span> <span class="mi">5</span><span class="p">))</span>
+<span class="ss">:numbers.core/complex-r</span>
+</code></pre></div>
+<p>We can now update the dispatch function used by the multimethod to dispatch using <code>kind</code>:</p>
+<div class="highlight"><pre><code class="language-clojure" data-lang="clojure"><span class="p">(</span><span class="kd">defmulti </span><span class="nv">add</span>
+  <span class="s">&quot;Generic add&quot;</span>
+  <span class="nv">kind</span><span class="p">)</span>
+</code></pre></div>
+<p>The methods can now be rewritten as:</p>
+<div class="highlight"><pre><code class="language-clojure" data-lang="clojure"><span class="p">(</span><span class="kd">defmethod </span><span class="nv">add</span> <span class="p">[</span><span class="ss">::integer</span> <span class="ss">::integer</span><span class="p">]</span>
+  <span class="s">&quot;Add two integers together&quot;</span>
+  <span class="p">[</span><span class="nv">n1</span> <span class="nv">n2</span><span class="p">]</span>
+  <span class="p">(</span><span class="nf">integer</span> <span class="p">(</span><span class="nb">+ </span><span class="p">(</span><span class="ss">:n</span> <span class="nv">n1</span><span class="p">)</span> <span class="p">(</span><span class="ss">:n</span> <span class="nv">n2</span><span class="p">))))</span>
+
+<span class="p">(</span><span class="kd">defmethod </span><span class="nv">add</span> <span class="p">[</span><span class="ss">::float</span> <span class="ss">::float</span><span class="p">]</span>
+  <span class="s">&quot;Add two reals together&quot;</span>
+  <span class="p">[</span><span class="nv">n1</span> <span class="nv">n2</span><span class="p">]</span>
+  <span class="p">(</span><span class="nf">real</span> <span class="p">(</span><span class="nb">+ </span><span class="p">(</span><span class="ss">:n</span> <span class="nv">n1</span><span class="p">)</span> <span class="p">(</span><span class="ss">:n</span> <span class="nv">n2</span><span class="p">))))</span>
+
+<span class="p">(</span><span class="kd">defmethod </span><span class="nv">add</span> <span class="p">[</span><span class="ss">::complex</span> <span class="ss">::complex</span><span class="p">]</span>
+  <span class="s">&quot;Add two complex-p numbers together&quot;</span>
+  <span class="p">[</span><span class="nv">z1</span> <span class="nv">z2</span><span class="p">]</span>
+  <span class="p">(</span><span class="nf">complex-r</span> <span class="p">(</span><span class="nb">+ </span><span class="p">(</span><span class="nf">real</span> <span class="nv">z1</span><span class="p">)</span> <span class="p">(</span><span class="nf">real</span> <span class="nv">z2</span><span class="p">))</span>
+             <span class="p">(</span><span class="nb">+ </span><span class="p">(</span><span class="nf">imag</span> <span class="nv">z1</span><span class="p">)</span> <span class="p">(</span><span class="nf">imag</span> <span class="nv">z2</span><span class="p">)))</span>
+</code></pre></div>
+<p>Since we added the rule <code>(derive ::complex-r ::complex)</code> to the hierarchy, the multimethod called with <code>::complex-r</code> or <code>::complex-p</code> implicitly satisfy the rule <code>[::complex ::complex]</code>. The hierarchy has therefore allowed us the implement a polymorphic add for adding different representations of complex numbers and their combinations. If we added more complex number representations, the generic add method for complex numbers would accomodate them automatically without modification.</p>
+
+<p>Let&#39;s try this in the REPL:</p>
+<div class="highlight"><pre><code class="language-clojure" data-lang="clojure"><span class="nv">=&gt;</span> <span class="p">(</span><span class="nf">add</span> <span class="p">(</span><span class="nf">complex-r</span> <span class="mi">2</span> <span class="mi">3</span><span class="p">)</span> <span class="p">(</span><span class="nf">complex-r</span> <span class="mi">6</span> <span class="mi">7</span><span class="p">))</span>
+<span class="o">#</span><span class="nv">numbers.core.Complex-r</span><span class="p">{</span><span class="ss">:real</span> <span class="mi">8</span>, <span class="ss">:imag</span> <span class="mi">10</span><span class="p">}</span>
+
+<span class="nv">=&gt;</span> <span class="p">(</span><span class="nf">add</span> <span class="p">(</span><span class="nf">complex-p</span> <span class="mi">4</span> <span class="mi">5</span><span class="p">)</span> <span class="p">(</span><span class="nf">complex-p</span> <span class="mi">1</span> <span class="mi">0</span><span class="p">))</span>
+<span class="o">#</span><span class="nv">numbers.core.Complex-r</span><span class="p">{</span><span class="ss">:real</span> <span class="mf">2.1346487418529048</span>, <span class="ss">:imag</span> <span class="mf">-3.835697098652554</span><span class="p">}</span>
+
+<span class="nv">=&gt;</span> <span class="p">(</span><span class="nf">add</span> <span class="p">(</span><span class="nf">complex-p</span> <span class="mi">3</span> <span class="mi">4</span><span class="p">)</span> <span class="p">(</span><span class="nf">complex-r</span> <span class="mi">5</span> <span class="mi">6</span><span class="p">))</span>
+<span class="o">#</span><span class="nv">numbers.core.Complex-r</span><span class="p">{</span><span class="ss">:real</span> <span class="mf">3.039069137409164</span>, <span class="ss">:imag</span> <span class="mf">3.7295925140762156</span><span class="p">}</span>
+</code></pre></div>
+<p><br /><br>
+<em><a href="/2016/11/polyclojure3">&gt; Click here for the next part of this series.</a></em></p>
+
+<p><em><a href="/2016/11/polyclojure1">&gt; Click here for the previous part of this series.</a></em></p>
+
+              </div>
+			  <div class="post-footer">
+				  <div class="column-full">
+					  <h3><a href="/archive.html">Blog archive</a></h3>
+				  </div>
+			  </div>
+            </div>
+          </div>
+        </div>
+        <!--
+        <div class="col-md-3 hidden-xs">
+          <div class="sidebar ">
+  <h1>Recent Posts</h1>
+  <ul>
+    
+    <li><a href="/2016/11/polyclojure3">Polymorphism in Clojure: A Tutorial Using Numbers, Part 3</a></li>
+    
+    <li><a href="/2016/11/polyclojure2">Polymorphism in Clojure: A Tutorial Using Numbers, Part 2</a></li>
+    
+    <li><a href="/2016/11/polyclojure1">Polymorphism in Clojure: A Tutorial Using Numbers, Part 1</a></li>
+    
+    <li><a href="/2015/11/julia">Experiments with Julia</a></li>
+    
+    <li><a href="/2015/11/hello">Hello</a></li>
+    
+  </ul>
+</div>
+
+<div class="sidebar">
+  <h1>Tags</h1>
+  <ul>
+    
+      <li><a href="/tag/julia">julia</a></li>
+    
+      <li><a href="/tag/c++">c++</a></li>
+    
+      <li><a href="/tag/simd">simd</a></li>
+    
+      <li><a href="/tag/clojure">clojure</a></li>
+    
+      <li><a href="/tag/polymorphism">polymorphism</a></li>
+    
+      <li><a href="/tag/functional-programming">functional-programming</a></li>
+    
+  </ul>
+</div>
+
+		</div>
+		-->
+      </div>
+	  
+
+    </div>
+  </div>
+  <footer class="footer-distributed">
+<div class="container">
+
+	<div class="footer">
+	<p><a href="/about">James Briggs</a> &copy; 2015-2016</p>
+		<h6>Follow me</h6>
+
+<ul class="social-media">
+
+    
+    <li>
+        <a title="jimypbr on Github"
+            href="https://github.com/jimypbr"
+            target="_blank"><i class="fa fa-github fa-2x"></i></a>
+    </li>
+    
+
+    
+    <li>
+        <a title="jimy-loon on StackOverflow"
+			href="http://stackoverflow.com/users/jimy-loon"
+            target="_blank"><i class="fa fa-stack-overflow fa-2x"></i></a>
+    </li>
+    
+
+    
+    <li>
+        <a title="jimypbr on LinkedIn"
+            href="https://www.linkedin.com/in/james-briggs-74229a65"
+            target="_blank"><i class="fa fa-linkedin fa-2x"></i></a>
+    </li>
+    
+
+
+    
+
+
+    
+
+    
+    <li>
+        <a title="feed.xml RSS"
+            href="/feed.xml"
+            target="_blank"><i class="fa fa-rss fa-2x"></i></a>
+    </li>
+    
+
+</ul>
+
+	</div>
+	<div class="theme-origin">
+		<p>Powered by <a href="https://jekyllrb.com/"> Jekyll</a>. Based on the theme <a href="https://github.com/streetturtle/jekyll-clean-dark">jekyll-clean-dark</a></p>.
+</div>
+
+</footer>
+
+<!--
+  <script type="text/javascript">
+    var disqus_shortname = 'jimypbr';
+
+   (function () {
+     var s = document.createElement('script'); s.async = true;
+     s.type = 'text/javascript';
+     s.src = '//' + disqus_shortname + '.disqus.com/count.js';
+     (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
+   }());
+ </script>
+
+ -->
+
+  <script>
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+    ga('create', '', 'auto');
+    ga('send', 'pageview');
+  </script>
+
+
+</body>
+
+</html>
+
+</div>

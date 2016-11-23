@@ -1,0 +1,479 @@
+<html lang="en">
+
+<head>
+  <link href="https://fonts.googleapis.com/css?family=Lato:300,400,700" rel="stylesheet">
+  <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+  <title>go-seq</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script src="/js/jquery.min.js"></script>
+  <script src="/js/bootstrap.min.js"></script>
+  <script src="/js/header.js"></script>
+  <script src="/js/toc.js"></script>
+  <link href="/css/bootstrap.min.css" rel="stylesheet">
+  <link href="/css/theme.css" rel="stylesheet">
+  <link href="/css/font-awesome/css/font-awesome.min.css" rel="stylesheet">
+  <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+  <script type="text/x-mathjax-config">
+	MathJax.Hub.Config({
+		tex2jax: {
+			inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+			displayMath: [ ['$$','$$'], ["\\[","\\]"] ],
+			processEscapes: false
+		},
+		"HTML-CSS": {
+			preferredFont: "TeX",
+		}
+	})
+  </script>
+  <link href="/css/syntax.css" rel="stylesheet">
+</head>
+
+<body>
+
+  
+
+  
+
+
+  <nav class="navbar navbar-inverse">
+    <div class="container">
+      <div class="navbar-header">
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand" href="/">go-seq</a>
+      </div>
+      <div class="collapse navbar-collapse">
+        <ul class="nav navbar-nav">
+          <li><a href="/">/home</a></li>
+          <li><a href="/archive.html">/archive</a></li>
+          <li><a href="/tags.html">/tags</a></li>
+          <li><a href="/about.html">/about</a></li>
+          <li><a href="/feed.xml">/RSS</a></li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+
+<div class="wrapper">
+  <div class="content">
+    <div class="container container-center">
+      <div class="row">
+        <div class="col-md-12">
+          <div class="article">
+            <div class="well">
+              <h1><a href="/2016/11/polyclojure1">Polymorphism in Clojure: A Tutorial Using Numbers, Part 1</a></h1>
+              <div class="post-meta">
+                <div class="post-time">
+                  <i class="fa fa-calendar"></i>
+                  <time>21 Nov 2016</time>
+                </div>
+                <ul>
+                  
+                    <li><a href="/tag/clojure">clojure</a></li>
+                  
+                    <li><a href="/tag/polymorphism">polymorphism</a></li>
+                  
+                    <li><a href="/tag/functional-programming">functional-programming</a></li>
+                  
+                </ul>
+              </div>
+              <div class="post-content">
+                <div id="toc" class="toc"></div>
+                <p><em>This post is composed of 3 parts: Part 1, <a href="/2016/11/polyclojure2">Part 2</a>, <a href="/2016/11/polyclojure3">Part 3</a></em></p>
+
+<h2 id="introduction">Introduction</h2>
+
+<p>For over a year in my spare time I have been working through the vaunted Structure and Interpretation of Computer Programs (SICP) using both Clojure and Racket. The book has a reputation for &#39;A-Ha!&#39; moments, and I have experienced many of these while reading it. One of my favourite such moments occured in the final section of Chapter 2 on &#39;Data-directed programming&#39;.</p>
+
+<p>The concern of this section is in implementing a system for calculating with different types of numbers (e.g. complex, integers, rationals, etc). Variants of this example are commonly used  beginners books to Java and C++ in order to demonstrated how Object Oriented programming (OOP) can model data and abstractions. However SICP is not a language manual and doesn&#39;t concern itself with showing how to make some feature of a language do what you want. It instead focuses on the problem of trying to model numbers itself, and then creates the necessary structures to solve this problem. SICP uses this problem to motivate the purpose of OOP and it then creates a basic implementation of Objects in scheme. The book then goes beyond OOP and provides an implementation of multiple dispatch in scheme.</p>
+
+<p>I found this to be such an enlightening exercise that I started thinking about how well other languages could solve this problem. In this blog post I want to implement the Numbers program in Clojure, a language that provides multiple dispatch. I hope that will be  a fairly rigorous tutorial for polymorphism in Clojure that demonstrates every feature for polymorphism in Clojure&#39;s core libraries.</p>
+
+<h2 id="complex-numbers">Complex Numbers</h2>
+
+<p>A complex number, $z$ is a number expressed in the form $z=u+iv$, where $u$ and $v$ are real numbers and $i^2=-1$. $u$ is called the <em>real part</em> and $v$ is called the <em>imaginary part</em>. </p>
+
+<ul>
+<li><p>We can represent a complex number as a pair $(u, v)$, called the <em>rectangular form</em>.</p></li>
+<li><p>An alternative representation is the <em>polar form</em> where the complex number is represented by the pair $(r, \phi)$, where $r$ is the <em>magntitude</em> and $\phi$ is the <em>angle</em>. </p></li>
+</ul>
+
+<p>Rectangular and polar forms are related via the following formulae:</p>
+
+<p>$$\begin{eqnarray}
+u &amp;=&amp; r \cos \phi  \\
+v &amp;=&amp; r \sin \phi  \\
+r &amp;=&amp; \sqrt{u^2 + v^2} \\
+\phi &amp;=&amp; \tan^{-1}(v/u)
+\end{eqnarray}$$</p>
+
+<p>In our Complex number package we want to support the following arithmetic operations on pairs of complex numbers: <code>add</code>, <code>sub</code>, <code>mult</code>, and <code>div</code>.</p>
+
+<p>When adding or subtracting complex numbers it is natural to work with their rectangular coordinates:</p>
+
+<p>$$
+\begin{eqnarray}
+Re(z_1 + z_2) &amp;=&amp; Re(z_1) + Re(z_2) \\
+Im(z_1 + z_2) &amp;=&amp; Im(z_1) + Im(z_2)
+\end{eqnarray}
+$$</p>
+
+<p>While when multiplying and dividing complex numbers it is more natural to work with the polar coordinates:</p>
+
+<p>$$
+\begin{eqnarray}
+Magnitude(z_1 \cdot z_2) &amp;=&amp; Magnitude(z_1) \cdot Magnitude(z_2) \\
+Angle(z_1 \cdot z_2) &amp;=&amp; Angle(z_1) + Angle(z_2)
+\end{eqnarray}
+$$</p>
+
+<p>The product is the vector obtained by stretching the length of $z_1$ by the length of $z_2$, and rotating the angle of $z_1$ by the angle of $z_2$.</p>
+
+<p>So there are two different representations which are suitable for different operations. However we want to be able to do all the arithmetic operations on complex numbers regardless of which representation is used.</p>
+
+<h3 id="rectangular-representation">Rectangular Representation</h3>
+
+<p>How can we model this number pair using the tools in Clojure? Clojure allows us to create an object called a <code>Record</code>. A <code>Record</code> is basically a map with a name, a minimum set of keys that it is guaranteed to have, and a constructor. Here&#39;s how we could create a rectangular complex number with records:</p>
+<div class="highlight"><pre><code class="language-clojure" data-lang="clojure"><span class="p">(</span><span class="kd">defrecord </span><span class="nv">Complex-r</span> <span class="p">[</span><span class="nv">real</span> <span class="nv">imag</span><span class="p">])</span>
+</code></pre></div>
+<p>You can create some <code>Complex-r</code>&#39;s:</p>
+<div class="highlight"><pre><code class="language-clojure" data-lang="clojure"><span class="nv">=&gt;</span> <span class="p">(</span><span class="nf">-&gt;Complex-r</span> <span class="mi">2</span> <span class="mi">3</span><span class="p">)</span>
+<span class="o">#</span><span class="nv">user.Complex-r</span><span class="p">{</span><span class="ss">:real</span> <span class="mi">2</span>, <span class="ss">:imag</span> <span class="mi">3</span><span class="p">}</span>
+
+<span class="nv">=&gt;</span> <span class="p">(</span><span class="nf">-&gt;Complex-r</span> <span class="mi">-1</span> <span class="mi">16</span><span class="p">)</span>
+<span class="o">#</span><span class="nv">user.Complex-r</span><span class="p">{</span><span class="ss">:real</span> <span class="mi">-1</span>, <span class="ss">:imag</span> <span class="mi">16</span><span class="p">}</span>
+</code></pre></div>
+<p>With records it is good practice to create your own constructor to give you freedom to add post- and pre-conditions when a new record is created. This is just a wrapper function:</p>
+<div class="highlight"><pre><code class="language-clojure" data-lang="clojure"><span class="p">(</span><span class="kd">defn </span><span class="nv">complex-r</span>
+  <span class="s">&quot;create a new Complex-r&quot;</span>
+  <span class="p">[</span><span class="nv">re</span> <span class="nv">im</span><span class="p">]</span>
+  <span class="p">{</span><span class="ss">:pre</span> <span class="p">[(</span><span class="nf">number?</span> <span class="nv">re</span><span class="p">)</span>
+         <span class="p">(</span><span class="nf">number?</span> <span class="nv">im</span><span class="p">)]}</span>
+  <span class="p">(</span><span class="nf">-&gt;Complex-r</span> <span class="nv">re</span> <span class="nv">im</span><span class="p">))</span>
+</code></pre></div>
+<p>I provided some preconditions that assert that the parameters are a type of Clojure&#39;s native number. We can access the real and imaginary parts of a <code>Complex-r</code>:</p>
+<div class="highlight"><pre><code class="language-clojure" data-lang="clojure"><span class="nv">=&gt;</span> <span class="p">(</span><span class="ss">:real</span> <span class="p">(</span><span class="nf">complex-r</span> <span class="mi">4</span> <span class="mi">5</span><span class="p">))</span>
+<span class="mi">4</span>
+<span class="nv">=&gt;</span> <span class="p">(</span><span class="ss">:imag</span> <span class="p">(</span><span class="nf">complex-r</span> <span class="mi">4</span> <span class="mi">5</span><span class="p">))</span>
+<span class="mi">5</span>
+</code></pre></div>
+<p>However, getting the real and imaginary parts of a complex number using the keywords seems to expose the implementation of <code>Complex-r</code> too much. Better practice would be to wrap those in some functions:</p>
+<div class="highlight"><pre><code class="language-clojure" data-lang="clojure"><span class="p">(</span><span class="kd">defn </span><span class="nv">real-r</span>
+  <span class="s">&quot;Get the real part of a complex-r number.&quot;</span>
+  <span class="p">[</span><span class="nv">z</span><span class="p">]</span>
+  <span class="p">(</span><span class="ss">:real</span> <span class="nv">z</span><span class="p">))</span>
+
+<span class="p">(</span><span class="kd">defn </span><span class="nv">imag-r</span>
+  <span class="s">&quot;Get the imaginary part of a complex-r number.&quot;</span>
+  <span class="p">[</span><span class="nv">z</span><span class="p">]</span>
+  <span class="p">(</span><span class="ss">:imag</span> <span class="nv">z</span><span class="p">))</span>
+</code></pre></div>
+<p>So now we have:</p>
+<div class="highlight"><pre><code class="language-clojure" data-lang="clojure"><span class="nv">=&gt;</span> <span class="p">(</span><span class="nf">real-r</span> <span class="p">(</span><span class="nf">complex-r</span> <span class="mi">4</span> <span class="mi">5</span><span class="p">))</span>
+<span class="mi">4</span>
+<span class="nv">=&gt;</span> <span class="p">(</span><span class="nf">imag-r</span> <span class="p">(</span><span class="nf">complex-r</span> <span class="mi">4</span> <span class="mi">5</span><span class="p">))</span>
+<span class="mi">5</span>
+</code></pre></div>
+<p>We can also view the magnitude and angle of a rectangular complex number using the formulae above:</p>
+<div class="highlight"><pre><code class="language-clojure" data-lang="clojure"><span class="p">(</span><span class="kd">defn </span><span class="nv">magnitude-r</span>
+  <span class="s">&quot;Magnitude of a complex-r number&quot;</span>
+  <span class="p">[</span><span class="nv">z</span><span class="p">]</span>
+  <span class="p">(</span><span class="nf">Math/sqrt</span> <span class="p">(</span><span class="nb">+ </span><span class="p">(</span><span class="nf">square</span> <span class="p">(</span><span class="nf">real-r</span> <span class="nv">z</span><span class="p">))</span>
+                <span class="p">(</span><span class="nf">square</span> <span class="p">(</span><span class="nf">imag-r</span> <span class="nv">z</span><span class="p">)))))</span>
+
+<span class="p">(</span><span class="kd">defn </span><span class="nv">angle-r</span>
+  <span class="s">&quot;Angle of a complex-r number&quot;</span>
+  <span class="p">[</span><span class="nv">z</span><span class="p">]</span>
+  <span class="p">(</span><span class="nf">Math/atan</span> <span class="p">(</span><span class="nb">/ </span><span class="p">(</span><span class="nf">imag-r</span> <span class="nv">z</span><span class="p">)</span> <span class="p">(</span><span class="nf">real-r</span> <span class="nv">z</span><span class="p">))))</span>
+</code></pre></div>
+<p>In the REPL:</p>
+<div class="highlight"><pre><code class="language-clojure" data-lang="clojure"><span class="nv">=&gt;</span> <span class="p">(</span><span class="nf">magnitude-r</span> <span class="p">(</span><span class="nf">complex-r</span> <span class="mi">3</span> <span class="mi">4</span><span class="p">))</span>
+<span class="mf">5.0</span>
+<span class="nv">=&gt;</span> <span class="p">(</span><span class="nf">angle-r</span> <span class="p">(</span><span class="nf">complex-r</span> <span class="mi">3</span> <span class="mi">4</span><span class="p">))</span>
+<span class="mf">0.9272952180016121</span>
+</code></pre></div>
+<h3 id="polar-representation">Polar Representation</h3>
+
+<p>Similarly, we can implement the Polar form of complex numbers as another record:</p>
+<div class="highlight"><pre><code class="language-clojure" data-lang="clojure"><span class="p">(</span><span class="kd">defrecord </span><span class="nv">Complex-p</span> <span class="p">[</span><span class="nv">magnitude</span> <span class="nv">angle</span><span class="p">])</span>
+
+<span class="p">(</span><span class="kd">defn </span><span class="nv">complex-p</span>
+  <span class="s">&quot;create a new Complex-p&quot;</span>
+  <span class="p">[</span><span class="nv">magnitude</span> <span class="nv">angle</span><span class="p">]</span>
+  <span class="p">{</span><span class="ss">:pre</span> <span class="p">[(</span><span class="nf">number?</span> <span class="nv">magnitude</span><span class="p">)</span>
+         <span class="p">(</span><span class="nf">number?</span> <span class="nv">angle</span><span class="p">)]}</span>
+  <span class="p">(</span><span class="nf">-&gt;Complex-p</span> <span class="nv">magnitude</span> <span class="nv">angle</span><span class="p">))</span>
+</code></pre></div>
+<p>Again for the Polar representation we need to write some functions that will give us real and imaginary parts, and the magnitude and angle of a polar number.</p>
+<div class="highlight"><pre><code class="language-clojure" data-lang="clojure"><span class="p">(</span><span class="kd">defn </span><span class="nv">real-p</span>
+  <span class="s">&quot;real part of a complex-p number&quot;</span>
+  <span class="p">[</span><span class="nv">z</span><span class="p">]</span>
+  <span class="p">(</span><span class="nb">* </span><span class="p">(</span><span class="ss">:magnitude</span> <span class="nv">z</span><span class="p">)</span> <span class="p">(</span><span class="nf">Math/sin</span> <span class="p">(</span><span class="ss">:angle</span> <span class="nv">z</span><span class="p">))))</span>
+
+<span class="p">(</span><span class="kd">defn </span><span class="nv">imag-p</span>
+  <span class="s">&quot;imaginary part of a complex-p number&quot;</span>
+  <span class="p">[</span><span class="nv">z</span><span class="p">]</span>
+  <span class="p">(</span><span class="nb">* </span><span class="p">(</span><span class="ss">:magnitude</span> <span class="nv">z</span><span class="p">)</span> <span class="p">(</span><span class="nf">Math/cos</span> <span class="p">(</span><span class="ss">:angle</span> <span class="nv">z</span><span class="p">))))</span>
+
+<span class="p">(</span><span class="kd">defn </span><span class="nv">magnitude-p</span>
+  <span class="s">&quot;magnitude of a complex-p number&quot;</span>
+  <span class="p">[</span><span class="nv">z</span><span class="p">]</span>
+  <span class="p">(</span><span class="ss">:magnitude</span> <span class="nv">z</span><span class="p">))</span>
+
+<span class="p">(</span><span class="kd">defn </span><span class="nv">angle-p</span>
+  <span class="s">&quot;angle of a complex-p number&quot;</span>
+  <span class="p">[</span><span class="nv">z</span><span class="p">]</span>
+  <span class="p">(</span><span class="ss">:angle</span> <span class="nv">z</span><span class="p">))</span>
+</code></pre></div>
+<p>In the REPL:</p>
+<div class="highlight"><pre><code class="language-clojure" data-lang="clojure"><span class="nv">=&gt;</span> <span class="p">(</span><span class="nf">angle-p</span> <span class="p">(</span><span class="nf">complex-p</span> <span class="mi">5</span> <span class="mf">0.5</span><span class="p">))</span>
+<span class="mf">0.5</span>
+<span class="nv">=&gt;</span> <span class="p">(</span><span class="nf">magnitude-p</span> <span class="p">(</span><span class="nf">complex-p</span> <span class="mi">5</span> <span class="mf">0.5</span><span class="p">))</span>
+<span class="mi">5</span>
+<span class="nv">=&gt;</span> <span class="p">(</span><span class="nf">real-p</span> <span class="p">(</span><span class="nf">complex-p</span> <span class="mi">5</span> <span class="mf">0.5</span><span class="p">))</span>
+<span class="mf">4.387912809451864</span>
+<span class="nv">=&gt;</span> <span class="p">(</span><span class="nf">imag-p</span> <span class="p">(</span><span class="nf">complex-p</span> <span class="mi">5</span> <span class="mf">0.5</span><span class="p">))</span>
+<span class="mf">2.397127693021015</span>
+</code></pre></div>
+<h2 id="single-dispatch-with-protocols">Single Dispatch with Protocols</h2>
+
+<p>At this point we have two different types of complex number representations and two sets of functions that are specialised to handle each type. This is obviously bad because a user of this numbers module has to pay attention at all times to whether they are using <code>Complex-r</code> or <code>Complex-p</code> types. They need to specialise whatever code they write with them.</p>
+
+<p>Rather than having <code>real-r</code> and <code>real-p</code> functions we instead want to have a single function <code>real</code> that takes any type of complex number and performs <em>dispatch</em> at runtime based on the type of the argument it has received. I.e. dispatch based on the type of the first argument passed to the function. Dispatch based on a single argument is called <em>single dispatch</em>.</p>
+
+<p>Clojure allows single dispatch through <strong>Protocols</strong>. A protocol is a named set of functions and their signatures, with no implementions. The functions dispatch on the type of their first argument, and thus must have at least one argument. Implementations of the protocol functions have to be written for each type implementing the protocol. They are very similar to Java <em>interfaces</em>, but with one important improvement: which protocols are implemented for a type is not a design time decesion by the code author, rather protocols can extend any type whenever and wherever you want.</p>
+
+<p>We create a protocol for complex numbers using <code>defprotocol</code>:</p>
+<div class="highlight"><pre><code class="language-clojure" data-lang="clojure"><span class="p">(</span><span class="kd">defprotocol </span><span class="nv">PComplex</span>
+  <span class="p">(</span><span class="nf">real</span> <span class="p">[</span><span class="nv">z</span><span class="p">]</span> <span class="s">&quot;Real part of a complex number&quot;</span><span class="p">)</span>
+  <span class="p">(</span><span class="nf">imag</span> <span class="p">[</span><span class="nv">z</span><span class="p">]</span> <span class="s">&quot;Imaginary part of a complex number&quot;</span><span class="p">)</span>
+  <span class="p">(</span><span class="nf">magnitude</span> <span class="p">[</span><span class="nv">z</span><span class="p">]</span> <span class="s">&quot;Magnitude of a complex number&quot;</span><span class="p">)</span>
+  <span class="p">(</span><span class="nf">angle</span> <span class="p">[</span><span class="nv">z</span><span class="p">]</span> <span class="s">&quot;Angle of a complex number&quot;</span><span class="p">))</span>
+</code></pre></div>
+<p>Implement the <code>PComplex</code> protocol for each of our types:</p>
+<div class="highlight"><pre><code class="language-clojure" data-lang="clojure"><span class="p">(</span><span class="nf">extend-protocol</span> <span class="nv">PComplex</span>
+  <span class="c1">;; implementation of methods for Complex-r type</span>
+  <span class="nv">Complex-r</span>
+  <span class="p">(</span><span class="nf">real</span> <span class="p">[</span><span class="nv">z</span><span class="p">]</span> <span class="p">(</span><span class="ss">:real</span> <span class="nv">z</span><span class="p">))</span>
+  <span class="p">(</span><span class="nf">imag</span> <span class="p">[</span><span class="nv">z</span><span class="p">]</span> <span class="p">(</span><span class="ss">:imag</span> <span class="nv">z</span><span class="p">))</span>
+  <span class="p">(</span><span class="nf">magnitude</span> <span class="p">[</span><span class="nv">z</span><span class="p">]</span>
+    <span class="p">(</span><span class="nf">Math/sqrt</span> <span class="p">(</span><span class="nb">+ </span><span class="p">(</span><span class="nf">square</span> <span class="p">(</span><span class="nf">real</span> <span class="nv">z</span><span class="p">))</span>
+                  <span class="p">(</span><span class="nf">square</span> <span class="p">(</span><span class="nf">imag</span> <span class="nv">z</span><span class="p">))))</span>             
+  <span class="p">(</span><span class="nf">angle</span> <span class="p">[</span><span class="nv">z</span><span class="p">]</span>
+    <span class="p">(</span><span class="nf">Math/atan</span> <span class="p">(</span><span class="nb">/ </span><span class="p">(</span><span class="nf">imag</span> <span class="nv">z</span><span class="p">)</span> <span class="p">(</span><span class="nf">real</span> <span class="nv">z</span><span class="p">))))</span>  
+
+  <span class="c1">;; implemention of methods for Complex-p type</span>
+  <span class="nv">Complex-p</span>
+  <span class="p">(</span><span class="nf">real</span> <span class="p">[</span><span class="nv">z</span><span class="p">]</span>
+    <span class="p">(</span><span class="nb">* </span><span class="p">(</span><span class="ss">:magnitude</span> <span class="nv">z</span><span class="p">)</span> <span class="p">(</span><span class="nf">Math/sin</span> <span class="p">(</span><span class="ss">:angle</span> <span class="nv">z</span><span class="p">))))</span>
+  <span class="p">(</span><span class="nf">imag</span> <span class="p">[</span><span class="nv">z</span><span class="p">]</span>
+    <span class="p">(</span><span class="nb">* </span><span class="p">(</span><span class="ss">:magnitude</span> <span class="nv">z</span><span class="p">)</span> <span class="p">(</span><span class="nf">Math/cos</span> <span class="p">(</span><span class="ss">:angle</span> <span class="nv">z</span><span class="p">))))</span>
+  <span class="p">(</span><span class="nf">magnitude</span> <span class="p">[</span><span class="nv">z</span><span class="p">]</span> <span class="p">(</span><span class="ss">:magnitude</span> <span class="nv">z</span><span class="p">))</span>
+  <span class="p">(</span><span class="nf">angle</span> <span class="p">[</span><span class="nv">z</span><span class="p">]</span> <span class="p">(</span><span class="ss">:angle</span> <span class="nv">z</span><span class="p">)))</span>
+</code></pre></div>
+<p>Trying this out in a REPL:</p>
+<div class="highlight"><pre><code class="language-clojure" data-lang="clojure"><span class="nv">=&gt;</span> <span class="p">(</span><span class="k">def </span><span class="nv">z1</span> <span class="p">(</span><span class="nf">complex-r</span> <span class="mi">5</span> <span class="mi">6</span><span class="p">))</span>
+<span class="nv">=&gt;</span> <span class="p">(</span><span class="k">def </span><span class="nv">z2</span> <span class="p">(</span><span class="nf">complex-p</span> <span class="mi">3</span> <span class="mi">1</span><span class="p">))</span>
+<span class="nv">=&gt;</span> <span class="p">(</span><span class="nf">real</span> <span class="nv">z1</span><span class="p">)</span>
+ <span class="mi">5</span>
+<span class="nv">=&gt;</span> <span class="p">(</span><span class="nf">real</span> <span class="nv">z2</span><span class="p">)</span>
+ <span class="mf">1.6209069176044193</span>
+<span class="nv">=&gt;</span> <span class="p">(</span><span class="nf">magnitude</span> <span class="nv">z1</span><span class="p">)</span>
+ <span class="mf">7.810249675906654</span>
+<span class="nv">=&gt;</span> <span class="p">(</span><span class="nf">magnitude</span> <span class="nv">z2</span><span class="p">)</span>
+ <span class="mi">5</span>
+</code></pre></div>
+<p>With protocol we now have a generic set of functions for dealing with any type of complex number. If we created a new type of complex number then we&#39;d simple make it implement the <code>PComplex</code> protocol.</p>
+
+<h2 id="arithmetic-with-complex-numbers">Arithmetic With Complex Numbers</h2>
+
+<p>The <code>PComplex</code> protocol allows us to write code that works with complex numbers and does not need to worry whether whether they are rectangular or polar. We can now write single implementations the arithmetic functions <code>add</code>, <code>sub</code>, <code>mult</code>, and <code>div</code> using the formulas above.</p>
+<div class="highlight"><pre><code class="language-clojure" data-lang="clojure"><span class="p">(</span><span class="kd">defn </span><span class="nv">add</span>
+  <span class="s">&quot;Add two complex numbers together&quot;</span>
+  <span class="p">[</span><span class="nv">z1</span> <span class="nv">z2</span><span class="p">]</span>
+  <span class="p">(</span><span class="nf">complex-r</span> <span class="p">(</span><span class="nb">+ </span><span class="p">(</span><span class="nf">real</span> <span class="nv">z1</span><span class="p">)</span> <span class="p">(</span><span class="nf">real</span> <span class="nv">z2</span><span class="p">))</span>
+             <span class="p">(</span><span class="nb">+ </span><span class="p">(</span><span class="nf">imag</span> <span class="nv">z1</span><span class="p">)</span> <span class="p">(</span><span class="nf">imag</span> <span class="nv">z2</span><span class="p">)))</span>
+
+<span class="p">(</span><span class="kd">defn </span><span class="nv">sub</span>
+  <span class="s">&quot;Subtract two complex numbers from each other&quot;</span>
+  <span class="p">[</span><span class="nv">z1</span> <span class="nv">z2</span><span class="p">]</span>
+  <span class="p">(</span><span class="nf">complex-r</span> <span class="p">(</span><span class="nb">- </span><span class="p">(</span><span class="nf">real</span> <span class="nv">z1</span><span class="p">)</span> <span class="p">(</span><span class="nf">real</span> <span class="nv">z2</span><span class="p">))</span>
+             <span class="p">(</span><span class="nb">- </span><span class="p">(</span><span class="nf">imag</span> <span class="nv">z1</span><span class="p">)</span> <span class="p">(</span><span class="nf">imag</span> <span class="nv">z2</span><span class="p">))))</span>
+
+<span class="p">(</span><span class="kd">defn </span><span class="nv">mult</span>
+  <span class="s">&quot;Multiply two complex numbers together&quot;</span>
+  <span class="p">[</span><span class="nv">z1</span> <span class="nv">z2</span><span class="p">]</span>
+  <span class="p">(</span><span class="nf">complex-p</span> <span class="p">(</span><span class="nb">* </span><span class="p">(</span><span class="nf">magnitude</span> <span class="nv">z1</span><span class="p">)</span> <span class="p">(</span><span class="nf">magnitude</span> <span class="nv">z2</span><span class="p">))</span>
+             <span class="p">(</span><span class="nb">+ </span><span class="p">(</span><span class="nf">angle</span> <span class="nv">z1</span><span class="p">)</span> <span class="p">(</span><span class="nf">angle</span> <span class="nv">z2</span><span class="p">))))</span>
+
+<span class="p">(</span><span class="kd">defn </span><span class="nv">div</span>
+  <span class="s">&quot;Divide two complex numbers by each other&quot;</span>
+  <span class="p">[</span><span class="nv">z1</span> <span class="nv">z2</span><span class="p">]</span>
+  <span class="p">(</span><span class="nf">complex-p</span> <span class="p">(</span><span class="nb">/ </span><span class="p">(</span><span class="nf">magnitude</span> <span class="nv">z1</span><span class="p">)</span> <span class="p">(</span><span class="nf">magnitude</span> <span class="nv">z2</span><span class="p">))</span>
+             <span class="p">(</span><span class="nb">- </span><span class="p">(</span><span class="nf">angle</span> <span class="nv">z1</span><span class="p">)</span> <span class="p">(</span><span class="nf">angle</span> <span class="nv">z2</span><span class="p">))))</span> 
+</code></pre></div>
+<p>Since the functions from <code>PComplex</code> work transparently for both representations of complex numbers we only need to write one function for <code>add</code> and it works not only for both types, but also all combinations of them for free!</p>
+
+<p>Let&#39;s try it all out in the REPL:</p>
+<div class="highlight"><pre><code class="language-clojure" data-lang="clojure"><span class="nv">=&gt;</span> <span class="p">(</span><span class="nf">add</span> <span class="p">(</span><span class="nf">complex-r</span> <span class="mi">5</span> <span class="mi">5</span><span class="p">)</span> <span class="p">(</span><span class="nf">complex-r</span> <span class="mi">6</span> <span class="mi">6</span><span class="p">))</span>
+<span class="o">#</span><span class="nv">numbers.core.Complex-r</span><span class="p">{</span><span class="ss">:real</span> <span class="mi">11</span>, <span class="ss">:imag</span> <span class="mi">11</span><span class="p">}</span>
+<span class="nv">=&gt;</span> <span class="p">(</span><span class="nf">mul</span> <span class="p">(</span><span class="nf">complex-r</span> <span class="mi">5</span> <span class="mi">5</span><span class="p">)</span> <span class="p">(</span><span class="nf">complex-r</span> <span class="mi">5</span> <span class="mi">5</span><span class="p">))</span>
+<span class="o">#</span><span class="nv">numbers.core.Complex-p</span><span class="p">{</span><span class="ss">:magnitude</span> <span class="mf">50.00000000000001</span>, <span class="ss">:angle</span> <span class="mf">1.5707963267948966</span><span class="p">}</span>
+<span class="nv">=&gt;</span> <span class="p">(</span><span class="nf">add</span> <span class="p">(</span><span class="nf">complex-p</span> <span class="mi">5</span> <span class="mf">0.1</span><span class="p">)</span> <span class="p">(</span><span class="nf">complex-p</span> <span class="mi">10</span> <span class="mi">0</span><span class="p">))</span>
+<span class="o">#</span><span class="nv">numbers.core.Complex-r</span><span class="p">{</span><span class="ss">:real</span> <span class="mf">14.975020826390129</span>, <span class="ss">:imag</span> <span class="mf">0.4991670832341408</span><span class="p">}</span>
+<span class="nv">=&gt;</span> <span class="p">(</span><span class="nf">mul</span> <span class="p">(</span><span class="nf">complex-p</span> <span class="mi">5</span> <span class="mf">0.1</span><span class="p">)</span> <span class="p">(</span><span class="nf">complex-p</span> <span class="mi">10</span> <span class="mi">0</span><span class="p">))</span>
+<span class="o">#</span><span class="nv">numbers.core.Complex-p</span><span class="p">{</span><span class="ss">:magnitude</span> <span class="mi">50</span>, <span class="ss">:angle</span> <span class="mf">0.1</span><span class="p">}</span>
+<span class="nv">=&gt;</span> <span class="p">(</span><span class="nf">add</span> <span class="p">(</span><span class="nf">complex-r</span> <span class="mi">5</span> <span class="mi">5</span><span class="p">)</span> <span class="p">(</span><span class="nf">complex-p</span> <span class="mi">10</span> <span class="mi">0</span><span class="p">))</span>
+<span class="o">#</span><span class="nv">numbers.core.Complex-r</span><span class="p">{</span><span class="ss">:real</span> <span class="mf">15.0</span>, <span class="ss">:imag</span> <span class="mf">5.0</span><span class="p">}</span>
+<span class="nv">=&gt;</span> <span class="p">(</span><span class="nf">mul</span> <span class="p">(</span><span class="nf">complex-r</span> <span class="mi">5</span> <span class="mi">5</span><span class="p">)</span> <span class="p">(</span><span class="nf">complex-p</span> <span class="mi">10</span> <span class="mi">0</span><span class="p">))</span>
+<span class="o">#</span><span class="nv">numbers.core.Complex-p</span><span class="p">{</span><span class="ss">:magnitude</span> <span class="mf">70.71067811865476</span>, <span class="ss">:angle</span> <span class="mf">0.7853981633974483</span><span class="p">}</span>
+</code></pre></div>
+<p>Without the polymorphism obtained from the protocol we would have to write 16 separate functions instead of just these 4. Moreover, if we wanted to create more complex number representations there would be a combinatorial explosion in the number of arithmetic functions we&#39;d need to write.</p>
+
+<p><br />
+<em><a href="/2016/11/polyclojure2">&gt; Click here for the next part of this series.</a></em></p>
+
+              </div>
+			  <div class="post-footer">
+				  <div class="column-full">
+					  <h3><a href="/archive.html">Blog archive</a></h3>
+				  </div>
+			  </div>
+            </div>
+          </div>
+        </div>
+        <!--
+        <div class="col-md-3 hidden-xs">
+          <div class="sidebar ">
+  <h1>Recent Posts</h1>
+  <ul>
+    
+    <li><a href="/2016/11/polyclojure3">Polymorphism in Clojure: A Tutorial Using Numbers, Part 3</a></li>
+    
+    <li><a href="/2016/11/polyclojure2">Polymorphism in Clojure: A Tutorial Using Numbers, Part 2</a></li>
+    
+    <li><a href="/2016/11/polyclojure1">Polymorphism in Clojure: A Tutorial Using Numbers, Part 1</a></li>
+    
+    <li><a href="/2015/11/julia">Experiments with Julia</a></li>
+    
+    <li><a href="/2015/11/hello">Hello</a></li>
+    
+  </ul>
+</div>
+
+<div class="sidebar">
+  <h1>Tags</h1>
+  <ul>
+    
+      <li><a href="/tag/julia">julia</a></li>
+    
+      <li><a href="/tag/c++">c++</a></li>
+    
+      <li><a href="/tag/simd">simd</a></li>
+    
+      <li><a href="/tag/clojure">clojure</a></li>
+    
+      <li><a href="/tag/polymorphism">polymorphism</a></li>
+    
+      <li><a href="/tag/functional-programming">functional-programming</a></li>
+    
+  </ul>
+</div>
+
+		</div>
+		-->
+      </div>
+	  
+
+    </div>
+  </div>
+  <footer class="footer-distributed">
+<div class="container">
+
+	<div class="footer">
+	<p><a href="/about">James Briggs</a> &copy; 2015-2016</p>
+		<h6>Follow me</h6>
+
+<ul class="social-media">
+
+    
+    <li>
+        <a title="jimypbr on Github"
+            href="https://github.com/jimypbr"
+            target="_blank"><i class="fa fa-github fa-2x"></i></a>
+    </li>
+    
+
+    
+    <li>
+        <a title="jimy-loon on StackOverflow"
+			href="http://stackoverflow.com/users/jimy-loon"
+            target="_blank"><i class="fa fa-stack-overflow fa-2x"></i></a>
+    </li>
+    
+
+    
+    <li>
+        <a title="jimypbr on LinkedIn"
+            href="https://www.linkedin.com/in/james-briggs-74229a65"
+            target="_blank"><i class="fa fa-linkedin fa-2x"></i></a>
+    </li>
+    
+
+
+    
+
+
+    
+
+    
+    <li>
+        <a title="feed.xml RSS"
+            href="/feed.xml"
+            target="_blank"><i class="fa fa-rss fa-2x"></i></a>
+    </li>
+    
+
+</ul>
+
+	</div>
+	<div class="theme-origin">
+		<p>Powered by <a href="https://jekyllrb.com/"> Jekyll</a>. Based on the theme <a href="https://github.com/streetturtle/jekyll-clean-dark">jekyll-clean-dark</a></p>.
+</div>
+
+</footer>
+
+<!--
+  <script type="text/javascript">
+    var disqus_shortname = 'jimypbr';
+
+   (function () {
+     var s = document.createElement('script'); s.async = true;
+     s.type = 'text/javascript';
+     s.src = '//' + disqus_shortname + '.disqus.com/count.js';
+     (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
+   }());
+ </script>
+
+ -->
+
+  <script>
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+    ga('create', '', 'auto');
+    ga('send', 'pageview');
+  </script>
+
+
+</body>
+
+</html>
+
+</div>

@@ -9,13 +9,19 @@ body {
 h1, h2, h3, h4, h5 {
   font-family: "Lato", sans-serif;
   font-weight: 400;
-  color: #333; }
+  color: #444444;
+  margin-top: 40px;
+  margin-bottom: 20px; }
+
+h1 {
+  margin-top: 15px;
+  margin-bottom: 10px; }
 
 h1 a, h2 a, h3 a, h4 a, h5 a {
-  color: #333; }
+  color: #444444; }
 
 h1 a:hover {
-  color: #333;
+  color: #444444;
   text-decoration: None; }
 
 .copyright {
@@ -25,7 +31,7 @@ h1 a:hover {
   text-align: center; }
 
 .sidebar h1 {
-  color: #333;
+  color: #444444;
   font-size: 1.3em; }
 
 .sidebar li {
@@ -74,12 +80,13 @@ td, th {
   border-right: 1px solid black; }
 
 .container {
-  max-width: 1000px; }
+  max-width: 900px; }
 
 code {
   background-color: transparent;
   font-size: 85%;
-  border-radius: 5px; }
+  border-radius: 5px;
+  color: #da4643; }
 
 pre {
   color: #f9f9f9;
@@ -87,8 +94,8 @@ pre {
   margin-top: 0;
   margin-bottom: 1em;
   padding: 1em;
-  font-size: 12px;
-  font-size: calculateRem(12px);
+  font-size: 13px;
+  font-size: calculateRem(13px);
   line-height: 1.4;
   word-break: break-all;
   border: none;
@@ -96,10 +103,10 @@ pre {
   overflow-y: auto; }
 
 a {
-  color: #a94442; }
+  color: #da4643; }
 
 a:hover {
-  color: #a94442; }
+  color: #da4643; }
 
 ul.social-media {
   text-align: center;
@@ -117,7 +124,7 @@ ul.social-media {
     display: inline-block;
     color: #F5F5F5; }
     ul.social-media li > a:hover {
-      color: #a94442; }
+      color: #da4643; }
 
 h3.post-title {
   padding-top: 35px;
@@ -125,7 +132,7 @@ h3.post-title {
   font-size: 1.6em; }
 
 div.post-meta {
-  border: 1px solid #e5e5e5;
+  border: 1px solid #f3f3f3;
   border-width: 1px 0;
   margin: 0 0 20px;
   font-size: 0.8em; }
@@ -160,7 +167,7 @@ nav .navbar-toggle {
 
 .navbar-brand {
   font-size: 40px;
-  color: #a94442 !important; }
+  color: #da4643 !important; }
 
 nav.navbar.shrink {
   min-height: 25px; }
@@ -202,14 +209,14 @@ nav.navbar {
   box-shadow: 0 0 0 0, 0 6px 12px rgba(34, 34, 34, 0.3); }
 
 .navbar-inverse .navbar-nav > li > a {
-  color: #a94442;
+  color: #da4643;
   font-size: 21px; }
 
 .navbar-inverse .navbar-nav > li > a:hover, .navbar-inverse .navbar-nav > li > a:focus {
   color: #FeFefe; }
 
 .footer-distributed {
-  background-color: #333333;
+  background-color: #333;
   font: normal 16px sans-serif;
   padding: 20px 25px;
   margin-top: 80px;
@@ -220,7 +227,7 @@ nav.navbar {
   position: absolute; }
 
 .footer {
-  color: #a94442; }
+  color: #da4643; }
 
 .theme-origin {
   font-size: 70%; }

@@ -62,7 +62,7 @@
   <div class="content">
     <div class="container container-center">
       <div class="row">
-        <div class="col-md-9">
+        <div class="col-md-12">
           <div class="article">
             <div class="well">
               <h1><a href="/2015/11/julia">Experiments with Julia</a></h1>
@@ -271,10 +271,13 @@ Julia version: <em>0.3.11</em></p>
 
 <h2 id="case-study-fitzhugh-nagamo-pde">Case Study: Fitzhugh-Nagamo PDE</h2>
 
-<p>Experiment with a non-trivial example of a PDE solver using the reaction-diffusion system described by:
-$$
-\frac{\partial u}{\partial t} = a \nabla^2 u + u - u^3 - v - k \
-\tau\frac{\partial v}{\partial t} = b\nabla^2 v + u - v
+<p>Experiment with a non-trivial example of a PDE solver using the reaction-diffusion system described by:</p>
+
+<p>$$
+\begin{eqnarray}
+\frac{\partial u}{\partial t} &amp;=&amp; a \nabla^2 u + u - u^3 - v - k \\
+\tau\frac{\partial v}{\partial t} &amp;=&amp; b\nabla^2 v + u - v
+\end{eqnarray}
 $$</p>
 
 <p>With Neumann boundary conditions, boundary of [1,1]^2, N=100^2, and T=[0.,10.].
@@ -482,14 +485,25 @@ This example is based on this <a href="http://ipython-books.github.io/featured-0
 <p>The thing holding back performance in the Julia code was the use of <code>u[i,j]^3</code> instead of <code>u[i,j]*u[i,j]*u[i,j]</code>. The former version compiles to a call of <code>pow(double, double)</code> from libm! The latter does what you expect. This is a <a href="https://github.com/JuliaLang/julia/issues/2741">known bug</a>. Fixed when Julia is built against LLVM 3.6. Version I&#39;m using is built with LLVM v3.4.</p>
 
               </div>
-              
+			  <div class="post-footer">
+				  <div class="column-full">
+					  <h3><a href="/archive.html">Blog archive</a></h3>
+				  </div>
+			  </div>
             </div>
           </div>
         </div>
+        <!--
         <div class="col-md-3 hidden-xs">
           <div class="sidebar ">
   <h1>Recent Posts</h1>
   <ul>
+    
+    <li><a href="/2016/11/polyclojure3">Polymorphism in Clojure: A Tutorial Using Numbers, Part 3</a></li>
+    
+    <li><a href="/2016/11/polyclojure2">Polymorphism in Clojure: A Tutorial Using Numbers, Part 2</a></li>
+    
+    <li><a href="/2016/11/polyclojure1">Polymorphism in Clojure: A Tutorial Using Numbers, Part 1</a></li>
     
     <li><a href="/2015/11/julia">Experiments with Julia</a></li>
     
@@ -508,14 +522,21 @@ This example is based on this <a href="http://ipython-books.github.io/featured-0
     
       <li><a href="/tag/simd">simd</a></li>
     
+      <li><a href="/tag/clojure">clojure</a></li>
+    
+      <li><a href="/tag/polymorphism">polymorphism</a></li>
+    
+      <li><a href="/tag/functional-programming">functional-programming</a></li>
+    
   </ul>
 </div>
 
-        </div>
+		</div>
+		-->
       </div>
-    </div>
-    
+	  
 
+    </div>
   </div>
   <footer class="footer-distributed">
 <div class="container">
