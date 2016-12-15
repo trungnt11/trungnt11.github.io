@@ -176,6 +176,10 @@
 
 &lt;p&gt;Type hierarchies can be decoupled from types. In this example we built a hierarchy for the number types using namespaced keywords like &lt;code&gt;::complex-r&lt;/code&gt;. This exists independently from the records we defined. It is coupled to the record types via a one-to-one mapping of the records to a keyword, implemented by the protocol &lt;code&gt;PNumberKind&lt;/code&gt;. This decoupling allowed us to create further abstractions such as &lt;code&gt;::number&lt;/code&gt; and &lt;code&gt;::complex&lt;/code&gt;. In Java you&amp;#39;d have to create abstract base classes retroactively and subclass the existing types, which would be a redesign. This decoupling was also useful later for the &lt;em&gt;numeric tower&lt;/em&gt; where we actually required a completely different hierarchy of the types. This was made possible in Clojure because you can create multiple hierarchies ad-hoc - hierarchies are just data. You could even implement multimethods with different type hierarchies this way. In OOP this kind of polymorphic dispatch is strongly coupled to your class hierarchies, which you can&amp;#39;t just change.&lt;/p&gt;
 
+&lt;h2 id=&quot;source-code&quot;&gt;Source Code&lt;/h2&gt;
+
+&lt;p&gt;The complete code of this tutorial can be found here: &lt;a href=&quot;https://github.com/jimypbr/clojure-numbers&quot;&gt;https://github.com/jimypbr/clojure-numbers&lt;/a&gt;.&lt;/p&gt;
+
 &lt;h2 id=&quot;further-reading&quot;&gt;Further Reading&lt;/h2&gt;
 
 &lt;ol&gt;
