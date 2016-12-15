@@ -208,6 +208,10 @@ Dispatch in Clojure is simply a fancy wrapper for functions. For a user of a pro
 Type hierarchies can be decoupled from types. In this example we built a hierarchy for the number types using namespaced keywords like `::complex-r`. This exists independently from the records we defined. It is coupled to the record types via a one-to-one mapping of the records to a keyword, implemented by the protocol `PNumberKind`. This decoupling allowed us to create further abstractions such as `::number` and `::complex`. In Java you'd have to create abstract base classes retroactively and subclass the existing types, which would be a redesign. This decoupling was also useful later for the _numeric tower_ where we actually required a completely different hierarchy of the types. This was made possible in Clojure because you can create multiple hierarchies ad-hoc - hierarchies are just data. You could even implement multimethods with different type hierarchies this way. In OOP this kind of polymorphic dispatch is strongly coupled to your class hierarchies, which you can't just change.
 
 
+## Source Code
+
+The complete code of this tutorial can be found here: https://github.com/jimypbr/clojure-numbers.
+
 ## Further Reading
 
 1. Read SICP section 2.4: https://mitpress.mit.edu/sicp/full-text/book/book-Z-H-17.html#%_sec_2.4
