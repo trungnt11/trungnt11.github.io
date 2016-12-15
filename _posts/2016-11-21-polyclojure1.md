@@ -6,7 +6,8 @@ comments: false
 tags: clojure polymorphism functional-programming
 ---
 
-_This post is composed of 3 parts: Part 1, [Part 2]({% post_url 2016-11-21-polyclojure2 %}), [Part 3]({% post_url 2016-11-21-polyclojure3 %})_
+
+_This post is composed of 3 parts: Part 1, [Part 2]({% post_url 2016-11-22-polyclojure2 %}), [Part 3]({% post_url 2016-11-23-polyclojure3 %})_
 
 ## Introduction
 
@@ -310,4 +311,4 @@ Let's try it all out in the REPL:
 Without the polymorphism obtained from the protocol we would have to write 16 separate functions instead of just these 4. Moreover, if we wanted to create more complex number representations there would be a combinatorial explosion in the number of arithmetic functions we'd need to write.
 
 <br />
-_[> Click here for the next part of this series.]({% post_url 2016-11-21-polyclojure2 %})_
+_[> Click here for the next part of this series.]({% post_url 2016-11-22-polyclojure2 %})_
