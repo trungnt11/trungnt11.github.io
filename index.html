@@ -456,11 +456,11 @@ In another case, if a document only contained the word &#39;disestablishment&#39
 </code></pre></div>
 <p><code>LinearSVC</code> with the default settings performed very well with $97\%$ accuracy. High accuracy is generally a good sign, especially here where the numbers of valid and invalid images are of a similar size. Two other important statistics for classification are <strong>precision</strong> and <strong>recall</strong>.</p>
 
-<p>Recall is a measure of what the probability that the classifier will identify and image as invalid given that it is invalid: $P(\hat{y}=1 | y=1)$. You can think of recall as the ratio of the <strong>number of images correctly classed as invalid</strong> to the number of <strong>all invalid images</strong>. </p>
+<p>Recall is a measure of what the probability that the classifier will identify an image as invalid given that it is invalid: $P(\hat{y}=1 | y=1)$. You can think of recall as the ratio of the <strong>number of images correctly classed as invalid</strong> to the number of <strong>all invalid images</strong>. </p>
 
 <p>Precision on the other hand is a measure of the probability that an image is invalid given that the classifier says it is invalid: $P(y=1|\hat{y}=1)$.  You can think of precision as the ratio of the <strong>number of images correctly classed as invalid</strong> to the number of <strong>all images classified</strong>.</p>
 
-<p>The difference between them is subtle (<a href="https://www.quora.com/What-is-the-best-way-to-understand-the-terms-precision-and-recall">here</a> is a great explanation of the difference), but you may want to favour a trade-off of one for the other depending on your business case. In our case it is <strong>worse</strong> to misclassify a valid images as invalid because we are losing good images. We would much rather have some invalid images get through than lose good images, which is the same as favouring extra precision over recall.</p>
+<p>The difference between them is subtle (<a href="https://www.quora.com/What-is-the-best-way-to-understand-the-terms-precision-and-recall">here</a> is a great explanation of the difference), but you may want to favour a trade-off of one for the other depending on your <em>business case</em>. In our case it is <em>worse</em> to misclassify a valid images as invalid because we are losing good images. We would much rather have some invalid images get through than lose good images, which is the same as favouring extra precision over recall.</p>
 
 <p>We can tune the precision by adjusting the <strong>class weights</strong> of the Linear SVM, such that the penalty for classifying a valid image as invalid is <em>much worse</em> than classifying an invalid image as valid. I used cross-validation to find the best values for these. These give the valid images a weight of 20 and invalid images a weight of 0.1:</p>
 <div class="highlight"><pre><code class="language-python" data-lang="python"><span class="kn">from</span> <span class="nn">sklearn.svm</span> <span class="kn">import</span> <span class="n">LinearSVC</span>
@@ -479,7 +479,21 @@ In another case, if a document only contained the word &#39;disestablishment&#39
 <span class="n">Recall</span><span class="p">:</span>  <span class="mf">0.938076923077</span>
 <span class="n">F1</span> <span class="n">Score</span><span class="p">:</span>  <span class="mf">0.965940594059</span>
 </code></pre></div>
-<p>The performance of approach this is very good. The trained classifier was then applied across the whole image dataset. In the end there were approximately 3 million invalid images and 2 million valid images detected.</p>
+<p>Overall the performance of this approach is very good. In the end after applying the trained classifier to the whole image dataset, there were approximately 3 million images classed as invalid and 2 million images classed as valid.
+You can inspect some of images in the filtered dataset online <a href="https://fleuron.lib.cam.ac.uk/ornament_search_results?h2=400&amp;h1=200&amp;w2=1000&amp;w1=500&amp;page=1">here</a>. There are very few bad images that have managed to make it through. The ones that have managed to make it into the dataset often have the same characteristics. </p>
+
+<p>For example, they are commonly images of <strong>handwriting</strong>:</p>
+
+<p><img alt="handwriting" src="/images/fleuron/false_neg_1.png" style="width: 400" /> </p>
+
+<p>Compared to printed text, handwriting is appears very flourished and irregular, much like the ornaments. These images are also quite rare so not many appeared in the training set allowing the classifier to discriminate them well.</p>
+
+<p>Another common one is <strong>library stamps</strong> which are not present in the original text, but have been stamped on by the libraries that have kept the books over the years:</p>
+
+<p><img alt="stamps" src="/images/fleuron/false_neg_2.png" style="width: 400" /> 
+<img alt="stamps" src="/images/fleuron/false_neg_3.png" style="width: 400" /> </p>
+
+<p>These were quite common in the training data, but they look so much like ornaments themselves that the classifier couldn&#39;t quite learn to separate them.</p>
 
 <h2 id="further-ideas">Further Ideas</h2>
 
