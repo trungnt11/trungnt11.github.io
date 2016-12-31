@@ -91,44 +91,10 @@
 <p>Since version 0.3 Julia has some vectorisation capabilities that can exploit SIMD instructions when executing loops. It seems to require some nudging though. There are macros that are a bit like the pragmas in OpenMP.</p>
 
 <h3 id="example-1-saxpy">Example 1. SAXPY</h3>
-<div class="highlight"><pre><code class="language-julia" data-lang="julia"><span class="k">function</span><span class="nf"> saxpy</span><span class="p">(</span><span class="n">a</span><span class="p">::</span><span class="kt">Float32</span><span class="p">,</span> <span class="n">x</span><span class="p">::</span><span class="n">Array</span><span class="p">{</span><span class="kt">Float32</span><span class="p">,</span><span class="mi">1</span><span class="p">},</span> <span class="n">y</span><span class="p">::</span><span class="n">Array</span><span class="p">{</span><span class="kt">Float32</span><span class="p">,</span><span class="mi">1</span><span class="p">})</span>
-  <span class="n">n</span> <span class="o">=</span> <span class="n">length</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
-  <span class="k">for</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">1</span><span class="p">:</span><span class="n">n</span>
-    <span class="n">y</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">+=</span> <span class="n">a</span><span class="o">*</span><span class="n">x</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
-  <span class="k">end</span>
-<span class="k">end</span>
-</code></pre></div>
+
 <p>Sadly, in version 0.3.10 this obvious candidate does not auto-vectorise. 
 You can inspect how this code has compiled nicely in Julia by using the macros <code>@code_llvm</code> to see the LLVM IR or <code>@code_native</code> to see the ASM. The ASM produced is:</p>
-<div class="highlight"><pre><code class="language-nasm" data-lang="nasm"><span class="nf">Source</span> <span class="nv">line</span><span class="p">:</span> <span class="mi">48</span>
-    <span class="nf">mov</span> <span class="nv">R8</span><span class="p">,</span> <span class="kt">QWORD</span> <span class="nv">PTR</span> <span class="p">[</span><span class="nb">RSI</span> <span class="o">+</span> <span class="mi">16</span><span class="p">]</span>
-    <span class="nf">xor</span> <span class="nb">R11D</span><span class="p">,</span> <span class="nb">R11D</span>
-    <span class="nf">xor</span> <span class="nb">ECX</span><span class="p">,</span> <span class="nb">ECX</span>
-    <span class="nf">cmp</span> <span class="nb">RCX</span><span class="p">,</span> <span class="nv">R8</span>
-    <span class="nf">jae</span> <span class="mi">65</span>
-    <span class="nf">cmp</span> <span class="nb">RCX</span><span class="p">,</span> <span class="kt">QWORD</span> <span class="nv">PTR</span> <span class="p">[</span><span class="nb">RDI</span> <span class="o">+</span> <span class="mi">16</span><span class="p">]</span>
-    <span class="nf">jae</span> <span class="mi">55</span>
-    <span class="nf">lea</span> <span class="nv">R10</span><span class="p">,</span> <span class="kt">QWORD</span> <span class="nv">PTR</span> <span class="p">[</span><span class="mi">4</span><span class="o">*</span><span class="nv">R11</span><span class="p">]</span>
-    <span class="nf">mov</span> <span class="nb">RAX</span><span class="p">,</span> <span class="kt">QWORD</span> <span class="nv">PTR</span> <span class="p">[</span><span class="nb">RSI</span> <span class="o">+</span> <span class="mi">8</span><span class="p">]</span>
-    <span class="nf">sub</span> <span class="nb">RAX</span><span class="p">,</span> <span class="nv">R10</span>
-    <span class="nf">mov</span> <span class="nb">RDX</span><span class="p">,</span> <span class="kt">QWORD</span> <span class="nv">PTR</span> <span class="p">[</span><span class="nb">RDI</span> <span class="o">+</span> <span class="mi">8</span><span class="p">]</span>
-    <span class="nf">sub</span> <span class="nb">RDX</span><span class="p">,</span> <span class="nv">R10</span>
-    <span class="nf">movss</span>   <span class="nv">XMM1</span><span class="p">,</span> <span class="kt">DWORD</span> <span class="nv">PTR</span> <span class="p">[</span><span class="nb">RDX</span><span class="p">]</span>
-    <span class="nf">mulss</span>   <span class="nv">XMM1</span><span class="p">,</span> <span class="nv">XMM0</span>
-    <span class="nf">addss</span>   <span class="nv">XMM1</span><span class="p">,</span> <span class="kt">DWORD</span> <span class="nv">PTR</span> <span class="p">[</span><span class="nb">RAX</span><span class="p">]</span>
-    <span class="nf">movss</span>   <span class="kt">DWORD</span> <span class="nv">PTR</span> <span class="p">[</span><span class="nb">RAX</span><span class="p">],</span> <span class="nv">XMM1</span>
-    <span class="nf">dec</span> <span class="nv">R11</span>
-    <span class="nf">inc</span> <span class="nb">RCX</span>
-    <span class="nf">cmp</span> <span class="nv">R9</span><span class="p">,</span> <span class="nb">RCX</span>
-    <span class="nf">jne</span> <span class="o">-</span><span class="mi">72</span>
-    <span class="nf">pop</span> <span class="nb">RBP</span>
-    <span class="nf">ret</span>
-    <span class="nf">movabs</span>  <span class="nb">RAX</span><span class="p">,</span> <span class="mi">140636405232096</span>
-    <span class="nf">mov</span> <span class="nb">RDI</span><span class="p">,</span> <span class="kt">QWORD</span> <span class="nv">PTR</span> <span class="p">[</span><span class="nb">RAX</span><span class="p">]</span>
-    <span class="nf">movabs</span>  <span class="nb">RAX</span><span class="p">,</span> <span class="mi">140636390845696</span>
-    <span class="nf">mov</span> <span class="nb">ESI</span><span class="p">,</span> <span class="mi">48</span>
-    <span class="nf">call</span>    <span class="nb">RAX</span>
-</code></pre></div>
+
 <p>Note the scalar instructions <code>movss</code>, <code>mulss</code>, and <code>addss</code>.</p>
 
 <h3 id="example-2-saxpy-simd">Example 2: SAXPY + SIMD</h3>
@@ -548,6 +514,23 @@ This example is based on this <a href="http://ipython-books.github.io/featured-0
 		-->
       </div>
 	  
+<!-- Add Disqus comments. -->
+<div id="disqus_thread"></div>
+<script type="text/javascript">
+  /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+  var disqus_shortname = "jimypbr-github-io"; // required: replace example with your forum shortname
+  var disqus_identifier = "/2015/11/julia";
+
+  /* * * DON'T EDIT BELOW THIS LINE * * */
+  (function() {
+    var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+  })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+
 
     </div>
   </div>
@@ -609,7 +592,7 @@ This example is based on this <a href="http://ipython-books.github.io/featured-0
 
 <!--
   <script type="text/javascript">
-    var disqus_shortname = 'jimypbr';
+    var disqus_shortname = 'jimypbr-github-io';
 
    (function () {
      var s = document.createElement('script'); s.async = true;
