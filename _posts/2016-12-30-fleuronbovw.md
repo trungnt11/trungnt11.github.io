@@ -135,7 +135,7 @@ def rootsift_descriptor(f):
     desc = np.sqrt(desc)
 
     return desc
-``` 
+```
 
 ## Building a Visual Word Dictionary
 
@@ -374,7 +374,7 @@ from sklearn.decomposition import TruncatedSVD
 
 svd = TruncatedSVD(n_components=2)
 Z = svd.fit_transform(X)
-```  
+```
 
 We can plot this with the images inlined and with colours representing the valid (red) and invalid (blue) labels:
 
@@ -396,9 +396,9 @@ clf.fit(X_train, y_train)
 
 `LinearSVC` with the default settings performed very well with $97\%$ accuracy. High accuracy is generally a good sign, especially here where the numbers of valid and invalid images are of a similar size. Two other important statistics for classification are __precision__ and __recall__.
 
-Recall is a measure of what the probability that the classifier will identify and image as invalid given that it is invalid: $P(\hat{y}=1 | y=1)$. You can think of recall as the ratio of the __number of images correctly classed as invalid__ to the number of __all invalid images__. 
+Recall is a measure of what the probability that the classifier will identify and image as invalid given that it is invalid: $P(\hat{y}=1 \| y=1)$. You can think of recall as the ratio of the __number of images correctly classed as invalid__ to the number of __all invalid images__. 
 
-Precision on the other hand is a measure of the probability that an image is invalid given that the classifier says it is invalid: $P(y=1|\hat{y}=1)$.  You can think of precision as the ratio of the __number of images correctly classed as invalid__ to the number of __all images classified__.
+Precision on the other hand is a measure of the probability that an image is invalid given that the classifier says it is invalid: $P(y=1\|\hat{y}=1)$.  You can think of precision as the ratio of the __number of images correctly classed as invalid__ to the number of __all images classified__.
 
 The difference between them is subtle ([here](https://www.quora.com/What-is-the-best-way-to-understand-the-terms-precision-and-recall) is a great explanation of the difference), but you may want to favour a trade-off of one for the other depending on your business case. In our case it is __worse__ to misclassify a valid images as invalid because we are losing good images. We would much rather have some invalid images get through than lose good images, which is the same as favouring extra precision over recall.
 
