@@ -71,16 +71,16 @@ BoVW is exactly the same method except that instead of using actual words it use
 
 ### 1. Extract notable features from the images
 
-<img src="/images/fleuron/image_to_words_1.jpg" width=500>
+<img src="/images/fleuron/image_to_words_1.jpg" width="500">
 
-<img src="/images/fleuron/image_to_words_2.jpg" width=500>
+<img src="/images/fleuron/image_to_words_2.jpg" width="500">
 
 
 ### 2. Learn a visual dictionary
 
 Use a clustering algorithm like k-means with a apriori number of clusters (>1000) to learn a set of $k$ compound visual words. 
 
-<img src="/images/fleuron/image_dict.png" width=500>
+<img src="/images/fleuron/image_dict.png" width="500">
 
 ### 3. Quantize features using the visual vocabulary
 
