@@ -14,8 +14,9 @@ baseurl: ''
 include: ['.nojekyll']
 
 social:
+  twitter: 'jimypbr' 
   github: jimypbr
-  stackoverflow: 'jimy-loon'
+  #stackoverflow: 'jimy-loon'
   linkedin: 'james-briggs-74229a65'
   rss: feed.xml
 

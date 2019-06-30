@@ -1,6 +1,13 @@
 <h6>Follow me</h6>
 
 <ul class="social-media">
+    {% if site.social.twitter %}
+    <li>
+        <a title="{{ site.social.twitter }} on Twitter"
+            href="https://twitter.com/{{ site.social.twitter }}"
+            target="_blank"><i class="fa fa-twitter fa-2x"></i></a>
+    </li>
+    {% endif %}
 
     {% if site.social.github %}
     <li>
@@ -18,7 +25,7 @@
     </li>
     {% endif %}
 
-    {% if site..social.linkedin %}
+    {% if site.social.linkedin %}
     <li>
         <a title="{{ site.social.github }} on LinkedIn"
             href="https://www.linkedin.com/in/{{ site.social.linkedin }}"
