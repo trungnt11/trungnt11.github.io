@@ -6,6 +6,7 @@ comments: false
 tags: python machine-learning computer-vision opencv bovw
 ---
 
+
 ![headpiece](/images/fleuron/headpiece.png)
 
 ##  The Fleuron Project 
@@ -19,13 +20,18 @@ My contribution to the project was to use the extraction code to generate data, 
 ## Extraction
 
 The first challenge is to extract the ornaments from the raw page scans. This is an example of a page containing two ornaments, at the top of the page and at the start of the text body:
+
 ![Typical Page](/images/fleuron/example_page.png)
+
+
 
 We required an algorithm that could ignore the text and draw bounding boxes around the two ornaments on the page. To solve this problem we enlisted [Dirk Gorissen](https://dirkgorissen.com/) to develop a method using Python and OpenCV. I will not dive deeply into how Dirk's algorithm works here. Basically it uses combines heuristics of where ornaments are typically located and how they look with various image filtering techniques to weed out text and other artifacts on the page to leave just the artwork intact.
 
 Here is a demonstration of how each of the different stages of the algorithm work using on the single page shown above as an example:
 
 <img alt="Extracting ornaments" src="/images/fleuron/debug_1.png" width="500">
+
+
 
 Ornaments are visually very dense compared to the text. In the first stage the image is cleaned removing dust and stains in the white space of the page. Then through several iterations of blurring and contouring are applied until just the ornaments are left as single contours as seen in stage 5. A bounding box is then drawn around these contours and content of these boxes is then extracted from the original image. 
 
@@ -71,10 +77,14 @@ BoVW is exactly the same method except that instead of using actual words it use
 
 ### 1. Extract notable features from the images
 
+<div class="row">
+<div class="col-md-6">
 <img src="/images/fleuron/image_to_words_1.jpg" width="500">
-
+</div>
+<div class="col-md-6">
 <img src="/images/fleuron/image_to_words_2.jpg" width="500">
-
+</div>
+</div>
 
 ### 2. Learn a visual dictionary
 
@@ -108,10 +118,16 @@ img2 = cv2.drawKeypoints(img_gray, kp, flags=cv2.DRAW_MATCHES_FLAGS_DRAW_RICH_KE
 cv2.imwrite('image_sift_2.png', img2)
 ```
 Here is the output of this for two images from the dataset, one valid and the other invalid:
-![SIFT keypoints](/images/fleuron/image_sift_1.png)
 
+<div class="row">
+<div class="col-md-6">
+<img src="/images/fleuron/image_sift_1.png">
+</div>
 
-![SIFT keypoints](/images/fleuron/image_sift_2.png)
+<div class="col-md-6">
+<img src="/images/fleuron/image_sift_2.png">
+</div>
+</div>
 
 There is a simple improvement that can be made to SIFT called [RootSIFT](https://www.robots.ox.ac.uk/~vgg/publications/2012/Arandjelovic12/presentation.pdf).  RootSIFT is a small modification to the SIFT descriptor that corrects the L2 distance between two SIFT descriptors. This generally always improves performance for classification and image retrieval. Here is an implementation in python:
 
