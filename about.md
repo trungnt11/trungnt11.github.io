@@ -5,9 +5,21 @@ title: About
 
 ## Bio
 
-I am James Briggs, a physicist and software engineer in Cambridge, UK.
+<div class="row">
 
-I currently work as a research software engineer at the University of Cambridge. I work on in big data science/engineering and backend engineering projects with researchers at the university. 
-I like playing with data, computer vision, and machine learning.
+<div class="col-md-8">
 
-Out of computers I enjoy travelling, collecting whisky, building memory palaces, and playing mandolin. ;)
+I am James Briggs, a data scientist, software engineer, and former astrophysicist based in Munich, Germany.
+
+I currently work at OmegaLambdaTec Data Science Services in Munich. Previously I have worked at the University of Cambridge in the Stephen Hawking Centre for Theoretical Cosmology and in the Research Software Engineering Group.
+
+</div>
+
+<div class="col-md-4">
+
+![me](/images/about/me.jpg)
+
+</div>
+</div>
+
+
