@@ -3,7 +3,7 @@ layout: page
 title: About
 ---
 
-## Bio
+# Bio
 
 <div class="row">
 
