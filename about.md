@@ -11,7 +11,7 @@ title: About
 
 I am James Briggs, a data scientist, software engineer, and former astrophysicist based in Munich, Germany.
 
-I currently work at OmegaLambdaTec Data Science Services in Munich. Previously I have worked at the University of Cambridge in the Stephen Hawking Centre for Theoretical Cosmology and in the Research Software Engineering Group.
+I currently work at OmegaLambdaTec Data Science Services in Munich. Previously I have worked at the University of Cambridge in the Stephen Hawking Centre for Theoretical Cosmology and later in the Research Software Engineering Group.
 
 </div>
 
