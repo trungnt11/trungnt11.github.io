@@ -3,7 +3,7 @@ layout: page
 title: About
 ---
 
-# Bio
+# About Me
 
 <div class="row">
 
@@ -21,5 +21,3 @@ I currently work at OmegaLambdaTec Data Science Services in Munich. Previously I
 
 </div>
 </div>
-
-
