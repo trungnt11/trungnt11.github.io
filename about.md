@@ -3,6 +3,8 @@ layout: page
 title: About
 ---
 
+<div class="well">
+
 # About Me
 
 <div class="row">
@@ -19,5 +21,6 @@ I currently work at OmegaLambdaTec Data Science Services in Munich. Previously I
 
 ![me](/images/about/me.jpg)
 
+</div>
 </div>
 </div>
