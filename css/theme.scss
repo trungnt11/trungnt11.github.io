@@ -15,10 +15,11 @@
 
 body {
   color: #242121;
-  background-color: #F1F1F1;
+  //background-color: #F1F1F1;
+  background-color: #FFF;
   font-family: "Source Sans Pro",Verdana,sans-serif; 
   font-weight: 300;
-  background-image: url(./textures/brilliant.png);
+  //background-image: url(./textures/brilliant.png);
   font-size: 21px;
 }
 
@@ -41,7 +42,7 @@ h2 {
   font-size: 1.6em;
 }
 h3 {
-	margin-top: 30px;
+	margin-top: 40px;
   margin-bottom: 20px;
   font-size: 1.4em;
 }
@@ -135,7 +136,7 @@ td, th {
 }
 
 .container {
-    max-width: 1100px;
+    max-width: 900px;
 }
 
 //*******************************************************
