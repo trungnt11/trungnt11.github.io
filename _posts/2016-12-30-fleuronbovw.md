@@ -3,7 +3,7 @@ layout: post
 title: "SIFTing Images"
 date: 2016-12-30
 comments: false
-tags: python machine-learning computer-vision opencv bovw
+tags: python machine-learning computer-vision opencv
 ---
 
 
