@@ -1,6 +1,6 @@
 ---
 layout: tagpage
-title: "Tag: c++"
-tag: c++
+title: "Tag: clojure"
+tag: clojure
 robots: noindex
 ---

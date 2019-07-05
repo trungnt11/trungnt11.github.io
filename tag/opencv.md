@@ -1,6 +1,6 @@
 ---
 layout: tagpage
-title: "Tag: c++"
-tag: c++
+title: "Tag: opencv"
+tag: opencv
 robots: noindex
 ---

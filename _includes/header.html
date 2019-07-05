@@ -1,5 +1,9 @@
 <html lang="en">
 
+{% if site.tags != "" %}
+  {% include collecttags.html %}
+{% endif %}
+
 <head>
   <link rel="icon" type="image/x-icon" href="/misc/favicon-32x32.ico" sizes="32x32" />
   <link rel="icon" type="image/x-icon" href="/misc/favicon-16x16.ico" sizes="16x16" />

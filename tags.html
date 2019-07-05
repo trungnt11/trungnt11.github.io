@@ -6,10 +6,18 @@ title: Tags
 <div class="page-content wc-container">
 	<div class="post">
 		<h1>Tags</h1>  
-		<ul>
+		{% capture temptags %}
 			{% for tag in site.tags %}
-			<li><a href="{{site.baseurl}}/tag/{{ tag[0] }}">{{ tag[0] }}</a></li>
+				{{ tag[1].size | plus: 1000 }}#{{ tag[0] }}#{{ tag[1].size }}
 			{% endfor %}
-		</ul>
+		{% endcapture %}
+		{% assign sortedtemptags = temptags | split:' ' | sort | reverse %}
+		{% for temptag in sortedtemptags %}
+			{% assign tagitems = temptag | split: '#' %}
+			{% capture tagname %}{{ tagitems[1] }}{% endcapture %}
+			{% capture tagsize %}{{ tagitems[2] }}{% endcapture %}
+				<p></p><a href="/tag/{{ tagname }}"><code class="highligher-rouge"><nobr>{{ tagname }} ({{ tagsize }})</nobr></code></a></p>
+		{% endfor %}
 	</div>
 </div>
+
