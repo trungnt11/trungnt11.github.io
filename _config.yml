@@ -29,7 +29,7 @@ yandex_metrika:
 # Set this to your disqus shortname to enable comments. Note that the 'comments'
 # setting below must also be true. Individual posts can override 'comments' to
 # disable on a post-by-post basis
-disqus: jimypbr
+disqus: jimypbr-github-io
 comments: true
 
 permalink: /:year/:month/:title
