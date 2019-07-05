@@ -2,7 +2,7 @@
 layout: post
 title: "Polymorphism in Clojure: A Tutorial Using Numbers (2/3)"
 date: 2016-11-22
-comments: false
+comments: true 
 tags: clojure polymorphism functional-programming
 ---
 
