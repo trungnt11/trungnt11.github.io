@@ -7,10 +7,9 @@
         <div class="col-md-12">
           <div class="article">
             <div class="">
-              <h1><a href="{{ site.baseurl }}{{ page.url }}">{{ page.title }}</a></h1>
+              <h1 class="post-title"><a href="{{ site.baseurl }}{{ page.url }}">{{ page.title }}</a></h1>
               <div class="post-meta">
                 <div class="post-time">
-                  <!-- <i class="fa fa-calendar"></i> -->
                   <time>{{ page.date | date_to_string }}</time>
                 </div>
                 <ul>
@@ -32,11 +31,6 @@
             </div>
           </div>
         </div>
-        <!--
-        <div class="col-md-3 hidden-xs">
-          {% include sidebar.html %}
-		</div>
-		-->
       </div>
 	  {% include disqus-comments.html %}
     </div>
