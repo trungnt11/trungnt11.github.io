@@ -72,6 +72,7 @@ This histogram can be interpreted as a vector in some high dimensional space, an
 $$
 v_i = [n(w_1,i), n(w_2,i), ..., n(w_D, i)] 
 $$
+
 Where $n(w)$ counts the number of occurrences of word $w$. The distance between these two vectors (e.g. L2, cosine, etc) can therefore be used as a proxy for the __similarity__ of the two documents. If everything is working well, then a low distance will indicate high similarity and a large distance will represent a high dissimilarity. With this representation we are able to throw machine learning algorithms at the data or do document retrieval. 
 
 BoVW is exactly the same method except that instead of using actual words it uses 'visual words' extracted from the images. Visual words basically take the form of 'iconic' patches or fragments of an image. 
