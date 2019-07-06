@@ -4,8 +4,15 @@ title: "Polymorphism in Clojure: A Tutorial Using Numbers (1/3)"
 date: 2016-11-21
 comments: true 
 tags: clojure polymorphism functional-programming
+featured_image: clojure/Clojure_logo.svg
+description: "Through the years of use of conventional programming languages such as Python and C++, my thinking about programming was trapped within the Object Oriented model of these languages. When it came to solving a new problem my thinking would be dictated by how those languages wanted me to think and I was blind to any better way. It wasn't until I came across the 80s classic 'Structure and Interpretation of Computer Programs' (SICP) and the programming language Clojure that I started to see past thought models I had learned. One of the parts that was a real light-bulb moment for me was the chapter on 'Data-directed programming'. This chapter provides the clearest explanation of the problem of Polymorphism I've ever read. 
+<br><br>
+This three part series of blog posts is a tutorial on how Clojure tackles the problem of polymorphism by implementing the Number system from SICP in Clojure using its protocols and multiple dispatch features. The Number system has exactly the right level of complexity to require the use of all of Clojure's features for polymorphism.
+<br>
+In Part 1, I implement Complex Numbers with two different representations, and show how to abstract away the difference using Protocols. In the end we end up with a system that can add, divide, and multiply complex numbers regardless of their internal representation."
 ---
 
+![Clojure rules!](/images/clojure/Clojure_logo.svg)
 
 _This post is composed of 3 parts: Part 1, [Part 2]({% post_url 2016-11-22-polyclojure2 %}), [Part 3]({% post_url 2016-11-23-polyclojure3 %})_
 

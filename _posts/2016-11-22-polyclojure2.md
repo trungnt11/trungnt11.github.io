@@ -4,7 +4,14 @@ title: "Polymorphism in Clojure: A Tutorial Using Numbers (2/3)"
 date: 2016-11-22
 comments: true 
 tags: clojure polymorphism functional-programming
+featured_image: clojure/sicp.jpg
+description: "
+This three part series of blog posts is a tutorial on how Clojure tackles the problem of polymorphism by implementing the Number system from SICP in Clojure using its protocols and multiple dispatch features. The Number system has exactly the right level of complexity to require the use of all of Clojure's features for polymorphism.
+<br>
+In Part 2 I extend the system to have more number types and introduce Multiple Dispatch so that there is a common language for performing arithmetic operations on all the number types."
 ---
+
+![SICP is super!](/images/clojure/sicp.jpg)
 
 _This post is composed of 3 parts: [Part 1]({% post_url 2016-11-21-polyclojure1 %}), Part 2, [Part 3]({% post_url 2016-11-23-polyclojure3 %})_
 

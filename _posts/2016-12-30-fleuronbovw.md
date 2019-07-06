@@ -4,7 +4,8 @@ title: "SIFTing Images"
 date: 2016-12-30
 comments: true 
 tags: python machine-learning computer-vision opencv
-description: "In this post I describe my work on extracting and filtering printers' ornaments from digitized 18th century documents in Fleuron project at the University of Cambridge in 2016. I used computer vision and machine learning."
+featured_image: fleuron/headpiece.png
+description: "In this post I describe my work on extracting and filtering printers' ornaments from digitized 18th century documents in Fleuron project at the University of Cambridge in 2016. I used techniques from computer vision and machine learning to accomplish my goals."
 ---
 
 

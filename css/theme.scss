@@ -231,6 +231,28 @@ ul.social-media {
 }
 
 //*******************************************************
+//                    Landing Page
+//*******************************************************
+div.post-preview {
+  border-bottom: 1px solid #f3f3f3;
+  border-width: 2px 0;
+  margin: 0 0 20px;
+  //padding-bottom: 30px;
+  margin-bottom: 60px;
+
+  a.btn {
+    background-color: #da4643;
+    color: #fff;
+    font-size: 18px;
+    margin-top: 20px;
+    margin-bottom: 30px;
+  }
+  img.featured-image {
+    padding-bottom: 30px;
+  }
+}
+
+//*******************************************************
 //                    Post
 //*******************************************************
 h3.post-title {
