@@ -463,27 +463,6 @@ nav.navbar {
 	font-weight: inherit;
 }
 
-h2:before {
-    content: "# ";
-    font-weight: bold;
-    color: #DDD;
-}
-h3:before {
-    content: "## ";
-    font-weight: bold;
-    color: #DDD;
-}
-
-h4:before {
-    content: "### ";
-    font-weight: bold;
-    color: #DDD;
-}
-
-#blog-archive:before {
-	content: "";
-}
-
 img
 {
     margin: 0 auto;
