@@ -5,6 +5,7 @@ date: 2019-07-13
 tags: deep-learning machine-learning fastai tutorial
 description: "A deeper dive into fast.ai Lesson 2: SGD from Scratch."
 featured_image: fastai/image-20190713170857047.png
+comments: true
 ---
 
 
