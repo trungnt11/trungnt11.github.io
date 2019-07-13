@@ -10,7 +10,7 @@ featured_image: fastai/image-20190713170857047.png
 
 
 
-In post I explore Stochastic Gradient Descent (SGD) which is an **optimization** method commonly used in neural networks. This continues Lesson 2 of fast.ai on Stochastic Gradient Descent (SGD).  I will copy from the fast.ai notebook on SGD and dig deeper into the what's going on there.
+In this post I explore Stochastic Gradient Descent (SGD) which is an **optimization** method commonly used in neural networks. This continues Lesson 2 of fast.ai on Stochastic Gradient Descent (SGD).  I will copy from the fast.ai notebook on SGD and dig deeper into the what's going on there.
 
 
 
@@ -20,17 +20,19 @@ We will start with the simplest model - the Linear model. Mathematically this is
 $$
 \vec{y} = X \vec{a} + \vec{b}
 $$
-Where $X$ is a matrix where each of the rows is a data point, $\vec{a}$ is the vector of model weights, and $\vec{b}$ is a bias vector. We can however make this more compact by combining the bias inside of the model weights and adding an extra column to $X$ with all values set to one. These are represented in Pytorch as 'tensors'.
+Where $X$ is a matrix where each of the rows is a data point, $\vec{a}$ is the vector of model weights, and $\vec{b}$ is a bias vector. In the 1D case, these would correspond to the familiar 'slope' and 'intercept' of a line. We can make this more compact by combining the bias inside of the model weights and adding an extra column to $X$ with all values set to one. These are represented in Pytorch as __tensors__.
 
-In Pytorch, a `tensor` is a data structure that encompasses arrays of any dimension. A vector is a tensor of rank 1, while a matrix is a tensor of rank 2. In PyTorch $X$ is:
+In Pytorch, a `tensor` is a data structure that encompasses arrays of any dimension. A vector is a tensor of rank 1, while a matrix is a tensor of rank 2. For simplicity we will stick to the case of a 1D linear model. In PyTorch $X$ would then be:
 
 ```python
 n=100
-x = torch.ones(n,2) 
+x = torch.ones(n,2)
 x[:,0].uniform_(-1.,1)
 ```
 
-The first 5 values look like:
+The model has two parameters and there are `n=100` datapoints. `x` therefore has shape `(100, 2)`. The `.uniform_(-1., 1)` generates floating point numbers between -1 and 1. The trailing `_` is PyTorch convention that the function operates _inplace_. 
+
+Let's look at the first 5 values of `x`:
 
 ```python
 > x[:5]
@@ -41,14 +43,16 @@ tensor([[ 0.7893,  1.0000],
         [ 0.0080,  1.0000]])
 ```
 
-Notice how the second column is all 1s, this is the bias. For the model weights, $a$, we set the true values to gradient=3 and intersection=10:
+Notice how the second column is all 1s - this is the bias. 
+
+We'll now set the true values for the model weights, $a$,  to slope=3 and intersection=10:
 
 ```python
 a = tensor(3.,10)
 a_true = a
 ```
 
-We can now generate some fake data using the `x` values and some small normally distributed random noise:
+With `x` and `a` set we can now generate some fake data with some small normally distributed random noise:
 
 ```python
 y = x@a + torch.randn(n) * 0.6
@@ -56,7 +60,9 @@ y = x@a + torch.randn(n) * 0.6
 
 ![image-20190711224405542](/images/fastai/image-20190711224405542.png)
 
-We want to find **parameters** (weights) `a` such that they minimize the *error* between the points and the line `x@a`. Note that here `a` is unknown. For a regression problem the most common *error function* or *loss function* is the **mean squared error**. In python this function:
+### Loss Function
+
+We want to find **parameters** (weights) `a` such that they minimize the *error* between the points and the line `x@a`. Note that here `a` is unknown. For a regression problem the most common *error function* or *loss function* is the **mean squared error**. In python this function is:
 
 ```python
 def mse(y_hat, y): 
@@ -85,7 +91,7 @@ So far we have specified the *model* (linear regression) and the *evaluation cri
 
 ## Gradient Descent
 
-We would like to find the values of `a` that minimize `mse_loss`. **Gradient descent** is an algorithm that minimizes functions. Given a function defined by a set of parameters, gradient descent starts with an initial set of parameter values and iteratively moves toward a set of parameter values that minimize the function. This iterative minimization is achieved by taking steps in the negative direction of the function gradient. Here is gradient descent implemented in PyTorch:
+We would like to find the values of `a` that minimize `mse_loss`. **Gradient descent** is an algorithm that minimizes functions. Given a function defined by a set of parameters, gradient descent starts with an initial set of parameter values and iteratively moves toward a set of parameter values that minimize the function. This iterative minimization is achieved by taking steps in the negative direction of the _function gradient_. Here is gradient descent implemented in PyTorch:
 
 ```python
 a = nn.Parameter(a)
@@ -109,7 +115,7 @@ We are going to create a loop. We're going to loop through 100 times, and we're 
 - Calculate `y_hat` (i.e. our prediction)
 - Calculate loss (i.e. our mean squared error)
 - __Calculate the gradient__. In PyTorch, calculating the gradient is done by using a method called `backward`. Mean squared error was just a simple standard mathematical function. PyTorch keeps track of how it was calculated and lets us automatically calculate the derivative. So if you do a mathematical operation on a tensor in PyTorch, you can call `backward` to calculate the derivative and the derivative gets stuck inside an attribute called `.grad`.
-- Then take the weights `a` and subtract the gradient from them (`sub_`). There is an underscore there because that's going to do it in-place. It's going to actually update those coefficients `a` to subtract the gradients from them. Why do we subtract? Because the gradient tells us if I move the whole thing downwards, the loss goes up. If I move the whole thing upwards, the loss goes down. So I want to do the opposite of the thing that makes it go up. We want our loss to be small. That's why we subtract.
+- Then take the weights `a` and subtract the gradient from them (`sub_`). There is an underscore there because that's going to do it in-place. It's going to actually update those coefficients `a` to subtract the gradients from them. Why do we subtract? Because the gradient tells us if the whole thing moves downwards, the loss goes up. If the whole thing moves upwards, the loss goes down. So we want to do the opposite of the thing that makes it go up. We want our loss to be small. That's why we subtract.
 - `lr` is our learning rate. All it is is the thing that we multiply by the gradient.
 
 
