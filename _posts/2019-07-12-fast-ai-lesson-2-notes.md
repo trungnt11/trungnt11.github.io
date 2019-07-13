@@ -2,7 +2,7 @@
 layout: post
 title: Fast.ai Lesson 2 Notes
 date: 2019-07-12
-tags: deep-learning machine-learning
+tags: deep-learning machine-learning fastai
 description: My personal notes on Lesson 2 of part 1 of fast.ai (2019) -- <b>Data cleaning and production; SGD from scratch</b>. 
 featured_image: fastai/image-20190706182251357.png
 ---
@@ -11,6 +11,8 @@ featured_image: fastai/image-20190706182251357.png
 
 
 ![image-20190706182251357](/images/fastai/image-20190706182251357.png)
+
+_[Link to Lesson 2 lecture](https://course.fast.ai/videos/?lesson=2)_
 
 ## Download Your Own Image Data
 
@@ -43,8 +45,9 @@ Following the steps from Lesson 1:
 
    ```python
    np.random.seed(42) # fix seed for to get same validation set
-   data = ImageDataBunch.from_folder(path, train='.', valid_pct=0.2,
-   					ds_tfms=get_transforms(), size=224, num_workers=4).normalize(imagenet_stats)
+   data = ImageDataBunch.from_folder(path, train='.', valid_pct=0.2, 
+                                     ds_tfms=get_transforms(), size=224, 
+                                     num_workers=4).normalize(imagenet_stats)
    ```
 
 2. Create the CNN learner and specify the architecture:
@@ -215,10 +218,6 @@ This part kind of outgrew this blog post so I have spun this out into its own bl
 
 
 
-![gd-1e-1](/images/fastai/line_gd_1e-1.gif)
-
-
-
 ## Jeremy Says...
 
 1. If forum posts are overwhelming, click “summarize this topic” at the bottom of the first post. (Only works for >50 replies).
@@ -248,6 +247,21 @@ This part kind of outgrew this blog post so I have spun this out into its own bl
 
   
 
+## Links
 
-- https://towardsdatascience.com/understanding-pytorch-with-an-example-a-step-by-step-tutorial-81fc5f8c4e8e
+- [Detailed lesson notes](https://github.com/hiromis/notes/blob/master/Lesson2.md) - thanks to @hiromi
+- This is an in-depth tutorial on PyTorch: <https://towardsdatascience.com/understanding-pytorch-with-an-example-a-step-by-step-tutorial-81fc5f8c4e8e>
 
+- [How (and why) to create a good validation set](https://www.fast.ai/2017/11/13/validation-sets/) by @rachel
+
+- [There's no such thing as "not a math person"](https://www.youtube.com/watch?v=q6DGVGJ1WP4) by @rachel
+
+- [Responder](https://github.com/kennethreitz/responder) - a web app framework built on top of Starlette
+
+- Post about an [alternative image downloader/cleaner](https://www.christianwerner.net/tech/Build-your-image-dataset-faster/) by @cwerner
+
+- [A tool for excluding irrelevant images from Google Image Search results](https://forums.fast.ai/t/tool-for-deleting-files-on-the-google-image-search-page-before-downloading/28900) by @melonkernel
+
+- [Machine Learning is Fun](https://medium.com/@ageitgey/machine-learning-is-fun-part-3-deep-learning-and-convolutional-neural-networks-f40359318721) - source of image/number GIF animation shown in lesson
+
+- [A systematic study of the class imbalance problem in convolutional neural networks](https://arxiv.org/abs/1710.05381), mentioned by Jeremy as a way to solve imbalanced datasets.

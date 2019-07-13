@@ -2,7 +2,7 @@
 layout: post
 title: Fast.ai Lesson 1 Notes
 date: 2019-07-06
-tags: deep-learning machine-learning
+tags: deep-learning machine-learning fastai
 description: My personal notes on Lesson 1 of part 1 of fast.ai (2019) -- <b>Image classification</b>. 
 featured_image: fastai/image-20190706182251357.png
 ---
@@ -11,6 +11,8 @@ featured_image: fastai/image-20190706182251357.png
 
 
 ![image-20190706182251357](/images/fastai/image-20190706182251357.png)
+
+_[Link to Lesson 1 lecture](https://course.fast.ai/videos/?lesson=1)_
 
 ##  Task 1 - World Class Image Classifier
 
@@ -127,6 +129,9 @@ featured_image: fastai/image-20190706182251357.png
 
 ## Links
 
+- [Detailed lesson notes](https://github.com/hiromis/notes/blob/master/Lesson1.md) - thanks to @hiromi
 - [Stanford DAWN Deep Learning Benchmark (DAWNBench) ·](https://dawn.cs.stanford.edu/benchmark/)
 - [[1311.2901] Visualizing and Understanding Convolutional Networks](https://arxiv.org/abs/1311.2901)
 - [Another data science student's blog – The 1cycle policy](https://sgugger.github.io/the-1cycle-policy.html)
+- [Learning Rate Finder Paper](https://arxiv.org/pdf/1506.01186.pdf)
+

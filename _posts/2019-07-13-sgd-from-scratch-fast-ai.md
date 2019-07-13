@@ -2,7 +2,7 @@
 layout: post
 title: SGD From Scratch (fast.ai)
 date: 2019-07-13
-tags: deep-learning machine-learning tutorial
+tags: deep-learning machine-learning fastai tutorial
 description: "A deeper dive into fast.ai Lesson 2: SGD from Scratch."
 featured_image: fastai/image-20190713170857047.png
 ---
@@ -10,7 +10,7 @@ featured_image: fastai/image-20190713170857047.png
 
 
 
-In this post I explore Stochastic Gradient Descent (SGD) which is an **optimization** method commonly used in neural networks. This continues Lesson 2 of fast.ai on Stochastic Gradient Descent (SGD).  I will copy from the fast.ai notebook on SGD and dig deeper into the what's going on there.
+In this post I explore Stochastic Gradient Descent (SGD) which is an **optimization** method commonly used in neural networks. This continues Lesson 2 of fast.ai on Stochastic Gradient Descent (SGD).  I will copy from the [fast.ai notebook on SGD](https://github.com/fastai/course-v3/blob/master/nbs/dl1/lesson2-sgd.ipynb) and dig deeper into the what's going on there.
 
 
 
@@ -66,7 +66,7 @@ We want to find **parameters** (weights) `a` such that they minimize the *error*
 
 ```python
 def mse(y_hat, y): 
-		return ((y_hat-y)**2).mean()
+    return ((y_hat-y)**2).mean()
 ```
 
 Where `y` is the true value and `y_hat` is the predicted value.
