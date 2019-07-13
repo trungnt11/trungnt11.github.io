@@ -202,6 +202,6 @@ However with increasing batch size the jitter gets less and less. At batch size 
 
 ##  References
 
-- FastAI Lesson 2 lecture: https://course.fast.ai/videos/?lesson=2
-- FastAI Lesson 2 notes: https://github.com/hiromis/notes/blob/master/Lesson2.md
-- FastAI SGD from Scratch notebook: https://github.com/fastai/course-v3/blob/master/nbs/dl1/lesson2-sgd.ipynb
+- FastAI Lesson 2 lecture: <https://course.fast.ai/videos/?lesson=2>
+- FastAI Lesson 2 notes: <https://github.com/hiromis/notes/blob/master/Lesson2.md>
+- FastAI SGD from Scratch notebook: <https://github.com/fastai/course-v3/blob/master/nbs/dl1/lesson2-sgd.ipynb>
