@@ -18,9 +18,13 @@ In this post I explore Stochastic Gradient Descent (SGD) which is an **optimizat
 ## Linear Regression
 
 We will start with the simplest model - the Linear model. Mathematically this is represented as:
+
+
 $$
 \vec{y} = X \vec{a} + \vec{b}
 $$
+
+
 Where $X$ is a matrix where each of the rows is a data point, $\vec{a}$ is the vector of model weights, and $\vec{b}$ is a bias vector. In the 1D case, these would correspond to the familiar 'slope' and 'intercept' of a line. We can make this more compact by combining the bias inside of the model weights and adding an extra column to $X$ with all values set to one. These are represented in Pytorch as __tensors__.
 
 In Pytorch, a `tensor` is a data structure that encompasses arrays of any dimension. A vector is a tensor of rank 1, while a matrix is a tensor of rank 2. For simplicity we will stick to the case of a 1D linear model. In PyTorch $X$ would then be:
