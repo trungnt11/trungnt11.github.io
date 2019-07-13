@@ -17,14 +17,14 @@ body {
   color: #242121;
   //background-color: #F1F1F1;
   background-color: #FFF;
-  font-family: "Source Sans Pro",Verdana,sans-serif; 
+  font-family: Source Sans Pro,Verdana,sans-serif; 
   font-weight: 300;
   //background-image: url(./textures/brilliant.png);
   font-size: 21px;
 }
 
 h1, h2, h3, h4, h5 {
-  font-family: "Lato", sans-serif;
+  font-family: Lato, sans-serif;
   font-weight: 400;
   color: #444444;
   margin-top: 40px;
@@ -39,7 +39,7 @@ h1 {
 h1.post-title {
 	margin-top: 15px;
   margin-bottom: 20px;
-  font-size: 3.0em;
+  font-size: 2.8em;
 }
 h2 {
 	margin-top: 50px;
@@ -127,17 +127,27 @@ img {
 }
 
 table, th, tb {
-    border: 1px solid black;
+    border: 1px solid #777;
     padding: 20px;
-    margin-bottom: 20px;
-    margin-top: 20px;
+}
+
+table {
+    margin-bottom: 40px;
+    margin-top: 40px;
+    margin-left:auto; 
+    margin-right:auto;
+    width: 90%;
+    font-size: 21px;
 }
 
 td, th {
+    margin-bottom: 20px;
+    margin-top: 20px;
     padding: 3;
     padding-left: 10px;
     padding-right: 10px;
-    border-right: 1px solid black;
+    border-right: 1px solid #777;
+    border-bottom: 1px solid #777;
 }
 
 .container {
