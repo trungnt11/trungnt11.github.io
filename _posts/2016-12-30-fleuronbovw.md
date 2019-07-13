@@ -188,7 +188,11 @@ def create_descriptor_bag(filelist):
 def main():
     h5f = tables.openFile('/scratch/ECCO/rootsift_vectors_50k.hdf', 'w')
     atom = tables.Atom.from_dtype(np.dtype('Float32'))
-    ds = h5f.createEArray(h5f.root, 'descriptors', atom, shape=(0, 128), expectedrows=1000000)
+    ds = h5f.createEArray(h5f.root, 
+                          'descriptors', 
+                          atom, 
+                          shape=(0, 128), 
+                          expectedrows=1000000)
 
     PATH = '/home/jb914/ECCO_dict/random50k/'
     all_files = glob.glob(os.path.join(PATH, '*.png'))
@@ -245,7 +249,9 @@ def main(n_clusters, chunk=0, n_chunks=32, checkpoint_file=None):
     if checkpoint_file:
         mbkm = pickle.load(open(checkpoint_file, 'r'))
     else:
-        mbkm = MiniBatchKMeans(n_clusters=c, batch_size=10000, init_size=30000, init='random', compute_labels=False)
+        mbkm = MiniBatchKMeans(n_clusters=c, batch_size=10000, 
+                               init_size=30000, init='random', 
+                               compute_labels=False)
 
     step = shape[0] / n_chunks
     start_i = chunk*step
@@ -256,7 +262,7 @@ def main(n_clusters, chunk=0, n_chunks=32, checkpoint_file=None):
 
         t0 = time()
         mbkm.partial_fit(X)
-        print('\t ({} of {}) Time taken: {}'.format(chunk, n_chunks, time() - t0))
+        print('\t ({} of {}) Time taken: {}'.format(chunk, n_chunks, time()-t0))
         chunk += 1
         pickle.dump(mbkm, open('chkpt_{}.p'.format(n_clusters), 'w'))
 
