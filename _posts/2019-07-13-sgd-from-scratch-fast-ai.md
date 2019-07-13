@@ -2,7 +2,7 @@
 layout: post
 title: SGD From Scratch (fast.ai)
 date: 2019-07-13
-tags: deep-learning machine-learning
+tags: deep-learning machine-learning tutorial
 description: "A deeper dive into fast.ai Lesson 2: SGD from Scratch."
 featured_image: fastai/image-20190713170857047.png
 ---
