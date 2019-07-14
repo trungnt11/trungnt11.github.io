@@ -14,6 +14,14 @@ featured_image: fastai/image-20190706182251357.png
 
 _[Link to Lesson 2 lecture](https://course.fast.ai/videos/?lesson=2)_
 
+## Overview of Lesson
+
+This lesson has two parts. The first part is about constructing a image classifier from your own data. It details data collection from Google images, creating a validation set, and cleaning the data using the model. 
+
+In the second part, we construct a simple linear model from scratch in PyTorch and train it using _gradient descent_ and _stochastic gradient descent_. That part got quite lengthy so I made it its own blog post [here]({% post_url 2019-07-13-sgd-from-scratch-fast-ai %}).
+
+
+
 ## Download Your Own Image Data
 
 There is a trick to downloading data from google images. You can do the search manually for the images, then run some javascript magic to get the URLs for the images. You can then save these in a file and then download them from the command line.
@@ -214,7 +222,7 @@ Dropout is _turned on_ while training and _turned off_ in the validation. If the
 
 ## SGD From Scratch
 
-This part kind of outgrew this blog post so I have spun this out into its own blog post here.
+This part kind of outgrew this blog post so I have spun this out into its own blog post [here]({% post_url 2019-07-13-sgd-from-scratch-fast-ai %}).
 
 
 
@@ -247,9 +255,9 @@ This part kind of outgrew this blog post so I have spun this out into its own bl
 
   
 
-## Links
+## Links and References
 
-- [Detailed lesson notes](https://github.com/hiromis/notes/blob/master/Lesson2.md) - thanks to @hiromi
+- Parts of my notes have been copied from the excellent lecture transcriptions made by @hiromi. Link: [Lesson2 Detailed Notes](https://github.com/hiromis/notes/blob/master/Lesson2.md).
 - This is an in-depth tutorial on PyTorch: <https://towardsdatascience.com/understanding-pytorch-with-an-example-a-step-by-step-tutorial-81fc5f8c4e8e>
 
 - [How (and why) to create a good validation set](https://www.fast.ai/2017/11/13/validation-sets/) by @rachel
