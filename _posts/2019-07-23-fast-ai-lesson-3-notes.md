@@ -11,11 +11,6 @@ featured_image: fastai/image-20190706182251357.png
 ![image-20190706182251357](/images/fastai/image-20190706182251357.png)
 
 
-## Table of Contents
-
-* TOC
-{:toc}
-
 ## Overview of Lesson
 
 This lesson firstly dives deeper in to fastai's approach to loading data for deep learning: the _data block API_; and secondly goes into more advanced problems beyond classification that you can solve with deep learning and the fastai library. Namely:
@@ -26,6 +21,18 @@ This lesson firstly dives deeper in to fastai's approach to loading data for dee
 - Text Classification (IMDB dataset)
 
 The lesson ends with a brief look at the fundamentals of deep learning: non-linearity and the Universal Approximation theorem.
+
+
+<div class="row">
+<div class="col-md-6" id="mdtoc">
+
+__Table of Contents__
+
+* TOC
+{:toc}
+
+</div>
+</div>
 
 ## DataBlock API
 
