@@ -401,7 +401,7 @@ So the prediction of how a user would rate a movie would be the dot product of t
 
 The rating of the movie is then calculated using a sigmoid function with a range of 0 to 5 stars.
 
-![image-20190804221659921](/images/fastai/image-20190804221659921.png)
+![image-20190829135757194](/images/fastai/image-20190829135757194.png)
 
 In fastai the code to do this is:
 
