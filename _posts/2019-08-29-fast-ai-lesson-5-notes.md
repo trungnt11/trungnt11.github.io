@@ -253,7 +253,7 @@ This divided by 3 thing that is a little weird and we won’t talk about why tha
 
 ## Links and References
 
-- Lesson video: https://course.fast.ai/videos/?lesson=5
+- Lesson video: [Lesson 5](https://course.fast.ai/videos/?lesson=5)
 - Parts of my notes were copied from the excellent lecture transcriptions made by @PoonamV: [Lecture notes](https://forums.fast.ai/t/deep-learning-lesson-5-notes/31298)
 - Lesson 5 homework 1: [SGD and MNIST](https://nbviewer.jupyter.org/github/fastai/course-v3/blob/master/nbs/dl1/lesson5-sgd-mnist.ipynb)
 - Lesson 5 homework 2: [Rossmann (tabular data)](https://nbviewer.jupyter.org/github/fastai/course-v3/blob/master/nbs/dl1/lesson5-rossmann.ipynb)
