@@ -395,6 +395,8 @@ First you choose some number of factors $N_f$. This is the size of the embedding
 - User embedding matrix of size $(N_u, N_f)$
 - Movie embedding matrix of size $(N_m, N_f)$
 
+_Note that the sizes of the embeddings for the users and movies, $N_f$, have to be the same because we are taking a dot product of them._
+
 You can also add _biases_. Maybe some users just really like movies a lot more than other users. Maybe there are certain movies that everybody just likes. So in addition to the matrices you can add a single movie for how much a user likes movies, and a single number for how popular a movie is.
 
 So the prediction of how a user would rate a movie would be the dot product of the vector from the user embedding matrix with the vector from the movie embedding matrix, plus the bias for the user and the bias for the movie. This intuitively makes sense - you have the embedded model of how users like different movies (embedding model), and then the individual characteristics of that particular user and that particular film (bias). 
