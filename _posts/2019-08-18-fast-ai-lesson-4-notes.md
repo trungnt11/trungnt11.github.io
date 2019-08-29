@@ -419,6 +419,34 @@ learn.fit_one_cycle(3, 5e-3)
 
 
 
+What does the model look like?
+
+```python
+$> learn.model
+
+  EmbeddingDotBias(
+    (u_weight): Embedding(101, 50)
+    (i_weight): Embedding(101, 50)
+    (u_bias): Embedding(101, 1)
+    (i_bias): Embedding(101, 1)
+  )
+```
+
+In this dataset there are 100 movies and 100 users. The inputs to the embedding layers are of size 101. This is because fastai adds in a 'null' category. You can see this in the `CollabDataBunch` object:
+
+```python
+$> data.train_ds.x.classes
+
+  OrderedDict([('userId',
+                array(['#na#', '15', '17', '19', ..., '652', '654', '664', '665'], dtype='<U21')),
+               ('movieId',
+                array(['#na#', '1', '10', '32', ..., '6539', '7153', '8961', '58559'], dtype='<U21'))])
+```
+
+`#na#`
+
+
+
 ### Cold Start Problem
 
  If you don't have any data on your user's preferences then you can't recommend them anything. There isn't an easy solution to this; likely the only way is to have a second model which is not a collaborative filtering model but a metadata driven model for new users or new movies. A few possible approaches to tackle this problem:
