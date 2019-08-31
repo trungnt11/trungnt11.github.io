@@ -468,7 +468,7 @@ In Jeremy's opinion, to reduce model complexity:
 - In statistics: they reduce the number of parameters. Jeremy thinks this is wrong.
 - In machine learning: they increase the number of parameters, but increase the amount of _regularization_.
 
-The regularization used in fastai is L2 weight decay. This is where the loss is modified with an extra component that penalizes extreme values of the weights.
+The regularization used in fastai is __weight decay__ (aka _L2 regularization_). This is where the loss function is modified with an extra component that penalizes extreme values of the weights.
 
 - Unregularized loss:
 
