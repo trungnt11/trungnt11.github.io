@@ -497,6 +497,14 @@ The weight decay parameter $\lambda$ corresponds to the fastai parameter to the 
 
 
 
+With weight decay the update formula for the weights in gradient descent becomes:
+$$
+w_t = w_{t-1} - lr \times \frac{\partial L}{\partial w_{t-1}} - lr\times \lambda w_{t-1}
+$$
+([Source](https://stats.stackexchange.com/questions/29130/difference-between-neural-net-weight-decay-and-learning-rate))
+
+
+
 ## Jeremy Says...
 
 1. The answer to the question “Should I try *blah*?” is to try *blah* and see, that’s how you become a good practitioner. [Lesson 5: Should I try *blah*?](https://youtu.be/CJKnDu2dxOE?t=2800)
