@@ -90,6 +90,10 @@ After the loss has been calculated from the different between the output and the
 
 In PyTorch, these derivatives are calculated automatically for you (aka _autograd_) and the gradient of any PyTorch variable is stored in its `.grad` attribute.
 
+Mathematically the weights are updated like so:
+$$
+w_t = w_{t-1} - lr \times \frac{\partial L}{\partial w_{t-1}}
+$$
 
 
 ### How is Transfer Learning Done?
@@ -225,11 +229,280 @@ This divided by 3 thing that is a little weird and we won’t talk about why tha
 
 
 
+
+
+## Collaborative Filtering: Deep Dive
+
+Recall from the previous lesson the movie recommendation problem.
+
+![image-20190829135757194](/images/fastai/image-20190829135757194.png)
+
+For the movielens dataset the model looks like:
+
+```python
+$> learn.model
+
+  EmbeddingDotBias(
+    (u_weight): Embedding(944, 40)
+    (i_weight): Embedding(1654, 40)
+    (u_bias): Embedding(944, 1)
+    (i_bias): Embedding(1654, 1)
+  )
+```
+
+
+
+We already know what `u_weight` and `i_weight` are: the user and movie embedding matrices, respectively. What are the additional components of the model: `u_bias` and `i_bias`? 
+
+
+
+### Interpreting Bias
+
+These are the 1D bias terms for the movies and films. In the model diagram above these are the two edge nodes on the left and right that connect to the `ADD` node.
+
+_Every user and every movie has its own bias term_.
+
+- You can interpret user bias as how much that user likes movies. 
+
+- You can interpret movie bias as how well liked a movie is in general. (Ironically, the bias is the _unbiased_ movie score).
+
+
+
+Here are the movies with the highest bias alongside their actual movie rating:
+
+```python
+movie_bias = learn.bias(top_movies, is_item=True)
+```
+
+Top 10:
+
+```python
+[(tensor(0.6105), "Schindler's List (1993)", 4.466442953020135),
+ (tensor(0.5817), 'Titanic (1997)', 4.2457142857142856),
+ (tensor(0.5685), 'Shawshank Redemption, The (1994)', 4.445229681978798),
+ (tensor(0.5451), 'L.A. Confidential (1997)', 4.161616161616162),
+ (tensor(0.5350), 'Rear Window (1954)', 4.3875598086124405),
+ (tensor(0.5341), 'Silence of the Lambs, The (1991)', 4.28974358974359),
+ (tensor(0.5330), 'Star Wars (1977)', 4.3584905660377355),
+ (tensor(0.5227), 'Good Will Hunting (1997)', 4.262626262626263),
+ (tensor(0.5114), 'As Good As It Gets (1997)', 4.196428571428571),
+ (tensor(0.4800), 'Casablanca (1942)', 4.45679012345679),
+ (tensor(0.4698), 'Boot, Das (1981)', 4.203980099502488),
+ (tensor(0.4589), 'Close Shave, A (1995)', 4.491071428571429),
+ (tensor(0.4567), 'Apt Pupil (1998)', 4.1),
+ (tensor(0.4566), 'Vertigo (1958)', 4.251396648044692),
+ (tensor(0.4542), 'Godfather, The (1972)', 4.283292978208232)]
+```
+
+Bottom 10:
+
+```python
+[(tensor(-0.4076),
+  'Children of the Corn: The Gathering (1996)',
+  1.3157894736842106),
+ (tensor(-0.3053),
+  'Lawnmower Man 2: Beyond Cyberspace (1996)',
+  1.7142857142857142),
+ (tensor(-0.2892), 'Cable Guy, The (1996)', 2.339622641509434),
+ (tensor(-0.2856), 'Mortal Kombat: Annihilation (1997)', 1.9534883720930232),
+ (tensor(-0.2530), 'Striptease (1996)', 2.2388059701492535),
+ (tensor(-0.2405), 'Free Willy 3: The Rescue (1997)', 1.7407407407407407),
+ (tensor(-0.2361), 'Showgirls (1995)', 1.9565217391304348),
+ (tensor(-0.2332), 'Bio-Dome (1996)', 1.903225806451613),
+ (tensor(-0.2279), 'Crow: City of Angels, The (1996)', 1.9487179487179487),
+ (tensor(-0.2273), 'Barb Wire (1996)', 1.9333333333333333),
+ (tensor(-0.2246), "McHale's Navy (1997)", 2.1884057971014492),
+ (tensor(-0.2197), 'Beverly Hills Ninja (1997)', 2.3125),
+ (tensor(-0.2178), "Joe's Apartment (1996)", 2.2444444444444445),
+ (tensor(-0.2080), 'Island of Dr. Moreau, The (1996)', 2.1578947368421053),
+ (tensor(-0.2064), 'Tales from the Hood (1995)', 2.037037037037037)]
+```
+
+Having seen many of the films in both these lists, I'm not not surprise by what I see here!
+
+
+
+### Interpreting Weights (the Embeddings)
+
+Grab the weights:
+
+```python
+$> movie_w = learn.weight(top_movies, is_item=True)
+$> movie_w.shape
+
+	torch.Size([1000, 40])
+```
+
+There are 40 factors in the model. Looking at the 40 latent factors isn't intuitive or necessarily meaningful so it's better to squish the 40 factors down to 3 - using Principle Component Analysis (PCA).
+
+```python
+$> movie_pca = movie_w.pca(3)
+$> movie_pca.shape
+	
+	torch.Size([1000, 3])
+```
+
+We can now rank each of the films along these 3 dimensions, knowing film, interpret what these dimensions mean.
+
+
+
+#### Factor 0
+
+```python
+fac0,fac1,fac2 = movie_pca.t()
+movie_comp = [(f, i) for f,i in zip(fac0, top_movies)]
+```
+
+Top 10:
+
+```python
+[(tensor(1.1000), 'Wrong Trousers, The (1993)'),
+ (tensor(1.0800), 'Close Shave, A (1995)'),
+ (tensor(1.0705), 'Casablanca (1942)'),
+ (tensor(1.0304), 'Lawrence of Arabia (1962)'),
+ (tensor(0.9957), 'Citizen Kane (1941)'),
+ (tensor(0.9792), 'Some Folks Call It a Sling Blade (1993)'),
+ (tensor(0.9778), 'Persuasion (1995)'),
+ (tensor(0.9752), 'North by Northwest (1959)'),
+ (tensor(0.9706), 'Wallace & Gromit: The Best of Aardman Animation (1996)'),
+ (tensor(0.9703), 'Chinatown (1974)')]
+```
+
+Bottom 10:
+
+```python
+[(tensor(-1.2963), 'Home Alone 3 (1997)'),
+ (tensor(-1.2210), "McHale's Navy (1997)"),
+ (tensor(-1.2199), 'Leave It to Beaver (1997)'),
+ (tensor(-1.1918), 'Jungle2Jungle (1997)'),
+ (tensor(-1.1209), 'D3: The Mighty Ducks (1996)'),
+ (tensor(-1.0980), 'Free Willy 3: The Rescue (1997)'),
+ (tensor(-1.0890), 'Children of the Corn: The Gathering (1996)'),
+ (tensor(-1.0873), 'Bio-Dome (1996)'),
+ (tensor(-1.0436), 'Mortal Kombat: Annihilation (1997)'),
+ (tensor(-1.0409), 'Grease 2 (1982)')]
+```
+
+__Interpretation__: This dimension is best described as 'connoisseur movies'.
+
+
+
+#### Factor 1
+
+Top 10:
+
+```python
+[(tensor(1.1052), 'Braveheart (1995)'),
+ (tensor(1.0759), 'Titanic (1997)'),
+ (tensor(1.0202), 'Raiders of the Lost Ark (1981)'),
+ (tensor(0.9324), 'Forrest Gump (1994)'),
+ (tensor(0.8627), 'Lion King, The (1994)'),
+ (tensor(0.8600), "It's a Wonderful Life (1946)"),
+ (tensor(0.8306), 'Pretty Woman (1990)'),
+ (tensor(0.8271), 'Return of the Jedi (1983)'),
+ (tensor(0.8211), "Mr. Holland's Opus (1995)"),
+ (tensor(0.8205), 'Field of Dreams (1989)')]
+```
+
+Bottom 10:
+
+```python
+[(tensor(-0.8085), 'Nosferatu (Nosferatu, eine Symphonie des Grauens) (1922)'),
+ (tensor(-0.8007), 'Brazil (1985)'),
+ (tensor(-0.7866), 'Trainspotting (1996)'),
+ (tensor(-0.7703), 'Ready to Wear (Pret-A-Porter) (1994)'),
+ (tensor(-0.7173), 'Beavis and Butt-head Do America (1996)'),
+ (tensor(-0.7150), 'Serial Mom (1994)'),
+ (tensor(-0.7144), 'Exotica (1994)'),
+ (tensor(-0.7129), 'Lost Highway (1997)'),
+ (tensor(-0.7094), 'Keys to Tulsa (1997)'),
+ (tensor(-0.7083), 'Jude (1996)')]
+```
+
+__Interpretation__: This dimension I think can be best described as 'blockbuster', or 'family'.
+
+
+
+#### Factor 2
+
+Top 10:
+
+```python
+[(tensor(1.0152), 'Beavis and Butt-head Do America (1996)'),
+ (tensor(0.8703), 'Reservoir Dogs (1992)'),
+ (tensor(0.8640), 'Pulp Fiction (1994)'),
+ (tensor(0.8582), 'Terminator, The (1984)'),
+ (tensor(0.8572), 'Scream (1996)'),
+ (tensor(0.8058), 'Terminator 2: Judgment Day (1991)'),
+ (tensor(0.7728), 'Seven (Se7en) (1995)'),
+ (tensor(0.7457), 'Starship Troopers (1997)'),
+ (tensor(0.7243), 'Clerks (1994)'),
+ (tensor(0.7227), 'Die Hard (1988)')]
+```
+
+Bottom 10:
+
+```python
+[(tensor(-0.6912), 'Lone Star (1996)'),
+ (tensor(-0.6720), 'Jane Eyre (1996)'),
+ (tensor(-0.6613), 'Steel (1997)'),
+ (tensor(-0.6227), 'Piano, The (1993)'),
+ (tensor(-0.6183), 'My Fair Lady (1964)'),
+ (tensor(-0.5946), 'Evita (1996)'),
+ (tensor(-0.5827), 'Home for the Holidays (1995)'),
+ (tensor(-0.5669), 'Cinema Paradiso (1988)'),
+ (tensor(-0.5668), 'All About Eve (1950)'),
+ (tensor(-0.5586), 'Sound of Music, The (1965)')]
+```
+
+
+
+## Regularization: Weight Decay
+
+![img](https://github.com/hiromis/notes/raw/master/lesson3/1.png)
+
+On the left the model isn't complex enough. One the right the model has more parameters and is too complex. The middle model has just the right level of complexity.
+
+In Jeremy's opinion, to reduce model complexity:
+
+- In statistics: they reduce the number of parameters. Jeremy thinks this is wrong.
+- In machine learning: they increase the number of parameters, but increase the amount of _regularization_.
+
+The regularization used in fastai is L2 weight decay. This is where the loss is modified with an extra component that penalizes extreme values of the weights.
+
+- Unregularized loss:
+
+$$
+\begin{align}
+	L(x, w) &= mse(\hat{y}, y) \nonumber \\
+				  &= mse(m(x, w), y) \\
+				  
+	
+\end{align}
+$$
+
+- L2 regularized loss:
+
+$$
+L(x, w) = mse(m(x,w), y) + \lambda\sum w^2 
+$$
+
+The weight decay parameter $\lambda$ corresponds to the fastai parameter to the `Learner` model: `wd` . This is set by default to 0.01. 
+
+- Higher values of `wd` give _more_ regularlization. Looking at the diagram of line fits above, more regularlization makes the line '_stiffer_' - harder to force through every point.
+
+- Lower values of `wd`, conversely, make the line '_slacker_' - it's easier to force it through every point. 
+
+- It's worth experimenting with `wd` if your model is overfitting or underfitting.
+
+
+
 ## Jeremy Says...
 
 1. The answer to the question “Should I try *blah*?” is to try *blah* and see, that’s how you become a good practitioner. [Lesson 5: Should I try *blah*?](https://youtu.be/CJKnDu2dxOE?t=2800)
 2. If you want to play around, try to create your own nn.linear class. You could create something called My_Linear and it will take you, depending on your PyTorch experience, an hour or two. We don’t want any of this to be magic and you know everything necessary to create this now. These are the things you should be doing for assignments this week, not so much new applications but trying to write more of these things from scratch and get them to work. Learn how to debug them and check them to see what’s going in and coming out. [Lesson 5 Assignment: Create your own version of nn.linear](https://youtu.be/CJKnDu2dxOE?t=5431)
 3. A great assignment would be to take Lesson 2 SGD and try to add momentum to it. Or even the new notebook we have for MNIST, get rid of the Optim.SGD and write your own update function with momentum [Lesson 5: Another suggested assignment](https://youtu.be/CJKnDu2dxOE?t=6792)
+4. It's definitely worth knowing that taking layers of neural nets and chucking them through PCA is very often a good idea. Because very often you have way more activations than you want in a layer, and there's all kinds of reasons you would might want to play with it. For example, Francisco who's sitting next to me today has been working on something to do with image similarity. And for image similarity, a nice way to do that is to compare activations from a model, but often those activations will be huge and therefore your thing could be really slow and unwieldy. So people often, for something like image similarity, will chuck it through a PCA first and that's kind of cool.
 
 ([Source - Robert Bracco](https://forums.fast.ai/t/things-jeremy-says-to-do/36682))
 
@@ -248,6 +521,10 @@ This divided by 3 thing that is a little weird and we won’t talk about why tha
 - _What is an affine function?_
 
   >An affine function is a linear function. I don’t know if we need much more detail than that. If you’re multiplying things together and adding them up, it’s an affine function. I’m not going to bother with the exact mathematical definition, partly because I’m a terrible mathematician and partly because it doesn’t matter. But if you just remember that you’re multiplying things together and then adding them up, that’s the most important thing. It’s linear. And therefore if you put an affine function on top of an affine function, that’s just another affine function. You haven’t won anything at all. That’s a total waste of time. So you need to sandwich it with any kind of non-linearity pretty much works - including replacing the negatives with zeros which we call ReLU. So if you do affine, ReLU, affine, ReLU, affine, ReLU, you have a deep neural network.
+  
+- _Why am I sometimes getting negative loss when training? [[59:49](https://youtu.be/uQtTwhpv7Ew?t=3589)]_
+
+  > You shouldn't be. So you're doing something wrong. Particularly since people are uploading this, I guess other people have seen it too, so put it on the forum. We're going to be learning about cross entropy and negative log likelihood after the break today. They are loss functions that have very specific expectations about what your input looks like. And if your input doesn't look like that, then they're going to give very weird answers, so probably you press the wrong buttons. So don't do that.
 
 
 
