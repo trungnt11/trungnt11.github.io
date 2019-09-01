@@ -321,7 +321,7 @@ Checkout the website: [http://setosa.io/ev/image-kernels/](http://setosa.io/ev/i
 
 
 
-Post from Matthew Kleinsmith: [CNNs from Different Viewpoints](https://medium.com/impactai/cnns-from-different-viewpoints-fab7f52d159c). This is a wonderfully concise explanation with great diagrams and hardly and text. The following diagrams are from that post.
+Post from Matthew Kleinsmith: [CNNs from Different Viewpoints](https://medium.com/impactai/cnns-from-different-viewpoints-fab7f52d159c). This is a wonderfully concise explanation with great diagrams and hardly any text. The following diagrams are from that post.
 
 Sliding window view:
 
@@ -347,7 +347,7 @@ We have to also consider __padding__:
 
 This diagram uses zero padding, but it could be reflection padding or whatever.
 
-So a single convolution kernel is a small matrix of weights (typical sized 3 to 7) and a bias. In a convolutional layer the same convolution is applied to every channel of input. If you take example of a colour image there the image is 3x224x224 in size. The 2d convolutional kernal will be applied to all 3 channels simultaneously and the results from all 3 is summed to produce a single number for each pixel.
+So a single convolution kernel is a small matrix of weights (typical sized 3 to 7) and a bias. In a convolutional layer the same convolution is applied to every channel of input. If you take example of a colour image there the image is 3x224x224 in size. The 2D convolutional kernal will be applied to all 3 channels simultaneously and the results from all 3 is summed to produce a single number for each pixel.
 
 ![image-20190901210249684](/images/fastai/image-20190901210249684.png)
 
@@ -528,4 +528,3 @@ I won't cover this here. Instead just watch the video, it's great: [ethics and d
 - Blog post about different kinds of [Normalization](https://arthurdouillard.com/post/normalization/).
 - [Cross-entropy loss](https://gombru.github.io/2018/05/23/cross_entropy_loss/)
 - Lecture on BackProp going deeper into how it works from A. Karpathy: [https://www.youtube.com/watch?v=i94OvYb6noo](https://www.youtube.com/watch?v=i94OvYb6noo)
-
