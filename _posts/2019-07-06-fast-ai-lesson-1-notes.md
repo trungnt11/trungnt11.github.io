@@ -92,9 +92,11 @@ __Table of Contents__
 ##  Training a Model using a Pretrained ResNet
 
 - 'ResNet' is the name of a particular kind of Convolutional Neural Network (CNN). Details of it will be covered later.
+
 - The ResNet we will use has been __pretrained__. This means that it was trained to solve another image classification problem (namely *ImageNet*) and we are reusing the learned weights of that network as a starting point for a new imaging problem.
 
 - Why ResNet and not some other architecture? From looking at benchmarks it has been found that ResNet generally 'just works well' for image tasks. (See also question in Q & A section below).
+
 - Here's how to create a CNN with the fastai library:
 
   ```python
@@ -115,19 +117,30 @@ __Table of Contents__
   
   - Sylvain explains ([source](https://sgugger.github.io/the-1cycle-policy.html)):
   
-    > He recommends to do a cycle with two steps of equal lengths, one going from a lower learning rate to a higher one than go back to the minimum. The maximum should be the value picked with the Learning Rate Finder, and the lower one can be ten times lower. Then, the length of this cycle should be slightly less than the total number of epochs, and, in the last part of training, we should allow the learning rate to decrease more than the minimum, by several orders of magnitude.
+    > He [Leslie] recommends to do a cycle with two steps of equal lengths, one going from a lower learning rate to a higher one than go back to the minimum. The maximum should be the value picked with the Learning Rate Finder, and the lower one can be ten times lower. Then, the length of this cycle should be slightly less than the total number of epochs, and, in the last part of training, we should allow the learning rate to decrease more than the minimum, by several orders of magnitude.
   
-  - The momentum also varies correspondingly:
+  - Here are plots of how the learning rate and momentum vary over the iterations (batches):
   
-    ![ef1822a7](/images/fastai/ef1822a7.png)
+    ![image-20190912170631570](/images/fastai/image-20190912170631570.png)
     
-  - When the learning rate is high we want momentum to be lower. This enables the SGD to quickly change directions and find a flatter region in parameter space.
+  - The peak of the learning rate has a value of 1x the inputted learning rate. The bottom value is 0.1x the inputted learning rate. The bottom of the momentum value is 0.85x the inputted momentum value.
+  
+  - The momentum varies contra to the learning rate. What's the intuition behind this? When the learning rate is high we want momentum to be lower. This enables the SGD to quickly change directions and find a flatter region in parameter space.
   
     
   
 - __Learning Rate Finder__
   
   - The method is basically successively increasing $\eta$ every batch using either a linear or exponential schedule and looking the loss. While $\eta$ has a good value, the loss will be decreasing. When $\eta$ gets too large the loss will start to increase. You can plot the loss versus $\eta$ and see by eye a learning rate that is largest where the loss is decreasing fastest.
+  
+  - ```
+    learn.lr_find()
+    learn.recorder.plot()
+    ```
+  
+  - ![img](https://github.com/hiromis/notes/raw/master/lesson1/11.png)
+  
+  - More on this will be covered in the next lesson.
 
 
 
