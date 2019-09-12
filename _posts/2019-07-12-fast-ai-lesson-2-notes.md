@@ -20,6 +20,16 @@ This lesson has two parts. The first part is about constructing a image classifi
 
 In the second part, we construct a simple linear model from scratch in PyTorch and train it using _gradient descent_ and _stochastic gradient descent_. That part got quite lengthy so I made it its own blog post [here]({% post_url 2019-07-13-sgd-from-scratch-fast-ai %}).
 
+<div class="row">
+<div class="col-md-6" id="mdtoc">
+
+__Table of Contents__
+
+* TOC
+{:toc}
+</div>
+</div>
+
 
 
 ## Download Your Own Image Data
