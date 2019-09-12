@@ -14,6 +14,25 @@ featured_image: fastai/image-20190706182251357.png
 
 
 
+## Overview of Lesson
+
+This is the introductory lesson to fastai part 1!
+
+The key outcome of this lesson is that we'll have trained an image classifier which can recognize pet breeds at state of the art accuracy. The key to this success is the use of *transfer learning*, which will be a key platform for much of this course. We'll also see how to analyze the model to understand its failure modes. In this case, we'll see that the places where the model is making mistakes is in the same areas that even breeding experts can make mistakes.
+
+
+<div class="row">
+<div class="col-md-6" id="mdtoc">
+
+__Table of Contents__
+
+* TOC
+{:toc}
+</div>
+</div>
+
+
+
 ##  Task 1 - World Class Image Classifier
 
 - Fastai opts to teach deep learning _backwards_ - rather than starting at the level of neurons they start with learning to use the state of the art algorithms and networks from the beginning. Learning to become a practitioner with the best practices first and then gradually learning the technical details later.  
@@ -94,7 +113,7 @@ featured_image: fastai/image-20190706182251357.png
   
   - The *One-cycle policy* is a way of training the neural network using SGD faster by varying the learning rate and solver momentum over a group of epochs.
   
-  - Sylvain explains:
+  - Sylvain explains ([source](https://sgugger.github.io/the-1cycle-policy.html)):
   
     > He recommends to do a cycle with two steps of equal lengths, one going from a lower learning rate to a higher one than go back to the minimum. The maximum should be the value picked with the Learning Rate Finder, and the lower one can be ten times lower. Then, the length of this cycle should be slightly less than the total number of epochs, and, in the last part of training, we should allow the learning rate to decrease more than the minimum, by several orders of magnitude.
   
@@ -104,13 +123,21 @@ featured_image: fastai/image-20190706182251357.png
     
   - When the learning rate is high we want momentum to be lower. This enables the SGD to quickly change directions and find a flatter region in parameter space.
   
-  - 
-  
-  - Link: [Another data science student's blog – The 1cycle policy](https://sgugger.github.io/the-1cycle-policy.html)
+    
   
 - __Learning Rate Finder__
   
   - The method is basically successively increasing $\eta$ every batch using either a linear or exponential schedule and looking the loss. While $\eta$ has a good value, the loss will be decreasing. When $\eta$ gets too large the loss will start to increase. You can plot the loss versus $\eta$ and see by eye a learning rate that is largest where the loss is decreasing fastest.
+
+
+
+## Getting Started With the Notebooks
+
+- All the course notebooks for part 1 are found here: [notebooks | github](https://github.com/fastai/course-v3/tree/master/nbs/dl1).
+- The course guide can be found here: [course guide](https://course.fast.ai/index.html).
+- For running and experimenting with the fastai notebooks I personally like to use: 
+  - [kaggle kernels](https://course.fast.ai/start_kaggle.html) 
+  - or [google colab](https://course.fast.ai/start_gcp.html).
 
 
 
@@ -121,6 +148,8 @@ featured_image: fastai/image-20190706182251357.png
 3. Please run the code, really run the code. Don’t go deep on theory. Play with the code, see what goes in and what comes out.
 4. Pick one project. Do it really well. Make it fantastic.
 5. Run this notebook (lesson1-pets.ipynb), but then get your own dataset and run it! (extra emphasis: do this!) If you have a lot of categories, don’t run confusion matrix, run… `interp.most_confused(min_val=n)`
+
+([Source: Robert Bracco](https://forums.fast.ai/t/things-jeremy-says-to-do/36682))
 
 
 
@@ -147,7 +176,7 @@ featured_image: fastai/image-20190706182251357.png
 
 
 
-## Links
+## Links and References
 
 - [Link to Lesson 1 lecture](https://course.fast.ai/videos/?lesson=1)
 - Homework notebooks:

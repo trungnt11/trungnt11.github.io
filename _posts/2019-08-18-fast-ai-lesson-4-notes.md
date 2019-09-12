@@ -461,6 +461,8 @@ $> data.train_ds.x.classes
 1. If you’re doing NLP stuff, make sure you use all of the text you have (including unlabeled validation set) to train your language model, because there’s no reason not to. In Kaggle competions they don't give you the labels for the test set, but you can still use the test data for self-supervised learning. [Lesson 4: A little NLP trick ](https://youtu.be/9YK6AnqpuEA?t=1256)
 2. Jeremy used to use random forests / xgboost with tabular data 99% of the time. Today he uses neural networks 90% of the time. It's his goto method he tries first.
 
+([Source: Robert Bracco](https://forums.fast.ai/t/things-jeremy-says-to-do/36682))
+
 
 
 ## Q & A

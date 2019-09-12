@@ -249,6 +249,8 @@ This part kind of outgrew this blog post so I have spun this out into its own bl
 
 ![keepgoing](https://forums.fast.ai/uploads/default/optimized/3X/d/e/de73a146088bb62668b7e2d0215b398d9452177e_2_690x422.png)
 
+([Source: Robert Bracco](https://forums.fast.ai/t/things-jeremy-says-to-do/36682))
+
 
 
 ## Q & A

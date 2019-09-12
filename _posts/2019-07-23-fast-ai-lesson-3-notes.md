@@ -430,6 +430,8 @@ There is a nice website that has interactive javascript demos that demonstrate t
 2. This week, see if you can come up with a problem that you would like to solve that is either multi-label classification or image regression or image segmentation or something like that and see if you can solve that problem. Context: [Fast.ai Lesson 3 Homework 36](https://youtu.be/MpZxV6DVsmM?t=7409)
 3. Always use the same stats that the model was trained with (e.g. imagenet). (See relevant question in Q & A section). Context: [Lesson 3: Normalized data and ImageNet 7](https://youtu.be/MpZxV6DVsmM?t=6413)
 
+([Source: Robert Bracco](https://forums.fast.ai/t/things-jeremy-says-to-do/36682))
+
 
 
 ## Q & A

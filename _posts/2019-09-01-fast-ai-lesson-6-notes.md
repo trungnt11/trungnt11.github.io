@@ -297,6 +297,10 @@ This has _nothing_ to do with momentum in optimization. This is momentum as in *
 
 
 
+__[Update] Additional information on how Batch Norm works: [Twitter thread](https://twitter.com/dcpage3/status/1171867587417952260).__
+
+
+
 ## Data Augmentation
 
 One of the most effective and least studied forms of regularization is _data augmentation_.
