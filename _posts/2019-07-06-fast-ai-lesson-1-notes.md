@@ -12,7 +12,7 @@ featured_image: fastai/image-20190706182251357.png
 
 ![image-20190706182251357](/images/fastai/image-20190706182251357.png)
 
-_[Link to Lesson 1 lecture](https://course.fast.ai/videos/?lesson=1)_
+
 
 ##  Task 1 - World Class Image Classifier
 
@@ -129,6 +129,9 @@ _[Link to Lesson 1 lecture](https://course.fast.ai/videos/?lesson=1)_
 
 ## Links
 
+- [Link to Lesson 1 lecture](https://course.fast.ai/videos/?lesson=1)
+- Homework notebooks:
+  - Notebook 1: [lesson1-pets.pynb](https://github.com/fastai/course-v3/blob/master/nbs/dl1/lesson1-pets.ipynb)
 - [Detailed lesson notes](https://github.com/hiromis/notes/blob/master/Lesson1.md) - thanks to @hiromi
 - [Stanford DAWN Deep Learning Benchmark (DAWNBench) ·](https://dawn.cs.stanford.edu/benchmark/)
 - [[1311.2901] Visualizing and Understanding Convolutional Networks](https://arxiv.org/abs/1311.2901)

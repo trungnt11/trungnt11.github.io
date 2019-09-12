@@ -12,7 +12,7 @@ featured_image: fastai/image-20190706182251357.png
 
 ![image-20190706182251357](/images/fastai/image-20190706182251357.png)
 
-_[Link to Lesson 2 lecture](https://course.fast.ai/videos/?lesson=2)_
+
 
 ## Overview of Lesson
 
@@ -257,19 +257,16 @@ This part kind of outgrew this blog post so I have spun this out into its own bl
 
 ## Links and References
 
+- [Link to Lesson 2 lecture](https://course.fast.ai/videos/?lesson=2)
+- Homework notebooks:
+  - Notebook 1: [lesson2-download.ipynb](https://github.com/fastai/course-v3/blob/master/nbs/dl1/lesson2-download.ipynb)
+  - Notebook 2: [lesson2-sgd.ipynb](https://github.com/fastai/course-v3/blob/master/nbs/dl1/lesson2-sgd.ipynb)
 - Parts of my notes have been copied from the excellent lecture transcriptions made by @hiromi. Link: [Lesson2 Detailed Notes](https://github.com/hiromis/notes/blob/master/Lesson2.md).
 - This is an in-depth tutorial on PyTorch: <https://towardsdatascience.com/understanding-pytorch-with-an-example-a-step-by-step-tutorial-81fc5f8c4e8e>
-
 - [How (and why) to create a good validation set](https://www.fast.ai/2017/11/13/validation-sets/) by @rachel
-
 - [There's no such thing as "not a math person"](https://www.youtube.com/watch?v=q6DGVGJ1WP4) by @rachel
-
 - [Responder](https://github.com/kennethreitz/responder) - a web app framework built on top of Starlette
-
 - Post about an [alternative image downloader/cleaner](https://www.christianwerner.net/tech/Build-your-image-dataset-faster/) by @cwerner
-
 - [A tool for excluding irrelevant images from Google Image Search results](https://forums.fast.ai/t/tool-for-deleting-files-on-the-google-image-search-page-before-downloading/28900) by @melonkernel
-
 - [Machine Learning is Fun](https://medium.com/@ageitgey/machine-learning-is-fun-part-3-deep-learning-and-convolutional-neural-networks-f40359318721) - source of image/number GIF animation shown in lesson
-
 - [A systematic study of the class imbalance problem in convolutional neural networks](https://arxiv.org/abs/1710.05381), mentioned by Jeremy as a way to solve imbalanced datasets.

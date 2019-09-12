@@ -544,7 +544,8 @@ $$
 
 - Lesson video: [Lesson 5](https://course.fast.ai/videos/?lesson=5)
 - Parts of my notes were copied from the excellent lecture transcriptions made by @PoonamV: [Lecture notes](https://forums.fast.ai/t/deep-learning-lesson-5-notes/31298)
-- Lesson 5 homework 1: [SGD and MNIST](https://nbviewer.jupyter.org/github/fastai/course-v3/blob/master/nbs/dl1/lesson5-sgd-mnist.ipynb)
-- Lesson 5 homework 2: [Rossmann (tabular data)](https://nbviewer.jupyter.org/github/fastai/course-v3/blob/master/nbs/dl1/lesson5-rossmann.ipynb)
+- Homework notebooks:
+  - Notebook 1: [SGD and MNIST](https://nbviewer.jupyter.org/github/fastai/course-v3/blob/master/nbs/dl1/lesson5-sgd-mnist.ipynb)
+  - Notebook 2: [Rossmann (tabular data)](https://nbviewer.jupyter.org/github/fastai/course-v3/blob/master/nbs/dl1/lesson5-rossmann.ipynb)
 - [Netflix and Chill: Building a Recommendation System in Excel - Latent Factor Visualization in Excel blog post](https://towardsdatascience.com/netflix-and-chill-building-a-recommendation-system-in-excel-c69b33c914f4)
 - [An overview of gradient descent optimization algorithms - Sebastian Ruder](http://ruder.io/optimizing-gradient-descent/)

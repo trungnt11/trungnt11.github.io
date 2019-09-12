@@ -30,7 +30,6 @@ __Table of Contents__
 
 * TOC
 {:toc}
-
 </div>
 </div>
 
@@ -536,6 +535,11 @@ There is a nice website that has interactive javascript demos that demonstrate t
 ## Links and References
 
 - Lesson video: https://course.fast.ai/videos/?lesson=3
+- Homework notebooks:
+  - Notebook 1: [lesson3-planet.ipynb](https://nbviewer.jupyter.org/github/fastai/course-v3/blob/master/nbs/dl1/lesson3-planet.ipynb)
+  - Notebook 2: [lesson3-camvid.ipynb](https://nbviewer.jupyter.org/github/fastai/course-v3/blob/master/nbs/dl1/lesson3-camvid.ipynb)
+  - Notebook 3: [lesson3-imdb.ipynb](https://nbviewer.jupyter.org/github/fastai/course-v3/blob/master/nbs/dl1/lesson3-imdb.ipynb)
+  - Notebook 4: [lesson3-head-pose.ipynb](https://nbviewer.jupyter.org/github/fastai/course-v3/blob/master/nbs/dl1/lesson3-head-pose.ipynb)
 - Parts of my notes have been copied from the excellent lecture transcriptions made by @hiromi. Link: [Lesson3 Detailed Notes](https://github.com/hiromis/notes/blob/master/Lesson3.md).
 - Universal approximation theorem + more: [http://neuralnetworksanddeeplearning.com](http://neuralnetworksanddeeplearning.com/)
 - Source for Jeremy says: https://forums.fast.ai/t/things-jeremy-says-to-do/36682

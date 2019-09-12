@@ -522,10 +522,11 @@ $> data.train_ds.x.classes
 ## Links and References
 
 - Lesson video: https://course.fast.ai/videos/?lesson=4
+- Homework notebooks:
+  - Notebook 1: [lesson4-collab.ipynb](https://nbviewer.jupyter.org/github/fastai/course-v3/blob/master/nbs/dl1/lesson4-collab.ipynb)
+  - Notebook 2: [lesson4-tabular.ipynb](https://nbviewer.jupyter.org/github/fastai/course-v3/blob/master/nbs/dl1/lesson4-tabular.ipynb)
 - Parts of my notes have been copied from the excellent lecture transcriptions made by @hiromi. Link: [Lesson4 Detailed Notes](https://github.com/hiromis/notes/blob/master/Lesson4.md).
-
 - Link to ULMFiT paper: https://arxiv.org/abs/1801.06146
-
 - Fastai blog post on tabular data [An Introduction to Deep Learning for Tabular Data · fast.ai](https://www.fast.ai/2018/04/29/categorical-embeddings/)
 - Medium post on recommenders with NN: [Collaborative Embeddings for Lipstick Recommendations](https://towardsdatascience.com/collaborative-embeddings-for-lipstick-recommendations-98eccfa816bd)
 - Lecture on Embeddings: [Embeddings, Machine Learning Crash Course, Google Developers](https://developers.google.com/machine-learning/crash-course/embeddings/video-lecture)
