@@ -3,8 +3,8 @@ layout: post
 title: Galaxy Zoo Kaggle Competition Redux with Fast.ai
 date: 2019-09-20
 tags: deep-learning machine-learning fastai
-description: In this post I use Fastai to tackle the Galaxy Zoo Kaggle competition from 2014. This is a multi-class classification problem using deep learning. (Image  by <a class="external free" href="https://en.wikipedia.org/wiki/File:Hubble-Vaucouleurs.png">Antonio Ciccolella / M. De Leo</a>) </b>. 
-featured_image: fastai/galaxy_zoo_nasa.png
+description: Redoing the Galaxy Zoo Kaggle competition </b>. 
+featured_image: https://storage.googleapis.com/kaggle-competitions/kaggle/3175/media/mainimage.jpg
 ---
 
 
@@ -296,7 +296,7 @@ I believe my main issue was underfitting in this problem. I remedied this by red
 
 The final validation RMSE is about the equal to what Dielemann achieved for a single model: [http://benanne.github.io/2014/04/05/galaxy-zoo.html](http://benanne.github.io/2014/04/05/galaxy-zoo.html). I'm a bit disappointed that I couldn't do better than the result from 5 years ago, but on the other hand the amount of code required to do this today compared to what Dielemann wrote is tiny. His final score was down at 0.074 after bagging the results of many CNNs. This is a huge amount of effort and was necessary to win the Kaggle competition at the time, however I feel this isn't worth trying to reproduce this.
 
-
+My Jupyter notebooks for this are on github: [https://github.com/jimypbr/galaxyzoo-fastai](https://github.com/jimypbr/galaxyzoo-fastai)
 
  
 
