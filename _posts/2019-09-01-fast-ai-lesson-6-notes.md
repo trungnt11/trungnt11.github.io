@@ -108,7 +108,7 @@ In this model there is a categorical variable: `words in real estate ad` and the
 
 The words in a real estate ad can be represented as a _sparse vector_ of the word counts in the text. The network learns an lower dimensional embedding for these words as shown in the diagram.
 
-In pink is the actual ML model: it's a simple *multi-layer perceptron*. After the categorical variables have been encoding by their embedding layers, these vectors are catted together along with the continuous variables to make one big vector. This is the output the the MLP. That's all there is to the tabular learner.
+In pink is the actual ML model: it's a simple *multi-layer perceptron*. After the categorical variables have been encoding by their embedding layers, these vectors are catted together along with the continuous variables to make one big vector. This is the input to the MLP. That's all there is to the tabular learner.
 
 In the fastai the code to create the tabular learner is:
 
@@ -147,13 +147,15 @@ For dropout, we throw that away. At random, we **throw away some percentage of t
 
 We throw each one away with a probability `p`. A common value of `p` is 0.5.
 
-t means that no 1 activation can memorize some part of the input because that's what happens if we over fit. If we over fit, some part of the model is basically learning to recognize a particular image rather than a feature in general or a particular item. 
+It means that no one activation can memorize some part of the input because that's what happens if we over fit. If we over fit, some part of the model is basically learning to recognize a particular image rather than a feature in general or a particular item. 
+
+Check out this quote from one of the creators, Geoffry Hinton:
 
 > I went to my bank. The tellers kept changing and I asked one of them why. He said he didn't know but they got moved around a lot. I figured it must be because it would require cooperation between employees to successfully defraud the bank. This made me realize that randomly removing a different subset of neurons on each example would prevent conspiracies and thus reduce overfitting.
 
 [*Hinton: Reddit AMA*](https://www.reddit.com/r/MachineLearning/comments/4w6tsv/ama_we_are_the_google_brain_team_wed_love_to/d6dgyse)
 
-*Dropout works really well.*
+Dropout stops your neural network from conspiring against you! Dropout is a technique that *works really well*, and has become standard practice in training neural networks.
 
 In fastai nearly every learner has a parameter `ps` for defining how much dropout to use (number between 0 and 1).
 
@@ -162,9 +164,9 @@ In fastai nearly every learner has a parameter `ps` for defining how much dropou
 **Dropout: Training versus test time:**
 ![img](https://github.com/hiromis/notes/raw/master/lesson6/7.png)
 
-There is an interesting feature of dropout. We talk about training time and test time (we also call inference time). Training time is when we're actually doing that those weight updates - the backpropagation. The training time, dropout works the way we just saw. 
+There is an interesting feature of dropout regarding *training time* and *test time* (AKA inference time). Training time is when we're actually updating the weights - doing backpropagation etc. During training time, dropout works the way we just saw. 
 
-At test time we turn off dropout. We're not going to do dropout anymore because we wanted to be as accurate as possible. We're not training so we can't cause it to overfit when we're doing inference. But what that means is if previously `p` was 0.5, then half the activations were being removed. Which means when they're all there, now our overall activation level is twice of what it used to be. *Therefore, in the paper, they suggest multiplying all of your weights at test time by `p`.*
+At test time however we *turn off* dropout. We're not going to do dropout anymore because we want it to be as accurate as possible. It's not updating any weights at test time so overfitting obviously isn't an issue. But there is a small issue here. If previously `p` was set to 0.5, then half the activations were being removed. Which means when we turn them all back on again, now our overall activation level is _twice_ what it used to be. *Therefore, in the paper, they suggest multiplying all of the weights affect by dropout at test time by `p`.*
 
 
 
@@ -202,7 +204,7 @@ def forward(self, x_cat:Tensor, x_cont:Tensor) -> Tensor:
 - It concatenates the embeddings in a single matrix (batch of vectors)
 - It calls dropout on that
 
-The output of an embedding is basically another layer in the neural network so it makes sense to call dropout on that.
+The output of an embedding layers is basically a big vector so we can think of it as just another layer in the neural network and so just call dropout on that like we normally would.
 
 
 
@@ -266,7 +268,7 @@ Batch norm is a very high impact training technique that was published in 2015.
 
 Showing the current then state of the art ImageNet model Inception. This is how long it took them to get a pretty good result, and then they tried the same thing with batch norm, and it *was a lot faster*.
 
-Specifically they said this thing is called batch normalization and it's accelerating training by reducing internal covariate shift. So what is internal covariate shift? Well, it doesn't matter. Because this is one of those things where researchers came up with some intuition and some idea about this thing they wanted to try. *They did it, it worked well, they then post hoc added on some mathematical analysis to try and claim why it worked. And it turned out they were totally **wrong**.*
+Specifically they said this thing is called batch normalization and it's accelerating training by reducing internal covariate shift. So what is internal covariate shift? Well, it doesn't matter. Because this is one of those things where researchers came up with some intuition and some idea about this thing they wanted to try. *They did it, it worked well, they then post hoc added on some mathematical analysis to try and claim why it worked. And it turned out they were probably **wrong**.*
 
 
 
