@@ -318,7 +318,7 @@ However here is a twitter thread on how Batch Norm works that vindicates the Int
 
 __[Update] Additional information on how Batch Norm works: [Twitter thread](https://twitter.com/dcpage3/status/1171867587417952260).__
 
-Why it works is still debatable and I need to keep reading into this, but it seems that the output distribution of the hidden layers in the network is very important for training networks quickly and also for training deeper networks. We already know that these internal distributions are very important for training because of all the research done into the art of initializing neural networks when training from scratch. Getting this wrong can prevent the network from training at all.
+Why it works is still debatable and I need to keep reading into this, but this aside, it seems that the output distribution of the hidden layers in the network is very important for training networks more quickly and with more layers. We already know that these internal distributions are very important for training because of all the research done into the art of initializing neural networks when training from scratch. Getting this wrong can prevent the network from training at all by making gradients vanish or explode. So with this in mind, it makes sense that adjusting these distributions as data flows through the network could improve training.
 
 ## Data Augmentation
 
