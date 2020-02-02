@@ -274,13 +274,13 @@ Batch norm is a very high impact training technique that was published in 2015.
 
 Showing the current then state of the art ImageNet model Inception. This is how long it took them to get a pretty good result, and then they tried the same thing with batch norm, and it *was a lot faster*.
 
-Specifically they said this thing is called batch normalization and it's accelerating training by reducing internal covariate shift. So what is internal covariate shift? Well, it doesn't matter. Because this is one of those things where researchers came up with some intuition and some idea about this thing they wanted to try. *They did it, it worked well, they then post hoc added on some mathematical analysis to try and claim why it worked. And it turned out they were probably **wrong**.*
+From the abstract of the original paper:
+
+> Training Deep Neural Networks is complicated by the fact that the distribution of each layer's inputs changes during training, as the parameters of the previous layers change. This slows down the training by requiring lower learning rates...
+
+Batch Normalization layer adjusts the distribution of the output of a layer by controlling the the first two moments of the layer distributions (mean and standard deviation). This allows networks to be trained with a higher learning rate (so they train faster) and with more layers. 
 
 
-
-![f81cbddc.png](/images/fastai/f81cbddc.png)
-
-What batch norm actually does is shown in the above picture. The red line is what happens whn you train without batch norm - very very bumpy. The blue line is training with batch norm - a lot smoother. If the loss landscape is very bumpy then your model can get trapped in some awful region of parameter space that it can't escape from. If it is smoother then you can train with a higher learning rate and hence converge faster.
 
 ![img](https://github.com/hiromis/notes/raw/master/lesson6/16.png)
 
@@ -303,11 +303,21 @@ BatchNorm1d(500, eps=1e-05, momentum=0.1, affine=True, track_running_stats=True)
 
 This has _nothing_ to do with momentum in optimization. This is momentum as in *exponentially weighted moving average*. Specifically this mean and standard deviation (in batch norm algorithm), we don't actually use a different mean and standard deviation for every mini batch. If we did, it would vary so much that it be very hard to train. So instead, we take an exponentially weighted moving average of the mean and standard deviation.
 
+**Why Batch Normalization works** is actually still a debated topic. 
 
+In the original paper they said it accelerates training by reducing something they call _'internal covariate shift'_. This is one of those things where researchers came up with some intuition and some idea about this thing they wanted to try and found that it worked well. So they original explanation may well be wrong. In this paper - [How Does Batch Normalization Help Optimization?](https://arxiv.org/abs/1805.11604) - they have an alternative explanation:
+
+
+
+![f81cbddc.png](/images/fastai/f81cbddc.png)
+
+The above is from this paper. The plot represents the 'loss landscape' of the network during training. The red line is what happens whn you train without Batch Norm - very very bumpy. The blue line is training with batch norm - a lot smoother. If the loss landscape is very bumpy then your model can get trapped in some awful region of parameter space that it can't escape from. If it is smoother then you can train with a higher learning rate and hence converge faster.
+
+However here is a twitter thread on how Batch Norm works that vindicates the Internal Covariate Shift explanation:
 
 __[Update] Additional information on how Batch Norm works: [Twitter thread](https://twitter.com/dcpage3/status/1171867587417952260).__
 
-
+Why it works is still debatable and I need to keep reading into this, but it seems that the output distribution of the hidden layers in the network is very important for training networks quickly and also for training deeper networks. We already know that these internal distributions are very important for training because of all the research done into the art of initializing neural networks when training from scratch. Getting this wrong can prevent the network from training at all.
 
 ## Data Augmentation
 
