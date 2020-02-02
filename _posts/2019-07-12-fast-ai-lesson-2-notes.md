@@ -5,6 +5,7 @@ date: 2019-07-12
 tags: deep-learning machine-learning fastai
 description: My personal notes on Lesson 2 of part 1 of fast.ai (2019) -- <b>Data cleaning and production; SGD from scratch</b>. 
 featured_image: fastai/image-20190706182251357.png
+comments: true
 ---
 
 
@@ -206,6 +207,8 @@ __Number of epochs too few__: training loss much higher than validation loss, wh
 
 __Number of epochs too many__: Too many epochs create something called "overfitting". If you train for too long as we're going to learn about it, it will learn to recognize your particular teddy bears but not teddy bears in general.
 
+This is a good post about diagnosing your fit in machine learning: [machine learning mastery](https://machinelearningmastery.com/learning-curves-for-diagnosing-machine-learning-model-performance/).
+
 
 
 ### The Truth About Overfitting
@@ -227,6 +230,8 @@ In Jeremy's option, despite what you hear, it's actually very hard to overtrain 
 How can the training loss be _higher_ than the validation loss? This doesn't really seem like it could happen except if you had some contrived validation set. It can however happen quite easily with training neural networks because of __dropout__. 
 
 Dropout is _turned on_ while training and _turned off_ in the validation. If the result is made much worse by dropout then it means that the network has not learned sufficiently well and it is therefore underfitting. Ways to fix this are: train with more epochs, use higher learning rate, use less dropout, or adjust weight decay parameters. 
+
+Batch Norm also operates differently at training and test time.
 
 
 

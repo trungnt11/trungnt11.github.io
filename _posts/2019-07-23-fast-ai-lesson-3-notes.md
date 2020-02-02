@@ -5,6 +5,7 @@ date: 2019-07-23
 tags: deep-learning machine-learning fastai
 description: My personal notes on Lesson 3 of part 1 of fast.ai (2019) -- <b>Data blocks; Multi-label classification; Segmentation</b>. 
 featured_image: fastai/image-20190706182251357.png
+comments: true
 ---
 
 

@@ -5,6 +5,7 @@ date: 2019-09-20
 tags: deep-learning machine-learning fastai
 description: In this post I use Fastai to tackle the Galaxy Zoo Kaggle competition from 2014. This is a multi-class classification problem using deep learning. (Image  by <a class="external free" href="https://en.wikipedia.org/wiki/File:Hubble-Vaucouleurs.png">Antonio Ciccolella / M. De Leo</a>) </b>. 
 featured_image: fastai/galaxy_zoo_nasa.png
+comments: true
 ---
 
 

@@ -5,6 +5,7 @@ date: 2019-08-29
 tags: deep-learning machine-learning fastai
 description: My personal notes on Lesson 5 of part 1 of fast.ai (2019) -- <b>Back propagation; Accelerated SGD; Neural net from scratch</b>. 
 featured_image: fastai/image-20190706182251357.png
+comments: true
 ---
 
 
@@ -74,11 +75,11 @@ Here is the process of input, weight multiplication, and activation up close ([i
 
 The parameters/weights are the matrix $\mathbf{W}$, the input is the vector $x$, and there is also the _bias_ vector $b$. This can be expressed mathematically as:
 $$
-\mathbf{a} = g(\mathbf{W}\mathbf{x} + \mathbf{b})
+\mathbf{a} = g(\mathbf{W^T}\mathbf{x} + \mathbf{b})
 $$
-Let's get an intuition for how the dimension of the data changes as it flows through the network. In the diagram above there is an input vector of size 4 and a weight matrix of size 3x4. The matrix vector product in terms of just the dimensions is: $(3, 4) \cdot (4,) = (3,)$. 
+Let's get an intuition for how the dimension of the data changes as it flows through the network. In the diagram above there is an input vector of size 4 and a weight matrix of size 4x3. The matrix vector product in terms of just the dimensions is: $(4, 3)^T \cdot (4) = (3, 4) \cdot (4) = (3)$. 
 
-In summation notation this is $W_{ij} x_j = a_i$. The $j$ terms are summed out and we are left with $i$ dimension only. 
+In summation notation this is $(W_{ji})^Tx_j = W_{ij} x_j = a_i$. The $j$ terms are summed out and we are left with $i$ dimension only.
 
 The **activation function** is an *element-wise function*. It’s a function that is applied to each element of the input, activations in turn and creates one activation for each input element. If it starts with a twenty long vector it creates a twenty long vector by looking at each one of those, in turn, doing one thing to it and spitting out the answer, so an element-wise function. These days the activation function most often used is __ReLu__.
 

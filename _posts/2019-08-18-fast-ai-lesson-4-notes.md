@@ -5,6 +5,7 @@ date: 2019-08-18
 tags: deep-learning machine-learning fastai
 description: My personal notes on Lesson 4 of part 1 of fast.ai (2019) -- <b>NLP; Tabular data; Collaborative filtering; Embeddings</b>. 
 featured_image: fastai/image-20190706182251357.png
+comments: true
 ---
 
 
