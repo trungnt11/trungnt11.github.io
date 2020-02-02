@@ -6,7 +6,7 @@ layout: page
   <h1><a href="{{ site.baseurl }}{{ page.url }}">{{ page.title }}</a></h1>
   <ul>
   {% for post in site.tags[page.tag] %}
-    <li><a href="{{ post.url }}">{{ post.title }}</a> ({{ post.date | date_to_string }})<br>
+  <li><a href="{{ post.url }}"><b>{{ post.title }}</b></a> ({{ post.date | date_to_string }})<br>
       {{ post.description | truncatewords: 50 }}
     </li>
   {% endfor %}
