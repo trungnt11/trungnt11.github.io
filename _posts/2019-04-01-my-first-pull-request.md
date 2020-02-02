@@ -147,7 +147,7 @@ For efficiency, however, dictionaries in python don't store the keys in a big li
 
 
 
-**In summary**:
+### In Summary
 
 For correctness with dictionaries:
 
@@ -160,7 +160,7 @@ For efficiency with dictionaries:
 
 1. `hash(obj1) should ideally != hash(obj2)` if `obj1.val != obj2.val`
 
-It is possible, though undesirable, that two objects with different values get hashed to the same bucket. This is called a __hash collision__. This isn't a correctness problem, rather an _efficiency problem_. Every hash collision is like an if statement in the dictionary to specially handle those cases. Ideally, every unique value should have its own unique hash so that there are no hash collisions.
+It is possible, though undesirable, that two objects with different values get hashed to the same bucket. This is called a __hash collision__. This isn't a correctness problem, rather an _efficiency problem_. Every hash collision is like an if statement in the dictionary to specially handle those cases. Ideally, every unique value should have its own unique hash so that there are no hash collisions. If we imagine the worst case where our hashing algorithm is something like `def hash(x): return 0`, then ever item ends up in the same bucket. To look up an item in this dictionary where everything is a hash collision we'd have to brute-force it and on average look at every item individually before we find what we are looking for. This would reduce the dictionary look-up performance to $\mathcal{O}(N)$, the same as an unordered list, instead of the $\mathcal{O}(1)$ performance that it should have.  
 
 
 
