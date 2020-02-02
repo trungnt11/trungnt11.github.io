@@ -24,7 +24,7 @@ This lesson starts with teaching the powerful techniques to avoid overfitting an
 
 Next the lesson teaches *convolutions*, which can be thought of as a variant of matrix multiplication with tied weights, and are the operation at the heart of modern computer vision models (and, increasingly, other types of models too).
 
-We'll use this knowledge to create a *class activated map*, which is a heat-map that shows which parts of an image were most important in making a prediction.
+This knowledge is then used to create a *class activated map*, which is a heat-map that shows which parts of an image were most important in making a prediction.
 
 Finally, the lesson ends with data ethics.
 
@@ -43,7 +43,7 @@ __Table of Contents__
 
 ## Platform.ai - Assisted Image Labeling 
 
-- Jeremy showed in his [ted talk](https://www.ted.com/talks/jeremy_howard_the_wonderful_and_terrifying_implications_of_computers_that_can_learn/up-next?language=en) in 2015 a cool demo where you can 'collaborate' with a pretrained neural network to label an unlabeled image dataset.
+- Jeremy showed in his [TED talk](https://www.ted.com/talks/jeremy_howard_the_wonderful_and_terrifying_implications_of_computers_that_can_learn/up-next?language=en) in 2015 a cool demo where you can 'collaborate' with a pretrained neural network to label an unlabeled image dataset.
 - Basically it is a UI where the images are projected from the network into a 2D space (via T-SNE or similar). If the model is trained well then there will be good separation between the images in this space. 
 - It is an iterative process where the user labels a few images, the network trains with these labels, the network then guesses the labels, and the user can correct these and label more images. Repeat.
 - [Platform.ai](https://platform.ai/) is a product brought out by Jeremy that lets you do with your own image dataset that you upload.
@@ -106,9 +106,9 @@ The model for a tabular learner in fastai is like this one ([source](https://dev
 
 In this model there is a categorical variable: `words in real estate ad` and there are two continuous variables: `latitude` and `longitude`.
 
-The words in a real estate ad can be represented as a _sparse vector_ of the word counts in the text. The network learns an lower dimensional embedding for these words as shown in the diagram.
+The words in a real estate ad can be represented as a _sparse vector_ of the word counts in the text. The network learns a lower dimensional embedding for these words as shown as the green layer in the diagram.
 
-In pink is the actual ML model: it's a simple *multi-layer perceptron*. After the categorical variables have been encoding by their embedding layers, these vectors are catted together along with the continuous variables to make one big vector. This is the input to the MLP. That's all there is to the tabular learner.
+In pink is the actual ML model: it's a simple *multi-layer perceptron*. After the categorical variables have been encoded by their embedding layers, these vectors are catted together along with the continuous variables to make one big vector; this is the input to the MLP. That's all there is to the tabular learner.
 
 In the fastai the code to create the tabular learner is:
 
@@ -129,9 +129,9 @@ What do these parameters mean?
 
 - One way to do that will be to use weight decay which fast.ai will use automatically, and you can vary it to something other than the default if you wish. It turns out in this case, we're going to want more regularization. 
 
--  The parameter `ps` will provide something called **dropout**. 
+-  The parameter `ps` provides something called **dropout**. 
 
-- Also the parameter `emb_drop` will provide dropout to the embeddings.
+- Also the parameter `emb_drop` provides dropout to just the embeddings.
 
 
 
@@ -143,11 +143,15 @@ The diagram from the paper illustrates perfectly what is going on:
 
 ![e03fb76e.png](/images/fastai/e03fb76e.png)
 
-For dropout, we throw that away. At random, we **throw away some percentage of the activations** not the weights, not the parameters. Remember, there's **only two types of number in a neural net - parameters** also called weights (kind of) and **activations**. So we're going to throw away some activations.
+For dropout, we throw that away. At random, we **throw away some percentage of the activations**. 
 
-We throw each one away with a probability `p`. A common value of `p` is 0.5.
+N.B. it doesn't zero the weights/parameters. (Remember, there's *only two types of layer in a neural net - parameters and activations*).
 
-It means that no one activation can memorize some part of the input because that's what happens if we over fit. If we over fit, some part of the model is basically learning to recognize a particular image rather than a feature in general or a particular item. 
+We throw each one away with a probability `p`. A common value of `p` is 0.5. 
+
+It means that no one activation can memorize some part of the input because that's what happens if we over fit. If we over fit, some part of the model is basically learning to recognize a particular image rather than a feature in general or a particular item. This forces the network to use more neurons to determine the outcome and so the network is more likely to learn the actual patterns in the data, rather than trying to short-circuit the problem by memorizing the data.
+
+During backpropagation, the gradients for the zeroed out neurons are also zero.
 
 Check out this quote from one of the creators, Geoffry Hinton:
 
@@ -167,6 +171,8 @@ In fastai nearly every learner has a parameter `ps` for defining how much dropou
 There is an interesting feature of dropout regarding *training time* and *test time* (AKA inference time). Training time is when we're actually updating the weights - doing backpropagation etc. During training time, dropout works the way we just saw. 
 
 At test time however we *turn off* dropout. We're not going to do dropout anymore because we want it to be as accurate as possible. It's not updating any weights at test time so overfitting obviously isn't an issue. But there is a small issue here. If previously `p` was set to 0.5, then half the activations were being removed. Which means when we turn them all back on again, now our overall activation level is _twice_ what it used to be. *Therefore, in the paper, they suggest multiplying all of the weights affect by dropout at test time by `p`.*
+
+You could alternatively scale things at training time instead, except you would scale the activations and gradients of the non-zeroed neurons by $\frac{1}{1-p}$ . ([Source](https://stats.stackexchange.com/a/219240)).
 
 
 
