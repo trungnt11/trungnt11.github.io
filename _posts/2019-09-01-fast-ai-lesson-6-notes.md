@@ -279,9 +279,9 @@ From the abstract of the original paper:
 
 > Training Deep Neural Networks is complicated by the fact that the distribution of each layer's inputs changes during training, as the parameters of the previous layers change. This slows down the training by requiring lower learning rates...
 
-Batch Normalization layer adjusts the distribution of the output of a layer by controlling the the first two moments of the layer distributions (mean and standard deviation). This allows networks to be trained with a higher learning rate (so they train faster) and with more layers. 
+Batch Normalization layer adjusts the distribution of the output of a layer by controlling the the first two moments of the layer distributions (mean and standard deviation). *This allows networks to be trained with a higher learning rate (so they train faster) and with more layers.* 
 
-
+The algorithm:
 
 ![img](https://github.com/hiromis/notes/raw/master/lesson6/16.png)
 
@@ -306,7 +306,7 @@ This has _nothing_ to do with momentum in optimization. This is momentum as in *
 
 **Why Batch Normalization works** is actually still a debated topic. 
 
-In the original paper they said it accelerates training by reducing something they call _'internal covariate shift'_. This is one of those things where researchers came up with some intuition and some idea about this thing they wanted to try and found that it worked well. So they original explanation may well be wrong. In this paper - [How Does Batch Normalization Help Optimization?](https://arxiv.org/abs/1805.11604) - they have an alternative explanation:
+In the original paper they said it accelerates training by reducing something they call _'internal covariate shift'_. This is one of those things where researchers came up with some intuition and some idea about this thing they wanted to try and found that it worked well. They then look for an explanation after the fact. So the original explanation for why it works may well be wrong. In this paper - [How Does Batch Normalization Help Optimization?](https://arxiv.org/abs/1805.11604) - they have an alternative explanation:
 
 
 
