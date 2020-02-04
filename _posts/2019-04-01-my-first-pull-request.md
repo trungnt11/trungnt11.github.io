@@ -21,7 +21,7 @@ However when I tried this with the data block I got this:
 ``` python
 > Counter(data.train_ds.y)
 
-  Counter({
+ Counter({
     Category chimp        1
     Category gorilla      1
     Category gorilla      1
@@ -48,7 +48,7 @@ I confirmed this with the hot patch:
 > Category.__hash__ = lambda self: hash(self.obj)
 > Counter(data.train_ds.y)
 
-	Counter({Category orangutan: 56, Category gorilla: 177, Category chimp: 173})
+ Counter({Category orangutan: 56, Category gorilla: 177, Category chimp: 173})
 ```
 
 With Sylvain Gugger's guidance, I then implemented `__eq__` method properly in fastai for the ground class `ItemBase` so that all of the different data classes in fastai could have equality. Hash didn't make sense for all the subclasses (like floats or arrays of numbers), so we compromised on implementing hash methods only on the subclasses where it made sense.
@@ -66,7 +66,7 @@ In order to make your python objects play nice with dictionary's they need to ov
 
 Suppose that the python object contains some value `val` that defines the object's uniquness. 
 
-Let's create a python class called `Category`:
+Let's create a python class for categories called `Cat`:
 
 ```python
 class Cat: 
@@ -75,7 +75,7 @@ class Cat:
     def __str__(self): 
       	return f'Cat({self.val})' 
     def __repr__(self): 
-    		return f'Cat({self.val})' 
+    	return f'Cat({self.val})' 
 ```
 
 
@@ -85,7 +85,7 @@ This class won't work properly with Counters:
 ```python
 > xs = [Cat(2), Cat(2), Cat(1), Cat(3)]
 > Counter(xs)
-	Counter({Cat(2): 1, Cat(2): 1, Cat(1): 1, Cat(3): 1})
+  Counter({Cat(2): 1, Cat(2): 1, Cat(1): 1, Cat(3): 1})
 
 ```
 
@@ -95,7 +95,7 @@ Equality doesn't work:
 
 ```python
 > Cat(2) == Cat(2)
-	False
+ False
 ```
 
 
@@ -104,9 +104,9 @@ Two objects with the same value don't have the same hash:
 
 ```python
 > hash(Cat(2))
-	-9223372036573193412
+ -9223372036573193412
 > hash(Cat(2))
-	281542562
+ 281542562
 ```
 
 
@@ -120,9 +120,9 @@ class Cat:
     def __str__(self): 
       	return f'Cat({self.val})' 
     def __repr__(self): 
-    		return f'Cat({self.val})' 
+    	return f'Cat({self.val})' 
     def __eq__(self, other):
-    		return self.val == other.val
+    	return self.val == other.val
     def __hash__(self):
       	return hash(self.val)
 ```
@@ -131,8 +131,8 @@ Now it works:
 
 ```python
 > xs = [Cat(2), Cat(2), Cat(1), Cat(3)] 
-	Counter(xs)
-	Counter({Cat(2): 2, Cat(1): 1, Cat(3): 1})
+ Counter(xs)
+ Counter({Cat(2): 2, Cat(1): 1, Cat(3): 1})
 ```
 
 
