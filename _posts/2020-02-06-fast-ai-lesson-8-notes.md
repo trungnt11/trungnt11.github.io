@@ -13,7 +13,7 @@ comments: true
 
 Part 2 of FastAI 2019 is 'bottom-up' - building the core of the FastAI library from scratch using PyTorch.
 
-This implements matrix multiplication in pure Python, then refactor and optimize it using broadcasting and einstein summation. Then this lesson starts to look at the initialization of neural networks. Finally the lesson covers handcoding the forward and backwards passes of a simple model with linear layers and ReLU, before refactoring the code to be more flexible and concise.
+This lesson implements matrix multiplication in pure Python, then refactors and optimizes it using broadcasting and einstein summation. Then this lesson starts to look at the initialization of neural networks. Finally the lesson covers handcoding the forward and backwards passes of a simple model with linear layers and ReLU, before refactoring the code to be more flexible and concise so that you can understand how PyTorch's work.
 
 Lesson 8 [lecture video](https://course.fast.ai/videos/?lesson=8).
 
@@ -209,6 +209,8 @@ def lin(x, w, b):
 	return x@w + b
 ```
 
+
+
  **ReLU** activation function:
 
 ```python
@@ -216,12 +218,16 @@ def relu(x):
 	return x.clamp_min(0.)
 ```
 
+
+
 **Loss function** we'll use here is the _Mean Squared Error (MSE)_. This doesn't quite fit for a classification task, but it's used as a pedgogical tool for teaching the concepts of loss and backpropagation.
 
 ```python
 def mse(output, targ):
 	return (output.squeeze(-1) - targ).pow(2).mean()
 ```
+
+
 
 __Forward Pass__ of model:
 
@@ -235,6 +241,8 @@ def model(xb):
 preds = model(x_train)
 loss = mse(preds, y_train)
 ```
+
+
 
 Let's go over the tensor dimensions to review how the forward pass works:
 
