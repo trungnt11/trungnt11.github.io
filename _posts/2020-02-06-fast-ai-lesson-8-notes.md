@@ -172,7 +172,7 @@ Matmul is already provided by PyTorch (or Numpy) using the `@` operator:
 
 ```python
 def matmul(a, b):
-	return a@b
+    return a@b
 ```
 
 Time: __31.2µs__
@@ -206,7 +206,7 @@ $$
 
 ```python
 def lin(x, w, b):
-	return x@w + b
+    return x@w + b
 ```
 
 
@@ -215,7 +215,7 @@ def lin(x, w, b):
 
 ```python
 def relu(x):
-	return x.clamp_min(0.)
+    return x.clamp_min(0.)
 ```
 
 
@@ -224,7 +224,7 @@ def relu(x):
 
 ```python
 def mse(output, targ):
-	return (output.squeeze(-1) - targ).pow(2).mean()
+    return (output.squeeze(-1) - targ).pow(2).mean()
 ```
 
 
@@ -299,13 +299,6 @@ t.mean(),t.std()
 ```
 
 The initialisation used __depends on the activation function used__. If we instead use a ReLU layer then we have to do something different from the linear.
-
-```python
-def relu(x):
-	return x.clamp_min(0.)
-
-t = relu(lin(x_valid, w1, b1))
-```
 
 If you have a normal distribution with mean 0 with std 1, but then clamp it at 0, then obviously the resulting distribution will no longer have mean 0 and std 1.
 
@@ -406,7 +399,7 @@ L &= \frac{1}{N}\sum_n^N\left((\mbox{max}(0, X_nW^{(1)} + b^{(1)})W^{(2)} + b^{(
 \end{align}
 $$
 
-In order to update the parameters of the model, we need to know what is the gradient of $L$ with respect to (wrt) the parameters of the model. What are the parameters of this model? They are: $W^{(1)}_{ij}$,  $W^{(2)}_{ij}$,   $b^{(1)}_i$, $b^{(2)}_i$ (including indices to remind you of the tensor rank of the parameters). The partial derivatives of the parameters we want to calculate are:
+In order to update the parameters of the model, we need to know what is the gradient of $L$ with respect to (wrt) the parameters of the model. What are the parameters of this model? They are: $W_{ij}^{(1)}$,  $W^{(2)}_{ij}$, $b^{(1)}_i$, $b^{(2)}_i$ (including indices to remind you of the tensor rank of the parameters). The partial derivatives of the parameters we want to calculate are:
 
 
 $$
@@ -580,7 +573,7 @@ Gradient of ReLU is easy. For the local gradient - if the input is less than 0, 
 
 ```python
 def relu_grad(inp, out):
-	# inp - input (x)
+    # inp - input (x)
     # out - upstream data
     inp.g = (inp>0).float() * out.g
 ```
@@ -591,7 +584,7 @@ def relu_grad(inp, out):
 
 ```python
 def forwards_and_backwards(inp, targ):
-	# forward pass
+    # forward pass
     l1 = lin(inp, w1, b1)
     l2 = relu(l1)
     out = lin(l2, w2, b2)
@@ -615,7 +608,7 @@ from torch import nn
 
 
 class Model(nn.Module):
-	def __init__(self, n_in, n_out):
+    def __init__(self, n_in, n_out):
         super().__init__()
         self.layers = [nn.Linear(n_in, nh), nn.ReLU(), nn.Linear(nh, n_out)]
         self.loss = mse
