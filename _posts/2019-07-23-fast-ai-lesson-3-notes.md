@@ -538,7 +538,7 @@ There is a nice website that has interactive javascript demos that demonstrate t
 
 ## Links and References
 
-- Lesson video: https://course.fast.ai/videos/?lesson=3
+- Lesson video: [https://course.fast.ai/videos/?lesson=3](https://course.fast.ai/videos/?lesson=3)
 - Homework notebooks:
   - Notebook 1: [lesson3-planet.ipynb](https://nbviewer.jupyter.org/github/fastai/course-v3/blob/master/nbs/dl1/lesson3-planet.ipynb)
   - Notebook 2: [lesson3-camvid.ipynb](https://nbviewer.jupyter.org/github/fastai/course-v3/blob/master/nbs/dl1/lesson3-camvid.ipynb)
