@@ -216,7 +216,7 @@ All the bicycle pixels are the same colour, all the car pixels are the same colo
 
 - In order to build a segmentation model, you actually need to download or create a dataset where *someone has actually labeled every pixel*. As you can imagine, that's a lot of work, so you're probably not going to create your own segmentation datasets but you're probably going to download or find them from somewhere else.
 
-- We use Camvid dataset. fastai comes with many datasets available for download through the fastai library. They are listed [here](https://github.com/fastai/course-v3/blob/master/nbs/dl1/lesson3-planet.ipynb).
+- We use Camvid dataset. fastai comes with many datasets available for download through the fastai library. They are listed [here](https://course.fast.ai/datasets).
 
   
 
@@ -235,11 +235,12 @@ get_y_fn = lambda x: path_lbl/f'{x.stem}_P{x.suffix}'
 
 src = (SegmentationItemList.from_folder(path_img)
        #Where to find the data? -> in path_img and its subfolders
-       .split_by_rand_pct()
-       #How to split in train/valid? -> randomly with the default 20% in valid
+       .split_by_fname_file('../valid.txt')
+       #How to split in train/valid? -> using predefined val set in valid.txt
        .label_from_func(get_y_fn, classes=codes)
        #How to label? -> use the label function on the file name of the data
       )
+
 data = (src.transform(get_transforms(), tfm_y=True, size=128)
         #Data augmentation? -> use tfms with a size of 128, 
         # also transform the label images (tfm_y)
