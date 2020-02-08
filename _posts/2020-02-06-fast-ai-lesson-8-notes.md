@@ -329,15 +329,62 @@ w1 = torch.zeros(m,nh)
 init.kaiming_normal_(w1, mode='fan_out')
 ```
 
-`'fan_out'` means that we divide by `m`, while `'fan_in'` would mean we divide by `nh`. Here it helps to think of 'out' and 'in' here from the perspective of back-propagation, running backwards through the network. 
+`'fan_out'` means that we divide by `m`, while `'fan_in'` would mean we divide by `nh`. *This bit here is confusing because we are using the opposite convention to PyTorch has. PyTorch Linear layer  stores the matrix as `(nh, m)`, where our implementation is `(m, nh)`. Looking inside the forward pass of linear in PyTorch the weight matrix is transposed before being multiplied. This means that for this special case here we swap 'fan_out' and 'fan_in'. If we were using PyTorch's linear layer we'd initialize with 'fan_in'.*
 
-Let's get a better view of the means and standard deviations of the model with Kaiming initialization by running it a few thousand times and looking at the distributions:
+Let's get a better view of the means and standard deviations of the model with Kaiming initialization by running the forward pass a few thousand times and looking at the distributions. 
 
-![img](/images/fastai/Sat, 01 Feb 2020 222711.png)
+_(Update, 8/2/20: Old plots were buggy. Fixed plots, added code, and added plots with Linear-ReLU model)._
 
-![img](/images/fastai/Sat, 01 Feb 2020 222749.png)
+__Linear-ReLU Model, Kaiming Init__
 
-The means have a clearly Gaussian distribution with mean value 0.01. The standard deviations have a slightly skewed distribution, but the mean value is 1.17.  We see empirically that the expected output values of the model after Kaiming initialisation are approximately mean 0, standard deviation 1.
+```python
+def model_dist(x):
+    w1 = torch.randn(m, nh) * math.sqrt(2/m)
+    b1 = torch.zeros(nh)
+    
+    l1 = lin(x, w1, b1)
+    l2 = relu(l1)
+    l2 = l2.detach().numpy()
+    return l2.mean(), l2.std()
+
+data = np.array([model_dist(x_train) for _ in range(3000)])
+means, stds = data[:, 0], data[:, 1]
+```
+
+Mean and standard deviations of the outputs with Kaiming Initialization:
+
+![img](/images/fastai/Sat,%2008%20Feb%202020%20163946.png)
+
+![img](/images/fastai/Sat,%2008%20Feb%202020%20164020.png)
+
+The means and standard deviations of the output have Gaussian distributions. The mean of the means is 0.55 and the mean of the standard deviations is 0.82. The mean is shifted to be positive because the ReLU has set all the negative values to 0. The typical standard deviation we get with Kaiming initialization is quite close to 1, which is what we want.
+
+__Full Model, Kaiming Init__
+
+```python
+def model_dist(x):
+    w1 = torch.randn(m, nh) * math.sqrt(2/m)
+    b1 = torch.zeros(nh)
+    w2 = torch.randn(nh, nout) / math.sqrt(nh)
+    b2 = torch.zeros(nout)
+    
+    l1 = lin(x, w1, b1)
+    l2 = relu(l1)
+    l3 = lin(l2, w2, b2)
+    l3 = l3.detach().numpy()
+    return l3.mean(), l3.std()
+
+data = np.array([model_dist(x_train) for _ in range(3000)])
+means, stds = data[:, 0], data[:, 1]
+```
+
+
+
+![img](/images/fastai/Sat,%2008%20Feb%202020%20163550.png)
+
+![img](/images/fastai/Sat,%2008%20Feb%202020%20163615.png)
+
+The means have a clearly Gaussian distribution with mean value 0.01. The standard deviations have a slightly skewed distribution, but the mean value is 0.71.  We see empirically that the expected output values of the model after Kaiming initialisation are approximately mean 0, standard deviation near to 1, so it seems to be working well.
 
 
 
@@ -356,7 +403,7 @@ def reset_parameters(self):
 
 A few differences here:
 
-1. Uses Uniform distribution instead of a Normal distribution. This just seems to be convention the Pytorch authors have chosen to use. Not an issue and it is centred around zero anyway.
+1. Uses Uniform distribution instead of a Normal distribution. This just seems to be convention the PyTorch authors have chosen to use. Not an issue and it is centred around zero anyway.
 2. The `sqrt(5)` is probably a bug, according to Jeremy.
 
 The initialization for the linear layer is similar.
@@ -366,9 +413,28 @@ From the documentation on parameter `a`:
 > a: the negative slope of the rectifier used after this layer (0 for ReLU
 >             by default)
 
-For ReLU it should be 0, but here it is hard-coded to `sqrt(5)`. So for ReLu activations in Conv layers, the initialization of some layers in Pytorch is suboptimal by default. 
+For ReLU it should be 0, but here it is hard-coded to `sqrt(5)`. So for ReLU activations in Conv layers, the initialization of some layers in PyTorch is suboptimal by default. 
 
-TODO: link to the issue page in PyTorch. Has this been resolved in the main branch yet?
+_(Update 8/2/20)_. We can look at the distribution of the outputs of our model using PyTorch's default init:
+
+```python
+def model_dist(x, n_in, n_out):
+    layers = [nn.Linear(n_in, nh),
+              nn.ReLU(),
+              nn.Linear(nh, n_out)]
+    for l in layers:
+        x = l(x)
+    x = x.detach().numpy()
+    return x.mean(), x.std()
+```
+
+![img](/images/fastai/Sat,%2008%20Feb%202020%20171554.png)
+
+![img](/images/fastai/Sat,%2008%20Feb%202020%20171613.png)
+
+Mean value is approximately 0.0 and the standard deviation is 0.16. This isn't great - we have lost so much variation after just two layers. The course investigates this more in the notebook: [02a_why_sqrt5.ipynb](https://github.com/fastai/course-v3/blob/master/nbs/dl2/02a_why_sqrt5.ipynb).
+
+*TODO: link to the issue page in PyTorch. Has this been resolved in the main branch yet?*
 
 
 
