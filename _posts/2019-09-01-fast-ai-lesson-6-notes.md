@@ -314,11 +314,12 @@ In the original paper they said it accelerates training by reducing something th
 
 The above is from this paper. The plot represents the 'loss landscape' of the network during training. The red line is what happens whn you train without Batch Norm - very very bumpy. The blue line is training with batch norm - a lot smoother. If the loss landscape is very bumpy then your model can get trapped in some awful region of parameter space that it can't escape from. If it is smoother then you can train with a higher learning rate and hence converge faster.
 
-However here is a twitter thread on how Batch Norm works that vindicates the Internal Covariate Shift explanation:
+__Other points of view__: 
 
-__[Update] Additional information on how Batch Norm works: [Twitter thread](https://twitter.com/dcpage3/status/1171867587417952260).__
+- An influential twitter thread on how Batch Norm works that vindicates the Internal Covariate Shift explanation: [Twitter thread](https://twitter.com/dcpage3/status/1171867587417952260).
+- Blog post with analysis of the different points of view: [https://arthurdouillard.com/post/normalization/](https://arthurdouillard.com/post/normalization/)
 
-Why it works is still debatable and I need to keep reading into this, but this aside, it seems that the output distribution of the hidden layers in the network is very important for training networks more quickly and with more layers. We already know that these internal distributions are very important for training because of all the research done into the art of initializing neural networks when training from scratch. Getting this wrong can prevent the network from training at all by making gradients vanish or explode. So with this in mind, it makes sense that adjusting these distributions as data flows through the network could improve training.
+Why it works is still debatable and I need to read more into this, but this aside, it seems that the output distribution of the hidden layers in the network is very important for training networks more quickly and with more layers. We already know that these internal distributions are very important for training because of all the research done into the art of initializing neural networks when training from scratch. Getting this wrong can prevent the network from training at all by making gradients vanish or explode. So with this in mind, it makes sense that adjusting these distributions as data flows through the network could improve training.
 
 ## Data Augmentation
 
