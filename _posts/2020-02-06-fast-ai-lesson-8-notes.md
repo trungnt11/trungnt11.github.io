@@ -84,6 +84,7 @@ def matmul(a,b):
     c = torch.zeros(ar, bc)
     for i in range(ar):
         c[i]   = (a[i  ].unsqueeze(-1) * b).sum(dim=0)
+      # c[i]   = (a[i, :, None] * b).sum(dim=0) alternative
     return c
 ```
 
