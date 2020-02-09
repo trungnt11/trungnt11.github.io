@@ -569,7 +569,11 @@ Where $N$ is the batch size, $z_i$ is the output of the model for data point $i$
 
 
 $$
-\frac{\partial L}{\partial z_i} = \frac{\partial}{\partial z_i}\left(\frac{1}{N}\sum_j^N (z_j - y_j)^2\right) = \frac{\partial}{\partial z_i} \frac{1}{N} (z_i - y_i)^2 = \frac{2}{N}(z_i - y_i)z_i
+\begin{align}
+\frac{\partial L}{\partial z_i} &= \frac{\partial}{\partial z_i}\left(\frac{1}{N}\sum_j^N (z_j - y_j)^2\right) \\
+&= \frac{\partial}{\partial z_i} \frac{1}{N} (z_i - y_i)^2 \\
+&= \frac{2}{N}(z_i - y_i)
+\end{align}
 $$
 
 
