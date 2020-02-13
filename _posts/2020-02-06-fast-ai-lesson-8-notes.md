@@ -49,7 +49,7 @@ def matmul(a,b):
 
 Time: __3.26s__
 
-_Doing loops in pure python and updating array elements one at a time is anathema to performance in python_.
+_Doing loops in pure python and updating array elements one at a time is the bane of performance in python. There is almost always another way that gives better performance. (Though admittedly in some cases the faster way isn't always obvious or more readable IMHO)._
 
 
 
