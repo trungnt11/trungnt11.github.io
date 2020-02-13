@@ -435,7 +435,7 @@ def model_dist(x, n_in, n_out):
 
 Mean value is approximately 0.0 and the standard deviation is 0.16. This isn't great - we have lost so much variation after just two layers. The course investigates this more in the notebook: [02a_why_sqrt5.ipynb](https://github.com/fastai/course-v3/blob/master/nbs/dl2/02a_why_sqrt5.ipynb).
 
-*TODO: link to the issue page in PyTorch. Has this been resolved in the main branch yet?*
+*(Update: Here is a link to the issue in PyTorch, still open (2020-2-13), [https://github.com/pytorch/pytorch/issues/18182](https://github.com/pytorch/pytorch/issues/18182))*
 
 
 
