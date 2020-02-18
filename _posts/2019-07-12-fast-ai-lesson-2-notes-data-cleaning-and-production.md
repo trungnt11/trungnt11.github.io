@@ -1,6 +1,6 @@
 ---
 layout: post
-title: Fast.ai Lesson 2 Notes
+title: "Fast.ai Lesson 2 Notes: Data Cleaning and Production"
 date: 2019-07-12
 tags: deep-learning machine-learning fastai
 description: My personal notes on Lesson 2 of part 1 of fast.ai (2019) -- <b>Data cleaning and production; SGD from scratch</b>. 

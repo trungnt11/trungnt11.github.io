@@ -1,6 +1,6 @@
 ---
 layout: post
-title: Fast.ai Lesson 6 Notes
+title: "Fast.ai Lesson 6 Notes: CNN Deep Dive; Ethics"
 date: 2019-09-01
 tags: deep-learning machine-learning fastai
 description: My personal notes on Lesson 6 of part 1 of fast.ai (2019) -- <b>Regularization; Convolutions; Data ethics</b>. 

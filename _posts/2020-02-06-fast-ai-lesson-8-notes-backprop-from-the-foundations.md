@@ -1,6 +1,6 @@
 ---
 layout: post
-title: Fast.ai Lesson 8 Notes
+title: "Fast.ai Lesson 8 Notes: Backprop from the Foundations"
 date: 2020-02-06
 tags: deep-learning machine-learning fastai
 description: My personal notes on Lesson 8 of part 2 of fast.ai (2019) -- <b>Matrix Multiplication; Forward and Backward Passes</b>. 

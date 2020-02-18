@@ -1,6 +1,6 @@
 ---
 layout: post
-title: Fast.ai Lesson 4 Notes
+title: "Fast.ai Lesson 4 Notes: NLP; Tabular Data; Recommenders"
 date: 2019-08-18
 tags: deep-learning machine-learning fastai
 description: My personal notes on Lesson 4 of part 1 of fast.ai (2019) -- <b>NLP; Tabular data; Collaborative filtering; Embeddings</b>. 

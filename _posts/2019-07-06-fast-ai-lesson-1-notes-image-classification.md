@@ -1,6 +1,6 @@
 ---
 layout: post
-title: Fast.ai Lesson 1 Notes
+title: "Fast.ai Lesson 1 Notes: Image Classification"
 date: 2019-07-06
 tags: deep-learning machine-learning fastai
 description: My personal notes on Lesson 1 of part 1 of fast.ai (2019) -- <b>Image classification</b>. 

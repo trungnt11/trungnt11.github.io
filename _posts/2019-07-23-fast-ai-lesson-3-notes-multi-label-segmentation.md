@@ -1,6 +1,6 @@
 ---
 layout: post
-title: Fast.ai Lesson 3 Notes
+title: "Fast.ai Lesson 3 Notes: Multi-label, Segmentation"
 date: 2019-07-23
 tags: deep-learning machine-learning fastai
 description: My personal notes on Lesson 3 of part 1 of fast.ai (2019) -- <b>Data blocks; Multi-label classification; Segmentation</b>. 
@@ -538,7 +538,7 @@ There is a nice website that has interactive javascript demos that demonstrate t
 
 ## Links and References
 
-- Lesson video: [https://course.fast.ai/videos/?lesson=3](https://course.fast.ai/videos/?lesson=3)
+- Lesson video: https://course.fast.ai/videos/?lesson=3
 - Homework notebooks:
   - Notebook 1: [lesson3-planet.ipynb](https://nbviewer.jupyter.org/github/fastai/course-v3/blob/master/nbs/dl1/lesson3-planet.ipynb)
   - Notebook 2: [lesson3-camvid.ipynb](https://nbviewer.jupyter.org/github/fastai/course-v3/blob/master/nbs/dl1/lesson3-camvid.ipynb)
