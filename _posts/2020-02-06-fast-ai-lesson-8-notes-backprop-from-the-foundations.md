@@ -710,9 +710,26 @@ The average gradient of the loss gets smaller with increasing batchsize, while t
 
 ### Refactoring
 
-The rest of the notebook - [02_fully_connected.ipynb](https://github.com/fastai/course-v3/blob/master/nbs/dl2/02_fully_connected.ipynb) - is spent refactoring this code using classes so we understand how PyTorch's classes are constructed. I won't reproduce it all here. 
+*(Updated 17-03-2020)*
 
-The end result with PyTorch's classes is:
+The rest of the notebook - [02_fully_connected.ipynb](https://github.com/fastai/course-v3/blob/master/nbs/dl2/02_fully_connected.ipynb) - is spent refactoring this code using classes so we understand how PyTorch's classes are constructed. I won't reproduce it all here. If you want to reproduce it yourself you need to create a base `Module` that all your layer inherit from, which remembers the inputs it was called with (so it can do gradient calculations):
+
+```python
+class Module():
+    def __call__(self, *args):
+        self.args = args
+        self.out = self.forward(*args)
+        return self.out
+    
+    def forward(self): raise Exception('not implemented')
+    def backward(self): self.bwd(self.out, *self.args)
+```
+
+The different layers (linear, ReLU, MSE) need to subclass `Module` and implement `forward` and `bwd` methods.
+
+
+
+The end result of this gives an equivalent implementation of PyTorch's `nn.Module`.  The equivalent with PyTorch classes, which we can now use, is:
 
 ```python
 from torch import nn
@@ -731,7 +748,7 @@ class Model(nn.Module):
 
 
 
-Now we understand how backprop works, we luckily don't have to derive anymore derivatives of tensors, we can instead from now on harness PyTorch's autograd to do all the work for us!
+Now that we understand how backprop works, we luckily don't have to derive anymore derivatives of tensors, we can instead from now on harness PyTorch's autograd to do all the work for us!
 
 ```python
 model = Model(m, nh, 1)
