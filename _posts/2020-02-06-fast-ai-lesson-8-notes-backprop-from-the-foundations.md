@@ -670,9 +670,49 @@ def forwards_and_backwards(inp, targ):
 
 
 
+### Check the Dimensions. How does batchsize affect things?
+
+*(Added 17-03-2020)*
+
+What do the dimensions of the gradients look like? The loss $L$ is a scalar and the parameters are tensors so remembering the rules above the derivative of $L$ wrt any parameter will have the same dimensionality as that parameter. *The gradients of the parameters have the same shape as the parameters*, which makes intuitive sense.
+
+- `w1.g.shape` => `[784, 50]`
+- `b1.g.shape` => `[50]`
+- `w2.g.shape` => `[50, 1]`
+- `b2.g.shape` => `[1]`
+- `loss.shape` => `[]` (scalar)
+
+Notice how the batch size doesn't appear in the gradients. That's not to say it doesn't matter - the batch size is there behind the scenes in the gradient calculation: the loss is an average of the individual losses in a batch, and also as a dimension multiplied out in the matrix multiplies of the gradient calculations. 
+
+To be even more explicit with the dimensions:
+
+```python
+inp.g = out.g @ self.w.t()		# [N, 784] = [N, 50] @ [50, 784]
+self.w.g = inp.t() @ out.g		# [784, 50] = [784, N] @ [N, 50]
+self.b.g = out.g.sum(0)			# [50] = [N, 50].sum(0)
+
+inp.g = out.g @ self.w.t()		# [N, 50] = [N, 1] @ [1, 50]
+self.w.g = inp.t() @ out.g		# [50, 1] = [50, N] @ [N, 1]
+self.b.g = out.g.sum(0)			# [1] = [N, 1].sum(0)
+```
+
+With bigger batch size you are accumulating more gradients because it is basically doing more dot products.  If you could hack the loss so its gradient is constant and increase the batch size then these gradients would get  correspondingly larger (in absolute size).  
+
+In reality this is cancelled out because the *larger the batch size the smaller the gradient*. You can see this by look at the gradient calculation for MSE: it is divided by the batch size. 
+
+Let's vary the batchsize and plot the  average gradients of the parameters W1 and W2, alongside the loss and loss gradient: 
+
+![img](/images/fastai/Tue,%2017%20Mar%202020%20230947.png)
+
+The average gradient of the loss gets smaller with increasing batchsize, while the other gradients and the loss pretty much settle towards some value.
+
+
+
 ### Refactoring
 
-The rest of the notebook - [02_fully_connected.ipynb](https://github.com/fastai/course-v3/blob/master/nbs/dl2/02_fully_connected.ipynb) - is spent refactoring this code using classes so we understand how pytorch's classes are constructed. I won't reproduce it here. The end result with pytorch's classes is:
+The rest of the notebook - [02_fully_connected.ipynb](https://github.com/fastai/course-v3/blob/master/nbs/dl2/02_fully_connected.ipynb) - is spent refactoring this code using classes so we understand how PyTorch's classes are constructed. I won't reproduce it all here. 
+
+The end result with PyTorch's classes is:
 
 ```python
 from torch import nn
@@ -691,7 +731,7 @@ class Model(nn.Module):
 
 
 
-Now we understand how backprop works, we luckily don't have to derive anymore derivatives of tensors, we can instead from now on harness pytorch's autograd to do all the work for us!
+Now we understand how backprop works, we luckily don't have to derive anymore derivatives of tensors, we can instead from now on harness PyTorch's autograd to do all the work for us!
 
 ```python
 model = Model(m, nh, 1)
@@ -722,4 +762,4 @@ loss.backward() # do the backward pass!
   - [Blog post](https://amva4newphysics.wordpress.com/2017/03/28/understanding-neural-networks-part-ii-back-propagation/) with worked examples of backpropagation on simple calculations.
   - [Calculus on Computational Graphs, Chris Olah.](https://colah.github.io/posts/2015-08-Backprop/)
 
-  
+- StackExchange: [Tradeoff batch size vs. number of iterations to train a neural network](https://stats.stackexchange.com/questions/164876/tradeoff-batch-size-vs-number-of-iterations-to-train-a-neural-network) - worth reading about somewhat unintuitive effect batchsize has on training performance and speed.
