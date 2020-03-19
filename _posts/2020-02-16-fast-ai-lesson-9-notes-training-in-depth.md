@@ -191,7 +191,7 @@ $$
 $$
 
 
-Where $m$ is the maximum of the $x_{j}$. The subtraction of $a$ is to bring the numbers down to a size that's safe to leave log land to perform the sum.  
+Where $m$ is the maximum of the $x_{j}$. The subtraction of $m$ is to bring the numbers down to a size that's safe to leave log land to perform the sum.  
 
 *(**Nerdy extras**: even if a float isn't so small that it underflows, if it gets small enough it becomes 'denormalized'. Denormal numbers extend floats to get some extra values very close to zero. They are handled differently from normal floats by the CPU and their performance is __terrible__, slowing your code right down. See this [classic stackoverflow question](https://stackoverflow.com/questions/9314534/why-does-changing-0-1f-to-0-slow-down-performance-by-10x) for more on this).*  
 
