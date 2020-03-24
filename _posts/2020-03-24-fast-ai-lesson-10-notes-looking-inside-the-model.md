@@ -1008,15 +1008,17 @@ class RunningBatchNorm(nn.Module):
 <br/>
 *Let's work through this code.*
 
-1. In normal BatchNorm we take the running average of the variance, but this doesn't make sense - you can't just average a bunch of variances. Particularly if the batch size isn't constant. The way we want to calculate the variance is like this:
+- In normal BatchNorm we take the running average of the variance, but this doesn't make sense - you can't just average a bunch of variances. Particularly if the batch size isn't constant. The way we want to calculate the variance is like this:
 
 $$
 \mbox{E}[X^2] - \mbox{E}[X]^2
 $$
 
-2. Let's instead keep track of the sums `sums` and the sums of the squares `sqrs`, that store the EWMA of them. From the above formula - to get the means and variances we need to divide them by the `count` (running average of `H*W*BS`), which we also store as an EWMA. This accounts for the possibility of different batch sizes.
-3. We need to do something called *Debiasing* (aka bias correction). We want to make sure that no observation is weighted too highly. Normal way of doing EWMA gives the first point far too much weight. These first points are all zero, so the running averages are all biased low. Add a correction factor `dbias`: $x_i = x_i/(1 - \alpha^i)$. When $i$ is large this correction factor tends to 1 - it only pushes up the initial values. *(See [this post](http://www.ashukumar27.io/exponentially-weighted-average/)).*
-4. Lastly, to avoid the unlucky case of having a first mini-batch where the variance is close to zero, we clamp the variance to 0.01 for the first 20 batches.
+- Let's instead keep track of the sums `sums` and the sums of the squares `sqrs`, that store the EWMA of them. From the above formula - to get the means and variances we need to divide them by the `count` (running average of `H*W*BS`), which we also store as an EWMA. This accounts for the possibility of different batch sizes.
+
+- We need to do something called *Debiasing* (aka bias correction). We want to make sure that no observation is weighted too highly. Normal way of doing EWMA gives the first point far too much weight. These first points are all zero, so the running averages are all biased low. Add a correction factor `dbias`: $x_i = x_i/(1 - \alpha^i)$. When $i$ is large this correction factor tends to 1 - it only pushes up the initial values. *(See [this post](http://www.ashukumar27.io/exponentially-weighted-average/)).*
+
+- Lastly, to avoid the unlucky case of having a first mini-batch where the variance is close to zero, we clamp the variance to 0.01 for the first 20 batches.
 
 <br/>
 **Results**
@@ -1032,7 +1034,7 @@ With a batchsize of 2 and learning rate of 0.4, it totally nails it with just 1 
 - Lesson 10 [lesson video](https://course.fast.ai/videos/?lesson=10).
 - Lesson 10 notebooks: [05a_foundations.ipynb](https://github.com/fastai/course-v3/blob/master/nbs/dl2/05a_foundations.ipynb), [05b_early_stopping.ipynb](https://github.com/fastai/course-v3/blob/master/nbs/dl2/05b_early_stopping.ipynb), [06_cuda_cnn_hooks_init.ipynb](https://github.com/fastai/course-v3/blob/master/nbs/dl2/06_cuda_cnn_hooks_init.ipynb), [07_batchnorm.ipynb](https://github.com/fastai/course-v3/blob/master/nbs/dl2/07_batchnorm.ipynb).
 
-- Laniken Lesson 10 notes: https://medium.com/@lankinen/fast-ai-lesson-10-notes-part-2-v3-aa733216b70d
+- Laniken Lesson 10 notes: [https://medium.com/@lankinen/fast-ai-lesson-10-notes-part-2-v3-aa733216b70d](https://medium.com/@lankinen/fast-ai-lesson-10-notes-part-2-v3-aa733216b70d)
 - [Interpreting the colorful histograms used in this lesson](https://forums.fast.ai/t/the-colorful-dimension/42908)
 - Lecture on [Bag-of-tricks for CNNs](https://www.youtube.com/watch?v=QxfF_NrltxY). Loads of state-of-the-art tricks for training CNNs for image problems, which would be a great exercise to reimplement as callbacks.
 - Papers to read: 
