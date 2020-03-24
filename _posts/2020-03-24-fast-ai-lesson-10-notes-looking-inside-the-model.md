@@ -11,7 +11,7 @@ comments: true
 
 ## Overview
 
-This lesson covers a lot of material. It starts off with a review of some important foundations such as more advanced Python programming, variance, covariance, and standard deviation. It then goes into a short discussion on situation where Softmax loss is a bad idea in image classification tasks. *My notes go  deeper into this an Multilabel classification than the original lecture does.* The lesson then moves onto looking inside the model using PyTorch hooks. The last part of the lesson introduces Batch Normalization and studies the pros and cons of BatchNorm and shows some alternatives normalizations that are possible. Jeremy then develops a novel kind of normalization layer to overcome BatchNorm's main problem, and compares it to previously published approaches, with some very encouraging results.
+This lesson covers a lot of material. It starts off with a review of some important foundations such as more advanced Python programming, variance, covariance, and standard deviation. It then goes into a short discussion on situation where Softmax loss is a bad idea in image classification tasks. *My notes go  deeper into this part on Multilabel classification than the original lecture does.* The lesson then moves onto looking inside the model using PyTorch hooks. The last part of the lesson introduces Batch Normalization and studies the pros and cons of BatchNorm and shows some alternatives normalizations that are possible. Jeremy then develops a novel kind of normalization layer to overcome BatchNorm's main problem, and compares it to previously published approaches, with some very encouraging results.
 
 Lesson 10 [lesson video](https://course.fast.ai/videos/?lesson=10).
 
@@ -790,6 +790,7 @@ class BatchNorm(nn.Module):
 - Another thing to note: if you use BatchNorm then the layer before doesn't need to have a bias because BatchNorm has a bias already.
 
   
+
 <br/>
 **Exponentially Weighted Moving Average (EWMA)**
 
@@ -1016,7 +1017,6 @@ $$
 2. Let's instead keep track of the sums `sums` and the sums of the squares `sqrs`, that store the EWMA of them. From the above formula - to get the means and variances we need to divide them by the `count` (running average of `H*W*BS`), which we also store as an EWMA. This accounts for the possibility of different batch sizes.
 3. We need to do something called *Debiasing* (aka bias correction). We want to make sure that no observation is weighted too highly. Normal way of doing EWMA gives the first point far too much weight. These first points are all zero, so the running averages are all biased low. Add a correction factor `dbias`: $x_i = x_i/(1 - \alpha^i)$. When $i$ is large this correction factor tends to 1 - it only pushes up the initial values. *(See [this post](http://www.ashukumar27.io/exponentially-weighted-average/)).*
 4. Lastly, to avoid the unlucky case of having a first mini-batch where the variance is close to zero, we clamp the variance to 0.01 for the first 20 batches.
-
 
 <br/>
 **Results**
