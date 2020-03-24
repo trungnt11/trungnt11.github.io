@@ -205,7 +205,7 @@ l(x, y) = -yx + \log(1 + e^x)
 $$
 
 
-Careful with the $e^x$, however, because it will overflow when $x$ isn't even that larger. To make things more numerically stable we employ the logsumexp trick again:
+Careful with the $e^x$, however, because it will overflow when $x$ isn't even that large. To make things more numerically stable we employ the logsumexp trick again:
 
 
 
