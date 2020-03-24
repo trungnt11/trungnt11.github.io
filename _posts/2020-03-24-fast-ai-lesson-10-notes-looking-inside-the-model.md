@@ -177,7 +177,7 @@ The loss would be:
 
 ```python
 def multilabel_loss(out, targ):
-	return binary_cross_entropy(logistic(out), targ).mean(1).mean(0)
+    return binary_cross_entropy(logistic(out), targ).mean(1).mean(0)
 ```
 
 
@@ -228,7 +228,7 @@ The loss function is modified to:
 
 ```python
 def multilabel_loss(out, targ):
-	return binary_cross_entropy_with_logits(out, targ).mean(1).mean(0)
+    return binary_cross_entropy_with_logits(out, targ).mean(1).mean(0)
 ```
 
 
@@ -393,7 +393,9 @@ class Runner():
 
 ### LR_Find Callback
 
-The learning rate finder is the work horse from part 1 of the fastai course. Let's look at how to implement it and code that up as a callback. 
+The learning rate finder is the work horse from part 1 of the fastai course. Let's look at how to implement it and code that up as a callback.
+
+<br/>
 
 **LR_Find Algorithm Outline:**
 
@@ -465,9 +467,9 @@ def get_cnn_model(data):
         nn.Conv2d( 8,16, 3, padding=1,stride=2), nn.ReLU(), # 16x7x7
         nn.Conv2d(16,32, 3, padding=1,stride=2), nn.ReLU(), # 32x4x4
         nn.Conv2d(32,32, 3, padding=1,stride=2), nn.ReLU(), # 32x2x2
-        nn.AdaptiveAvgPool2d(1),	# 32x1
-        Lambda(flatten),			# 32
-        nn.Linear(32,data.c)		# 10
+        nn.AdaptiveAvgPool2d(1),    # 32x1
+        Lambda(flatten),            # 32
+        nn.Linear(32,data.c)        # 10
     )
 ```
 
@@ -508,9 +510,9 @@ We can implement this with a callback:
 
 ```python
 class CudaCallback(Callback):
-	def begin_fit(self):
+    def begin_fit(self):
         self.model.cuda()
-	def begin_batch(self):	
+    def begin_batch(self):	
         self.run.xb, self.run.yb = self.xb.cuda(), self.yb.cuda()
 ```
 
