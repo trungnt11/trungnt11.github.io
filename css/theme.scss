@@ -159,6 +159,11 @@ blockquote {
   color: #777;
 }
 
+b, strong {
+  font-weight: 500;
+  color: #000;
+}
+
 //*******************************************************
 //                    Code Blocks
 //*******************************************************
@@ -183,7 +188,8 @@ code {
   background-color: transparent;
   font-size: 85%;
   border-radius: 5px;
-  color: #da4643;
+  color: #992d2d;
+  padding: 0px 1px 0px 1px;
 }
 
 pre {
@@ -214,11 +220,11 @@ p > code {
 //                    Links
 //*******************************************************
 a {
-  color: #da4643;
+  color: #992d2d;
 }
 
 a:hover {
-  color: #da4643;
+  color: #992d2d;
 }
 
 //*******************************************************
