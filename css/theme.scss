@@ -42,9 +42,9 @@ h1.post-title {
   font-size: 2.8em;
 }
 h2 {
-	margin-top: 50px;
+  margin-top: 80px;
   margin-bottom: 20px;
-  font-size: 1.8em;
+  font-size: 1.99em;
 }
 h3 {
 	margin-top: 40px;
@@ -162,6 +162,10 @@ blockquote {
 b, strong {
   font-weight: 500;
   color: #000;
+}
+
+ul, ol {
+  margin-bottom: 25px;	
 }
 
 //*******************************************************
