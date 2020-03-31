@@ -1,6 +1,7 @@
 # Jekyll configuration
 
 name: go-seq
+title: go-seq
 description: "James Briggs' Blog"
 
 # Url is currently only used only for the RSS feed in feed.xml
