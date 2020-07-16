@@ -39,6 +39,7 @@ highlighter: rouge
 markdown: kramdown
 kramdown:
   parse_block_html: true
+  auto_ids: true
 #redcarpet:
 #  extensions: ["tables", "no_intra_emphasis", "fenced_code_blocks", "autolink", "with_toc_data"]
 
