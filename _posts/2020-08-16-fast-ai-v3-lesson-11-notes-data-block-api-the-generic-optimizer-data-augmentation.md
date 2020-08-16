@@ -3,7 +3,7 @@ layout: post
 title: "Fast.ai v3 Lesson 11 Notes: Data Block API, the Generic Optimizer, Data Augmentation"
 date: 2020-08-16
 tags: deep-learning machine-learning fastai
-description: My personal notes on Lesson 11 of part 2 of fast.ai (v3, 2019) -- <b>Looking inside the model</b>.
+description: My personal notes on Lesson 11 of part 2 of fast.ai (v3, 2019) -- <b>Data Block API, the Generic Optimzier, and Data Augmentation</b>.
 featured_image: fastai/image-20190706182251357.png
 comments: true
 ---
