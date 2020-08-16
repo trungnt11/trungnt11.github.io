@@ -801,7 +801,8 @@ class StatefulOptimizer(Optimizer):
     def step(self):
       	for p,hyper in self.grad_params():
             if p not in self.state:
-                # Create a state for p and call all the statistics to initalize it
+                # Create a state for p and 
+                # call all the statistics to initalize it
                 self.state[p] = {}
                 maybe_update(self.stats, self.state[p], lambda o: o.init_state(p))
             state = self.state[p]
@@ -999,8 +1000,12 @@ To implement Adam we will need to implement the following:
 class AverageGrad(Stat):
     _defaults = dict(mom=0.9)
     
-    def __init__(self, dampening:bool=False): self.dampening = dampening
-    def init_state(self, p): return {'grad_avg': torch.zeros_like(p.grad.data)}
+    def __init__(self, dampening:bool=False):
+        self.dampening = dampening
+        
+    def init_state(self, p):
+        return {'grad_avg': torch.zeros_like(p.grad.data)}
+      
     def update(self, p, state, mom, **kwargs):
         state['mom_damp'] = 1 - mom if self.dampening else 1.
         state['grad_avg'].mul_(mom).add_(state['mom_damp'], p.grad.data)
@@ -1010,11 +1015,17 @@ class AverageGrad(Stat):
 class AverageSqrGrad(Stat):
     _defaults = dict(sqr_mom=0.99)
     
-    def __init__(self, dampening:bool=False): self.dampening = dampening
-    def init_state(self, p): return {'sqr_avg': torch.zeros_like(p.grad.data)}
+    def __init__(self, dampening:bool=False):
+        self.dampening = dampening
+        
+    def init_state(self, p):
+        return {'sqr_avg': torch.zeros_like(p.grad.data)}
+      
     def update(self, p, state, sqr_mom, **kwargs):
         state['sqr_damp'] = 1 - sqr_mom if self.dampening else 1.
-        state['sqr_avg'].mul_(sqr_mom).addcmul_(state['sqr_damp'], p.grad.data, p.grad.data)
+        state['sqr_avg'].mul_(sqr_mom).addcmul_(state['sqr_damp'],
+                                                p.grad.data,
+                                                sp.grad.data)
         return state
       
       
@@ -1100,13 +1111,15 @@ This is stuff we've seen before in Adam plus a few extras:
 As code:
 
 ```python
-def lamb_step(p, lr, mom, mom_damp, step, sqr_mom, sqr_damp, grad_avg, sqr_avg, eps, wd, **kwargs):
+def lamb_step(p, lr, mom, mom_damp, step,
+              sqr_mom, sqr_damp, grad_avg,
+              sqr_avg, eps, wd, **kwargs):
     debias1 = debias(mom,     mom_damp, step)
     debias2 = debias(sqr_mom, sqr_damp, step)
     
     r1 = p.data.pow(2).mean().sqrt()  # layerwise L2 norm
     
-    step = (grad_avg/debias1) / ((sqr_avg/debias2).sqrt()+eps) + wd*p.data
+    step = (grad_avg/debias1)/((sqr_avg/debias2).sqrt()+eps) + wd*p.data
     
     r2 = step.pow(2).mean().sqrt()	# layerwise L2
     
