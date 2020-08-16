@@ -767,7 +767,7 @@ Similarly, if you wanted to use L2 regularization then the implementation is als
 
 ```python
 def l2_reg(p, lr, wd, **kwargs):
-  	p.grad.data.add_(wd, p.data) # add is actually scaled-add
+    p.grad.data.add_(wd, p.data) # add is actually scaled-add
     return p
   
 l2_reg._defaults = dict(wd=0.)
@@ -792,7 +792,7 @@ The `StatefulOptimizer`:
 
 ```python
 class StatefulOptimizer(Optimizer):
-		def __init__(self, params, steppers, stats=None, **defaults):
+    def __init__(self, params, steppers, stats=None, **defaults):
       	self.stats = listify(stats)
         maybe_update(self.stats, defaults, get_defaults)
         super().__init__(params, steppers, **defaults)
@@ -800,12 +800,13 @@ class StatefulOptimizer(Optimizer):
         
     def step(self):
       	for p,hyper in self.grad_params():
-          	if p not in self.state:
-              	# Create a state for p and call all the statistics to initalize it
+            if p not in self.state:
+                # Create a state for p and call all the statistics to initalize it
                 self.state[p] = {}
                 maybe_update(self.stats, self.state[p], lambda o: o.init_state(p))
             state = self.state[p]
-            for stat in self.stats: state = stat.update(p, state, **hyper)
+            for stat in self.stats: 
+                state = stat.update(p, state, **hyper)
             
             # run the steppers
             compose(p, self.steppers, **state, **hyper)
@@ -818,13 +819,14 @@ For momentum we are mainting an moving average of the parameter gradients. The `
 
 ```python
 class AverageGrad(Stat):
-  	# with NO dampening
-		_defaults = dict(mom=0.9)
+    # with NO dampening
+    _defaults = dict(mom=0.9)
 		
-		def init_state(self, p):
-				return {"grad_avg": torch.zeros_like(p.grad.data)}
-		def update(self, p, state, mom, **kwargs):
-      	state["grad_avg"].mul_(mom).add_(p.grad.data)
+    def init_state(self, p):
+        return {"grad_avg": torch.zeros_like(p.grad.data)}
+		
+    def update(self, p, state, mom, **kwargs):
+        state["grad_avg"].mul_(mom).add_(p.grad.data)
         return state	
 ```
 
@@ -834,12 +836,13 @@ With this we can now implement MomentumSGD a new stepper, `momentum_step`:
 
 ```python
 def momentum_step(p, lr, grad_avg, **kwargs):
-		p.add_(-lr, grad_avg)
-		return p
+    p.add_(-lr, grad_avg)
+    return p
   
   
 sgd_mom_opt = partial(StatefulOptimizer,
-                     	steppers=[momentum_step, weight_decay],
+                      steppers=[momentum_step,
+                                weight_decay],
                       stats=AverageGrad(), wd=0.01)
 ```
 
@@ -865,6 +868,8 @@ foo(1, **params)
 boo(**params)
 
 ## This outputs:
+## 1 2 3
+## 5
 ```
 
 `params` has all of the kwargs for all of the functions. Functions `foo` and `boo` only take what they need from `params`. The only thing you need to be careful of here is that you don't have any stepper functions whose parameters share the same name, but are semantically different things. You could perhaps have a check on `params` to throw and exception if a key is overwritten to prevent this silent bug.
@@ -899,9 +904,9 @@ The regular momentum:
 
 ```python
 def mom1(avg, beta, yi, i):
-		if avg is None: avg=yi
-		res = beta*avg + yi
-		return res
+    if avg is None: avg=yi
+    res = beta*avg + yi
+    return res
 ```
 
 Here is a plot of the data (blue) and moving average (red):
@@ -916,10 +921,10 @@ This is a rather naive implementation. We can fix it by instead using a **Expone
 
 ```python
 def ewma(v1, v2, beta):
-		return beta*v1 + (1-beta)*v2
+    return beta*v1 + (1-beta)*v2
   
 def mom2(avg, beta, yi, i):
-  	if avg is None: avg=yi
+    if avg is None: avg=yi
     avg = ewma(avg, yi, beta)
     return avg
 ```
@@ -938,10 +943,10 @@ What if the thing we are trying to match isn't just random, but is some function
 
 ```python
 def lin_comb(v1, v2, beta):
-		return beta*v1 + (1-beta)*v2
+    return beta*v1 + (1-beta)*v2
   
 def mom2(avg, beta, yi, i):
-  	if avg is None: avg=yi
+    if avg is None: avg=yi
     avg = lin_comb(avg, yi, beta)
     return avg
 ```
@@ -1015,8 +1020,9 @@ class AverageSqrGrad(Stat):
       
 class StepCount(Stat):
     def init_state(self, p): return {'step': 0}
+    
     def update(self, p, state, **kwargs):
-    	  state['step'] += 1
+        state['step'] += 1
         return state
 
       
@@ -1032,18 +1038,20 @@ Adam as a `stepper` is now:
 
 ```python
 def adam_step(p, lr, mom, mom_damp, step, sqr_om, sqr_damp, grad_avg, sqr_avg, eps, **kwargs):
-		debias1 = debias_term(mom, mom_damp, step)
-		debias2 = debias_term(sqr_mom, sqr_damp, step)
-		p.data.addcdiv_(-lr / debias1,
-										grad_avg,
-										(sqr_avg/debias2).sqrt() + eps)
+    debias1 = debias_term(mom, mom_damp, step)
+    debias2 = debias_term(sqr_mom, sqr_damp, step)
+    p.data.addcdiv_(-lr / debias1,
+                    grad_avg,
+                    (sqr_avg/debias2).sqrt() + eps)
 adam_step._defaults = dict(eps=1e-5)
 
 
 def adam_opt(xtra_step=None, **kwargs):
     return partial(StatefulOptimizer,
                    steppers=[adam_step,weight_decay]+listify(xtra_step),
-                   stats=[AverageGrad(dampening=True), AverageSqrGrad(), StepCount()],
+                   stats=[AverageGrad(dampening=True),
+                          AverageSqrGrad(),
+                          StepCount()],
                    **kwargs)
 ```
 
@@ -1095,11 +1103,16 @@ As code:
 def lamb_step(p, lr, mom, mom_damp, step, sqr_mom, sqr_damp, grad_avg, sqr_avg, eps, wd, **kwargs):
     debias1 = debias(mom,     mom_damp, step)
     debias2 = debias(sqr_mom, sqr_damp, step)
+    
     r1 = p.data.pow(2).mean().sqrt()  # layerwise L2 norm
+    
     step = (grad_avg/debias1) / ((sqr_avg/debias2).sqrt()+eps) + wd*p.data
+    
     r2 = step.pow(2).mean().sqrt()	# layerwise L2
+    
     p.data.add_(-lr * min(r1/r2,10), step)
     return p
+  
 lamb_step._defaults = dict(eps=1e-6, wd=0.)
 
 
@@ -1258,6 +1271,7 @@ PIL can do this for us but it requires 8 coefficients we need to calculate. The 
 ```python
 from torch import FloatTensor,LongTensor
 
+
 def find_coeffs(orig_pts, targ_pts):
     matrix = []
     #The equations we'll need to solve.
@@ -1377,7 +1391,7 @@ then we draw a different `theta` for each version of the image in the batch to r
 You then multiply all 3 channels by the rotation matrix and add the translation:
 
 ```python
-tfm_grid = (torch.bmm(grid.view(1, -1, 2), m[:, :2, :2])  + m[:,2,:2][:,None]).view(-1, 128, 128, 2)
+tfm_grid = (torch.bmm(grid.view(1, -1, 2), m[:, :2, :2]) + m[:,2,:2][:,None]).view(-1, 128, 128, 2)
 ```
 
 
