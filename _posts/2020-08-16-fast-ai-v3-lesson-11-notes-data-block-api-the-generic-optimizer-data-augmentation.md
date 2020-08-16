@@ -1189,7 +1189,7 @@ There are many resampling methods. Be critical about the resizing. Look at the a
 
 `NEAREST` is the only one that preserves the textures. There are a lot of aliasing artifacts however. The last one, `BICUBLIC/NEAREST`, does a resize to `256x256` with `BICUBIC` then another resize to `128x128` with `NEAREST` to achieve a pretty good compromise.
 
-This [recent tweet](https://twitter.com/poolio/status/1280689329908543488) shows the difference between image resize methods in tensorflow and pytorch. *"Something to check when porting and comparing models between frameworks"*
+**Topical:** This [recent tweet](https://twitter.com/poolio/status/1280689329908543488) shows the difference between image resize methods in tensorflow and pytorch. *"Something to check when porting and comparing models between frameworks"*
 
 
 
