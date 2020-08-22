@@ -20,6 +20,10 @@ Finally, the lesson looks at data augmentation, specifically for images. It show
 
 [*Link to the lesson 11 video*](https://course.fast.ai/videos/?lesson=11)
 
+
+
+- *(Update 2020-08-22: fixed typos, fixed incorrect explanation of compose function, expanded on AdamW, included trust ratio in LAMB.)*
+
 <div class="row">
 <div class="col-md-6" id="mdtoc">
 
@@ -296,11 +300,11 @@ class ItemList(ListContainer):
 
 ```
 
-***Aside:* `compose` *function:*** takes a list of functions and combines them into a pipeline that chains the outputs of the first function to input of the second and so on. In other words, a deep neural network is just a composition of functions (layers). 
+***Aside:* `compose` *function:*** takes a list of functions and combines them into a pipeline that chains the outputs of the first function to input of the second and so on. In other words, a deep neural network is just a composition of functions (layers). **NB**, if you compose a list of functions then the order they are applied is *right-to-left*.
 As a one-liner: 
 
 ```python
-for fn in fns: x = fn(x)
+compose([f, g, h], x) = f(g(h(x)))
 ```
 
 
@@ -745,7 +749,7 @@ moving_avg = alpha * moving_avg + (1 - alpha) * w.grad
 w = w - lr * moving_avg - lr * wd * w
 ```
 
-We can see that the part subtracted from w linked to regularization isn’t the same in the two methods, and the `wd` is polluted by the `(1-alpha)` factor. When using something more complicated like the Adam optimizer, it gets even more polluted. Most libraries use the first formulation, but as it was pointed out in [Decoupled Weight Regularization](https://arxiv.org/abs/1711.05101) by Ilya Loshchilov and Frank Hutter, it is better to use the second one with the Adam optimizer, which is why the fastai library made it its default.
+We can see that the part subtracted from w linked to regularization isn’t the same in the two methods, and the `wd` is polluted by the `(1-alpha)` factor. When using something more complicated like the Adam optimizer, it gets even more polluted. Most libraries use the first formulation, but as it was pointed out in [Decoupled Weight Regularization](https://arxiv.org/abs/1711.05101) by Ilya Loshchilov and Frank Hutter, it is better to use the second one with the Adam optimizer, which is why the fastai library made it its default. This implemation of Adam and decoupled weight decay is often called **AdamW**.
 
 <img src="/images/fastai/compare_acc.png" alt="Accuracy with L2 regularization or weight decay" style="zoom:67%;" />
 
@@ -1048,7 +1052,7 @@ def debias_term(mom, damp, step):
 Adam as a `stepper` is now:
 
 ```python
-def adam_step(p, lr, mom, mom_damp, step, sqr_om, sqr_damp, grad_avg, sqr_avg, eps, **kwargs):
+def adam_step(p, lr, mom, mom_damp, step, sqr_mom, sqr_damp, grad_avg, sqr_avg, eps, **kwargs):
     debias1 = debias_term(mom, mom_damp, step)
     debias2 = debias_term(sqr_mom, sqr_damp, step)
     p.data.addcdiv_(-lr / debias1,
@@ -1066,7 +1070,7 @@ def adam_opt(xtra_step=None, **kwargs):
                    **kwargs)
 ```
 
-
+Note that the weight decay and Adam step are totally decoupled. This is an  implemention the **AdamW** algorithm, mentioned above in the weight decay subsection. First you decay the weights, then you do the Adam step.
 
 <br/>
 
@@ -1137,6 +1141,8 @@ def lamb_opt(**kwargs):
                           StepCount()],
                    **kwargs)
 ```
+
+The ratio `r1/r2` is called the *'trust ratio'* by the original authors. In most implementations this trust ratio's upper value is clipped to make LAMB more stable. This upper bound is typically set to 10 or 100.
 
 
 
