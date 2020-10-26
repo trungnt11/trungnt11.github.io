@@ -2064,9 +2064,9 @@ I don't plan on producing extensive notes on these two lectures since are focuss
 
 - [Lesson 12 video lecture](https://www.youtube.com/watch?v=vnOpEwmtFJ8&feature=youtu.be)
 - [Label Smoothing [paperswithcode/methods]](https://paperswithcode.com/method/label-smoothing)
-- Mixed Precision NVIDIA: https://developer.nvidia.com/blog/video-mixed-precision-techniques-tensor-cores-deep-learning/
-- A great explanation of how floats work: [YouTube](https://www.youtube.com/watch?v=PZRI1IfStY0).
-- This video works through adding two floats at the bit level: [YouTube](https://www.youtube.com/watch?v=Pox8LzIHhR4)
+- [Mixed Precision Training [NVIDIA Blog]](https://developer.nvidia.com/blog/video-mixed-precision-techniques-tensor-cores-deep-learning/) 
+- A great explanation of [How floats work [YouTube]](https://www.youtube.com/watch?v=PZRI1IfStY0).
+- This video works through [Adding two floats at the bit level [YouTube]](https://www.youtube.com/watch?v=Pox8LzIHhR4)
 - [Backpropagation Through Time Blog post [Machine Learning Mastery]](https://machinelearningmastery.com/gentle-introduction-backpropagation-time/)
 - [FastAI forum post by Stefano Giomo](https://forums.fast.ai/t/lesson-12-2019-discussion-and-wiki/44009/257) the demystifies the difference between sequence length, BPTT, and batch size in RNNs.
 - RNN Refresher: [Visualizing RNNs [Josh Varty]](http://joshvarty.github.io/VisualizingRNNs/)
