@@ -61,7 +61,7 @@ Here is the table of results for the different training tricks tried in that pap
 **You also have to do MixUp to the labels.** So rather than being a one-hot encoded target, your target would become something like:
 
 ````python
-y = [0.3 (dog), 0.7 (gas pump)]
+y = [0.3 (gas pump), 0.7 (dog)]
 ````
 
 
@@ -1943,7 +1943,7 @@ class PoolingLinearClassifier(nn.Module):
 
 
 
-Now we just need to run the LSTM through the IMDb reviews one `bptt` at a time, recording the `raw_output`, `output`, and `mask` as it goes. (These all will go into the `PoolingLinearClassifier` afterwards, whose subsequent output will go into a `cross_entropy` loss). The code for this is the **Sentence Encoder: **
+Now we just need to run the LSTM through the IMDb reviews one `bptt` at a time, recording the `raw_output`, `output`, and `mask` as it goes. (These all will go into the `PoolingLinearClassifier` afterwards, whose subsequent output will go into a `cross_entropy` loss). The code for this is the **Sentence Encoder:**
 
 ```python
 class SentenceEncoder(nn.Module):
