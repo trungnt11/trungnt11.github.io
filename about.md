@@ -11,22 +11,23 @@ title: About
 
 <div class="col-md-8">
 
-I am James Briggs, a data scientist and software engineer based in Scotland, UK. 
+I am TrungNT, a data scientist based in HaNoi, VietNam.
 
-I work as an AI Engineer at Graphcore.
+I work as an AI Engineer at DYNO.
 
 Previously I have been:
-- A Data Scientist at OmegaLambdaTec GmbH in Munich, Germany. Working on many projects spanning energy, engineering, and retail.
-- A software engineer and part-time sysadmin working in High Performance Computing and code optimisation at the University of Cambridge in the Stephen Hawking Centre for Theoretical Cosmology (COSMOS supercomputer group) and later in the Research Software Engineering Group.
-- Physics student: I have a master and bachelors in Computational Physics from the University of Edinburgh. 
-- Bass guitar teacher.
+- A data analyst at VPBank in HaNoi, VietNam. Working on many projects credit risk analysis of the portfolio of SMEs.
+- A data scientist at MaritimeBank in HaNoi, VietNam. Working on projects credit scoring for retail banking
+- A data scientist at DYNO in HaNoi, VietNam. Working on projects about machine learning, social network mining, computer vision, natural language processing
+- A student in Applied mathematics
 
-This is my _personal_ blog where I write about programming, machine learning, and data science. My other interests are music, astronomy, language learning, travel, and photography.
+This is my _personal_ blog where I write about what's related to my work. 
+
 </div>
 
 <div class="col-md-4">
 
-![me](/images/about/me.jpg)
+![me](/images/about/trungnt.jpg)
 
 </div>
 </div>
