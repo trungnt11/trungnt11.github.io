@@ -1,8 +1,8 @@
 # Jekyll configuration
 
-name: TiTi
-title: TiTi
-description: "James Briggs' Blog"
+name: ti-ti
+title: ti-ti
+description: "TrungNT' Blog"
 
 # Url is currently only used only for the RSS feed in feed.xml
 #url: ''
